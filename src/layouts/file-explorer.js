@@ -1,7 +1,7 @@
-// File Explorer — VS Code / Finder tree view with expandable folders
+// Code Editor — VS Code style sidebar tree + syntax-highlighted code
 import { projectLinks, githubIcon } from '../helpers.js';
 
-export const name = "File Explorer";
+export const name = "Code Editor";
 
 export function render(d, cs, ts, hs) {
   const uid = 'fe' + Math.random().toString(36).slice(2, 6);
@@ -35,7 +35,9 @@ export function render(d, cs, ts, hs) {
     }
     .${uid}-tab.active { background: var(--bg); color: var(--fg); border-bottom: 2px solid var(--accent); }
     .${uid}-editor { padding: 1.5rem; font-size: 0.85rem; line-height: 1.8; color: var(--fg); }
-    .${uid}-line-num { color: var(--fg2); opacity: 0.4; margin-right: 1.5rem; user-select: none; min-width: 20px; display: inline-block; text-align: right; font-size: 0.75rem; }
+    .${uid}-ln { display: flex; gap: 0; margin: 0; }
+    .${uid}-line-num { color: var(--fg2); opacity: 0.4; user-select: none; min-width: 28px; flex-shrink: 0; text-align: right; font-size: 0.75rem; padding-right: 1.25rem; }
+    .${uid}-lc { flex: 1; min-width: 0; word-wrap: break-word; }
     .${uid}-keyword { color: var(--accent); }
     .${uid}-string { color: var(--accent2); }
     .${uid}-comment { color: var(--fg2); opacity: 0.5; font-style: italic; }
@@ -89,29 +91,42 @@ export function render(d, cs, ts, hs) {
         </div>
 
         <div class="${uid}-editor">
-          <p style="margin:0;"><span class="${uid}-line-num">1</span><span class="${uid}-comment">// ${d.handle} — ${d.role}</span></p>
-          <p style="margin:0;"><span class="${uid}-line-num">2</span></p>
-          <p style="margin:0;"><span class="${uid}-line-num">3</span><span class="${uid}-keyword">export const</span> <span class="${uid}-fn">bio</span> = <span class="${uid}-string">"${d.bio}"</span>;</p>
-          <p style="margin:0;"><span class="${uid}-line-num">4</span></p>
-          <p style="margin:0;"><span class="${uid}-line-num">5</span><span class="${uid}-keyword">export const</span> <span class="${uid}-fn">about</span> = <span class="${uid}-string">"${d.about}"</span>;</p>
-          <p style="margin:0;"><span class="${uid}-line-num">6</span></p>
-          <p style="margin:0;"><span class="${uid}-line-num">7</span><span class="${uid}-keyword">export const</span> <span class="${uid}-fn">philosophy</span> = <span class="${uid}-string">"${d.take}"</span>;</p>
-          <p style="margin:0;"><span class="${uid}-line-num">8</span></p>
-          <p style="margin:0;"><span class="${uid}-line-num">9</span><span class="${uid}-keyword">export const</span> <span class="${uid}-fn">tech</span> = [${d.tech.map(t => `<span class="${uid}-string">"${t}"</span>`).join(', ')}];</p>
-          <p style="margin:0;"><span class="${uid}-line-num">10</span></p>
-          <p style="margin:0;"><span class="${uid}-line-num">11</span><span class="${uid}-keyword">export const</span> <span class="${uid}-fn">projects</span> = [</p>
-          ${d.projects.map((p, i) => `
-            <p style="margin:0;"><span class="${uid}-line-num">${12 + i * 4}</span>  {</p>
-            <p style="margin:0;"><span class="${uid}-line-num">${13 + i * 4}</span>    <span class="${uid}-fn">name</span>: <span class="${uid}-string">"${p.name}"</span>,</p>
-            <p style="margin:0;"><span class="${uid}-line-num">${14 + i * 4}</span>    <span class="${uid}-fn">desc</span>: <span class="${uid}-string">"${p.desc}"</span>,</p>
-            <p style="margin:0;"><span class="${uid}-line-num">${15 + i * 4}</span>    <span class="${uid}-fn">url</span>: ${p.url ? `<a href="${p.url}" target="_blank" rel="noopener" style="color:var(--accent2);"><span class="${uid}-string">"${p.url}"</span></a>` : `<span class="${uid}-keyword">null</span>`},${p.demo ? ` <span class="${uid}-fn">demo</span>: <a href="${p.demo}" target="_blank" rel="noopener" style="color:var(--accent2);"><span class="${uid}-string">"${p.demo}"</span></a>,` : ''}</p>
-            <p style="margin:0;"><span class="${uid}-line-num">${15 + i * 4 + 1}</span>  },</p>
-          `).join('')}
-          <p style="margin:0;"><span class="${uid}-line-num">${12 + d.projects.length * 4 + 1}</span>];</p>
-          <p style="margin:0;"><span class="${uid}-line-num">${12 + d.projects.length * 4 + 2}</span></p>
-          <p style="margin:0;"><span class="${uid}-line-num">${12 + d.projects.length * 4 + 3}</span><span class="${uid}-comment">// ${d.interests}</span></p>
-          <p style="margin:0;"><span class="${uid}-line-num">${12 + d.projects.length * 4 + 4}</span></p>
-          <p style="margin:0;"><span class="${uid}-line-num">${12 + d.projects.length * 4 + 5}</span><span class="${uid}-comment">// ${githubIcon(12)} <a href="${d.github}" target="_blank" rel="noopener" style="color:var(--fg2);opacity:0.5;">${d.handle}</a></span></p>
+          ${(() => {
+            const L = (n, c) => `<div class="${uid}-ln"><span class="${uid}-line-num">${n}</span><span class="${uid}-lc">${c}</span></div>`;
+            const kw = s => `<span class="${uid}-keyword">${s}</span>`;
+            const fn = s => `<span class="${uid}-fn">${s}</span>`;
+            const str = s => `<span class="${uid}-string">"${s}"</span>`;
+            const cmt = s => `<span class="${uid}-comment">${s}</span>`;
+            const lnk = (url, s) => `<a href="${url}" target="_blank" rel="noopener" style="color:var(--accent2);">${str(s)}</a>`;
+            let n = 1;
+            let out = '';
+            out += L(n++, cmt(`// ${d.handle} — ${d.role}`));
+            out += L(n++, '');
+            out += L(n++, `${kw('export const')} ${fn('bio')} = ${str(d.bio)};`);
+            out += L(n++, '');
+            out += L(n++, `${kw('export const')} ${fn('about')} = ${str(d.about)};`);
+            out += L(n++, '');
+            out += L(n++, `${kw('export const')} ${fn('philosophy')} = ${str(d.take)};`);
+            out += L(n++, '');
+            out += L(n++, `${kw('export const')} ${fn('tech')} = [${d.tech.map(t => str(t)).join(', ')}];`);
+            out += L(n++, '');
+            out += L(n++, `${kw('export const')} ${fn('projects')} = [`);
+            d.projects.forEach(p => {
+              out += L(n++, `&nbsp;&nbsp;{`);
+              out += L(n++, `&nbsp;&nbsp;&nbsp;&nbsp;${fn('name')}: ${str(p.name)},`);
+              out += L(n++, `&nbsp;&nbsp;&nbsp;&nbsp;${fn('desc')}: ${str(p.desc)},`);
+              const urlPart = p.url ? `${fn('url')}: ${lnk(p.url, p.url)}` : `${fn('url')}: ${kw('null')}`;
+              const demoPart = p.demo ? `, ${fn('demo')}: ${lnk(p.demo, p.demo)}` : '';
+              out += L(n++, `&nbsp;&nbsp;&nbsp;&nbsp;${urlPart}${demoPart},`);
+              out += L(n++, `&nbsp;&nbsp;},`);
+            });
+            out += L(n++, `];`);
+            out += L(n++, '');
+            out += L(n++, cmt(`// ${d.interests}`));
+            out += L(n++, '');
+            out += L(n++, cmt(`// ${githubIcon(12)} <a href="${d.github}" target="_blank" rel="noopener" style="color:var(--fg2);opacity:0.5;">${d.handle}</a>`));
+            return out;
+          })()}
         </div>
       </div>
     </div>
