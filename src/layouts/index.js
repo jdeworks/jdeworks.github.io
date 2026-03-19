@@ -13,6 +13,9 @@ import * as devtool from './devtool.js';
 import * as editorial from './editorial.js';
 import * as agency from './agency.js';
 import * as stacked from './stacked.js';
+import * as scrollReveal from './scroll-reveal.js';
+import * as showcase from './showcase.js';
+import * as portfolio from './portfolio.js';
 
 export const LAYOUTS = [
   centeredHero,
@@ -27,4 +30,7 @@ export const LAYOUTS = [
   editorial,
   agency,
   stacked,
+  scrollReveal,
+  showcase,
+  portfolio,
 ];
