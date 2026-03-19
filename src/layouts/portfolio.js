@@ -78,10 +78,10 @@ export function render(d, cs, ts, hs) {
     <!-- Timeline -->
     <section style="max-width:1200px;margin:0 auto;padding:clamp(2rem,6vw,4rem) clamp(1.5rem,4vw,3rem);">
       <h2 style="${headingStyle(hs, 'font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg2);margin:0 0 1.5rem;')}">Journey</h2>
+      <style>@media(max-width:640px){.${uid}-tl{border-right:none !important;border-bottom:1px solid var(--border);flex-basis:100% !important;}}</style>
       <div style="display:flex;flex-wrap:wrap;gap:0;">
         ${d.timeline.map((t, i) => `
-          <div style="flex:1;min-width:140px;padding:1.25rem;${i < d.timeline.length - 1 ? 'border-right:1px solid var(--border);' : ''}" class="${uid}-tl">
-            <style>@media(max-width:640px){.${uid}-tl{border-right:none !important;border-bottom:1px solid var(--border);width:100%;}}</style>
+          <div style="flex:1;min-width:120px;padding:1.25rem;${i < d.timeline.length - 1 ? 'border-right:1px solid var(--border);' : ''}" class="${uid}-tl">
             <p style="font-family:var(--font-head);font-size:0.75rem;font-weight:600;color:var(--accent);margin:0 0 0.35rem;">${t.period}</p>
             <p style="color:var(--fg2);font-size:0.8rem;margin:0;line-height:1.45;">${t.label}</p>
           </div>

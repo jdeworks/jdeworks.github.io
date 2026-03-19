@@ -98,7 +98,7 @@ export function render(d, cs, ts, hs) {
     <div class="${uid}-panel">
       <div style="display:flex;align-items:flex-start;gap:1rem;flex-wrap:wrap;">
         <span class="${uid}-caption" style="flex-shrink:0;">Origin Story</span>
-        <p style="font-size:0.85rem;margin:0;line-height:1.8;flex:1;min-width:250px;">${d.about}</p>
+        <p style="font-size:0.85rem;margin:0;line-height:1.8;flex:1;min-width:0;">${d.about}</p>
       </div>
     </div>
 

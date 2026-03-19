@@ -30,18 +30,18 @@ export function render(d, cs, ts, hs) {
 
       <section style="padding:clamp(3rem,8vw,5rem) 0;">
         <h2 style="${headingStyle(hs, 'font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg2);margin:0 0 2.5rem;')}">Selected Work</h2>
+        <style>@media(max-width:640px){.agency-row .agency-flex{flex-direction:column !important;gap:0.75rem !important;} .agency-row .agency-indent{margin-left:0 !important;}}</style>
         ${d.projects.map((p, i) => `
-          <div style="border-bottom:1px solid var(--border);padding:2rem 0;cursor:default;transition:padding-left 0.3s ease;" onmouseover="this.style.paddingLeft='1.5rem'" onmouseout="this.style.paddingLeft='0'" class="agency-row">
-            <style>@media(max-width:640px){.agency-row{flex-direction:column !important;gap:0.5rem !important;}}</style>
-            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:2rem;">
+          <div class="agency-row" style="border-bottom:1px solid var(--border);padding:2rem 0;cursor:default;transition:padding-left 0.3s ease;" onmouseover="this.style.paddingLeft='1.5rem'" onmouseout="this.style.paddingLeft='0'">
+            <div class="agency-flex" style="display:flex;align-items:baseline;justify-content:space-between;gap:2rem;">
               <div>
                 <span style="font-family:monospace;font-size:0.75rem;color:var(--accent);margin-right:0.75rem;">0${i + 1}</span>
                 <span style="font-family:var(--font-head);font-size:clamp(1.25rem,3vw,2rem);color:var(--fg);font-weight:600;">${p.name}</span>
               </div>
               <div style="display:flex;gap:1rem;flex-shrink:0;">${projectLinks(p)}</div>
             </div>
-            <p style="color:var(--fg2);font-size:0.9rem;margin:0.75rem 0 0 2.25rem;line-height:1.6;max-width:600px;">${p.desc}</p>
-            <div style="margin:0.75rem 0 0 2.25rem;">${p.tags.map(t => tagHTML(t, ts)).join("")}</div>
+            <p class="agency-indent" style="color:var(--fg2);font-size:0.9rem;margin:0.75rem 0 0 2.25rem;line-height:1.6;max-width:600px;">${p.desc}</p>
+            <div class="agency-indent" style="margin:0.75rem 0 0 2.25rem;">${p.tags.map(t => tagHTML(t, ts)).join("")}</div>
           </div>
         `).join("")}
       </section>
