@@ -19,6 +19,9 @@ import * as portfolio from './portfolio.js';
 import * as resume from './resume.js';
 import * as narrative from './narrative.js';
 import * as landing from './landing.js';
+import * as matrix from './matrix.js';
+import * as retroOs from './retro-os.js';
+import * as newspaper from './newspaper.js';
 
 export const LAYOUTS = [
   centeredHero,
@@ -39,4 +42,7 @@ export const LAYOUTS = [
   resume,
   narrative,
   landing,
+  matrix,
+  retroOs,
+  newspaper,
 ];
