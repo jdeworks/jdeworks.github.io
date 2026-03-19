@@ -256,11 +256,12 @@ function buildPicker() {
   function renderPicker() {
     box.innerHTML = `
       <button class="picker-close" id="picker-close">&times;</button>
-      <h3>Dark</h3>
-      <div class="picker-options">
+      <h3>Accent Colors</h3>
+      <p style="font-size:0.7rem;color:var(--fg2,#94a3b8);margin:0 0 0.5rem;opacity:0.7;">Dark themes:</p>
+      <div class="picker-options" style="margin-bottom:0.75rem;">
         ${PALETTES.filter(p => p.bg < '#40').map(p => `<button class="picker-swatch ${p.name === state.palette.name ? 'active' : ''}" data-type="palette" data-value="${p.name}" style="background:${p.accent};" title="${p.name}"></button>`).join('')}
       </div>
-      <h3>Light</h3>
+      <p style="font-size:0.7rem;color:var(--fg2,#94a3b8);margin:0 0 0.5rem;opacity:0.7;">Light themes:</p>
       <div class="picker-options">
         ${PALETTES.filter(p => p.bg >= '#40').map(p => `<button class="picker-swatch ${p.name === state.palette.name ? 'active' : ''}" data-type="palette" data-value="${p.name}" style="background:${p.accent};" title="${p.name}"></button>`).join('')}
       </div>
