@@ -13,40 +13,44 @@ export function render(d, cs, ts, hs) {
     }
     .${uid}-root::after {
       content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1;
-      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px);
     }
     .${uid}-content { position: relative; z-index: 2; }
     .${uid}-glow-box {
       border: 1px solid var(--accent); padding: 1.5rem; margin-bottom: 1.5rem;
       border-radius: 4px; position: relative;
-      box-shadow: 0 0 15px color-mix(in srgb, var(--accent) 25%, transparent),
-                  inset 0 0 15px color-mix(in srgb, var(--accent) 8%, transparent);
-      background: color-mix(in srgb, var(--bg) 95%, transparent);
-      transition: box-shadow 0.3s;
+      box-shadow: 0 0 10px var(--accent), 0 0 40px color-mix(in srgb, var(--accent) 30%, transparent),
+                  inset 0 0 20px color-mix(in srgb, var(--accent) 10%, transparent);
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      animation: ${uid}-box-pulse 4s ease-in-out infinite;
     }
     .${uid}-glow-box:hover {
-      box-shadow: 0 0 25px color-mix(in srgb, var(--accent) 40%, transparent),
-                  inset 0 0 25px color-mix(in srgb, var(--accent) 12%, transparent);
+      box-shadow: 0 0 15px var(--accent), 0 0 60px color-mix(in srgb, var(--accent) 45%, transparent),
+                  inset 0 0 30px color-mix(in srgb, var(--accent) 15%, transparent);
+    }
+    @keyframes ${uid}-box-pulse {
+      0%, 100% { box-shadow: 0 0 10px var(--accent), 0 0 40px color-mix(in srgb, var(--accent) 30%, transparent), inset 0 0 20px color-mix(in srgb, var(--accent) 10%, transparent); }
+      50% { box-shadow: 0 0 5px var(--accent), 0 0 20px color-mix(in srgb, var(--accent) 15%, transparent), inset 0 0 10px color-mix(in srgb, var(--accent) 5%, transparent); }
     }
     .${uid}-glow-text {
-      text-shadow: 0 0 10px var(--accent), 0 0 30px color-mix(in srgb, var(--accent) 50%, transparent);
+      text-shadow: 0 0 7px var(--accent), 0 0 20px var(--accent), 0 0 60px color-mix(in srgb, var(--accent) 50%, transparent);
     }
-    .${uid}-pulse { animation: ${uid}-pulse 3s ease-in-out infinite; }
+    .${uid}-pulse { animation: ${uid}-pulse 2s ease-in-out infinite; }
     @keyframes ${uid}-pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
+      0%, 100% { opacity: 1; text-shadow: 0 0 8px var(--accent); }
+      50% { opacity: 0.4; text-shadow: 0 0 2px var(--accent); }
     }
     @media (prefers-reduced-motion: reduce) { .${uid}-pulse { animation: none; } }
     .${uid}-divider {
       height: 1px; margin: 2rem 0;
       background: linear-gradient(90deg, transparent, var(--accent), transparent);
-      box-shadow: 0 0 8px var(--accent);
+      box-shadow: 0 0 15px var(--accent), 0 0 30px color-mix(in srgb, var(--accent) 40%, transparent);
     }
     .${uid}-tag {
       font-size: 0.75rem; padding: 0.25rem 0.6rem; display: inline-block; margin: 0.15rem;
       border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
       color: var(--accent); border-radius: 2px;
-      text-shadow: 0 0 6px color-mix(in srgb, var(--accent) 40%, transparent);
+      text-shadow: 0 0 8px var(--accent);
     }
     .${uid}-link { color: var(--accent); text-decoration: none; transition: text-shadow 0.2s; }
     .${uid}-link:hover { text-shadow: 0 0 12px var(--accent); }
