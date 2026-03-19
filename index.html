@@ -232,6 +232,64 @@ function activateStoryDots() {
   sections.forEach(function(s) { observer.observe(s); });
 }
 
+function activateCardDeck() {
+  const marker = document.querySelector('card-deck');
+  if (!marker) return;
+  const uid = marker.dataset.uid;
+  const count = parseInt(marker.dataset.count);
+  const root = document.getElementById(uid + '-root');
+  if (!root) return;
+
+  let current = 0;
+
+  function updateCards() {
+    for (let i = 0; i < count; i++) {
+      const card = root.querySelector('[data-card="' + i + '"]');
+      if (!card) continue;
+      card.className = card.className.replace(/\b(active|behind1|behind2|dismissed)\b/g, '').trim();
+      if (i === current) card.classList.add('active');
+      else if (i === current + 1) card.classList.add('behind1');
+      else if (i === current + 2) card.classList.add('behind2');
+      else {
+        card.style.opacity = '0';
+        card.style.zIndex = '0';
+        card.style.transform = 'scale(0.85) translateY(36px)';
+      }
+      if (i >= current && i <= current + 2) {
+        card.style.opacity = '';
+        card.style.zIndex = '';
+        card.style.transform = '';
+      }
+    }
+    const counter = document.getElementById(uid + '-current');
+    if (counter) counter.textContent = current + 1;
+  }
+
+  function next() {
+    if (current >= count - 1) { current = 0; } else { current++; }
+    updateCards();
+  }
+
+  function prev() {
+    if (current <= 0) { current = count - 1; } else { current--; }
+    updateCards();
+  }
+
+  // Click card to go next
+  root.querySelector('#' + uid + '-stack').addEventListener('click', function(e) {
+    if (e.target.closest('[data-dir]')) return;
+    next();
+  });
+
+  // Arrow buttons
+  root.addEventListener('click', function(e) {
+    const btn = e.target.closest('[data-dir]');
+    if (!btn) return;
+    if (btn.dataset.dir === 'next') next();
+    else prev();
+  });
+}
+
 let matrixRainId = null;
 function activateMatrixRain() {
   // Clean up previous rain
@@ -395,6 +453,7 @@ function render(opts = {}) {
     activateRetroOS();
     activateMatrixRain();
     activateStoryDots();
+    activateCardDeck();
     requestAnimationFrame(() => { app.classList.add('ready'); });
   });
 }

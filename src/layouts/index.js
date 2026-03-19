@@ -28,6 +28,14 @@ import * as arcade from './arcade.js';
 import * as comic from './comic.js';
 import * as stories from './stories.js';
 import * as chat from './chat.js';
+import * as neon from './neon.js';
+import * as glass from './glass.js';
+import * as recipe from './recipe.js';
+import * as boardingPass from './boarding-pass.js';
+import * as starfield from './starfield.js';
+import * as fileExplorer from './file-explorer.js';
+import * as boot from './boot.js';
+import * as cardDeck from './card-deck.js';
 
 // All layouts — always available in the picker
 export const LAYOUTS = [
@@ -57,6 +65,14 @@ export const LAYOUTS = [
   comic,
   stories,
   chat,
+  neon,
+  glass,
+  recipe,
+  boardingPass,
+  starfield,
+  fileExplorer,
+  boot,
+  cardDeck,
 ];
 
 // Layouts that look great on mobile — used for random rotation on small screens
@@ -81,4 +97,11 @@ export const MOBILE_LAYOUTS = [
   chat,
   agency,
   landing,
+  neon,
+  glass,
+  recipe,
+  boardingPass,
+  starfield,
+  boot,
+  cardDeck,
 ];
