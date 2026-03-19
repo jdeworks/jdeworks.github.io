@@ -63,12 +63,10 @@ export function render(d, cs, ts, hs) {
       white-space: nowrap; overflow: hidden;
     }
     .${uid}-body { padding: 2rem; position: relative; }
-    /* Fade gradient over bottom half of body content */
-    .${uid}-fade-zone { position: relative; }
-    .${uid}-fade-zone::after {
-      content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 60%;
-      background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--card) 30%, transparent) 40%, color-mix(in srgb, var(--card) 70%, transparent) 70%, var(--card) 100%);
-      pointer-events: none; z-index: 5;
+    /* Irregular fade patches scattered across the poster */
+    .${uid}-fade-patch {
+      position: absolute; pointer-events: none; z-index: 8;
+      background: radial-gradient(ellipse, var(--card) 0%, color-mix(in srgb, var(--card) 60%, transparent) 40%, transparent 70%);
     }
     .${uid}-band {
       background: color-mix(in srgb, var(--fg) 90%, #6b5332); color: var(--bg); padding: 0.4rem 1rem;
@@ -130,6 +128,13 @@ export function render(d, cs, ts, hs) {
         <div class="${uid}-crease" style="top:33%;"></div>
         <div class="${uid}-crease" style="top:66%;"></div>
 
+        <!-- Irregular fade patches — sun damage / water / wear -->
+        <div class="${uid}-fade-patch" style="width:280px;height:180px;top:15%;left:-5%;transform:rotate(-8deg);"></div>
+        <div class="${uid}-fade-patch" style="width:200px;height:250px;top:40%;right:-8%;transform:rotate(5deg);"></div>
+        <div class="${uid}-fade-patch" style="width:320px;height:150px;bottom:20%;left:10%;transform:rotate(-3deg);"></div>
+        <div class="${uid}-fade-patch" style="width:180px;height:200px;top:60%;left:30%;transform:rotate(12deg);opacity:0.7;"></div>
+        <div class="${uid}-fade-patch" style="width:250px;height:120px;bottom:5%;right:5%;transform:rotate(-6deg);"></div>
+
         <!-- Top banner -->
         <div class="${uid}-header">
           <p style="font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 1rem;opacity:0.8;">Presenting</p>
@@ -161,34 +166,31 @@ export function render(d, cs, ts, hs) {
             `).join('')}
           </div>
 
-          <!-- Bottom section fades out like torn/worn bottom -->
-          <div class="${uid}-fade-zone">
-            <div class="${uid}-divider"><span class="${uid}-star">★</span></div>
+          <div class="${uid}-divider"><span class="${uid}-star">★</span></div>
 
-            <div class="${uid}-band ${uid}-faded">Instruments</div>
-            <div style="padding:1rem 0;text-align:center;" class="${uid}-faded">
-              ${d.tech.map(t => `<span class="${uid}-tag">${t}</span>`).join('')}
-            </div>
-
-            <div class="${uid}-divider ${uid}-faded"><span class="${uid}-star">★ ★</span></div>
-
-            <div class="${uid}-band ${uid}-faded">Tour Dates</div>
-            <div style="padding:1rem 0;" class="${uid}-faded">
-              ${d.timeline.map(t => `
-                <div style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px dashed color-mix(in srgb, var(--fg) 15%, #8b7355);">
-                  <span style="font-weight:700;color:color-mix(in srgb, var(--accent) 55%, #8b7355);font-size:0.85rem;font-family:var(--font-head);">${t.period}</span>
-                  <span style="color:color-mix(in srgb, var(--fg2) 50%, #8b7355);font-size:0.8rem;">${t.label}</span>
-                </div>
-              `).join('')}
-            </div>
-
-            <p class="${uid}-fine ${uid}-faded" style="margin-top:1rem;">${d.interests}</p>
-            <p class="${uid}-fine ${uid}-faded" style="margin-top:1rem;">
-              <a href="${d.github}" target="_blank" rel="noopener" class="${uid}-link">${githubIcon(14)} ${d.handle}</a>
-              ${d.links.map(l => ` · <a href="${l.url}" target="_blank" rel="noopener" class="${uid}-link">${l.label}</a>`).join('')}
-            </p>
-            <p class="${uid}-fine ${uid}-faded" style="margin-top:0.75rem;opacity:0.3;">ALL RIGHTS RESERVED · NO REFUNDS · DOORS OPEN AT LOCALHOST:3000</p>
+          <div class="${uid}-band">Instruments</div>
+          <div style="padding:1rem 0;text-align:center;">
+            ${d.tech.map(t => `<span class="${uid}-tag">${t}</span>`).join('')}
           </div>
+
+          <div class="${uid}-divider"><span class="${uid}-star">★ ★</span></div>
+
+          <div class="${uid}-band">Tour Dates</div>
+          <div style="padding:1rem 0;">
+            ${d.timeline.map(t => `
+              <div style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px dashed color-mix(in srgb, var(--fg) 15%, #8b7355);">
+                <span style="font-weight:700;color:color-mix(in srgb, var(--accent) 55%, #8b7355);font-size:0.85rem;font-family:var(--font-head);">${t.period}</span>
+                <span style="color:color-mix(in srgb, var(--fg2) 50%, #8b7355);font-size:0.8rem;">${t.label}</span>
+              </div>
+            `).join('')}
+          </div>
+
+          <p class="${uid}-fine" style="margin-top:1rem;">${d.interests}</p>
+          <p class="${uid}-fine" style="margin-top:1rem;">
+            <a href="${d.github}" target="_blank" rel="noopener" class="${uid}-link">${githubIcon(14)} ${d.handle}</a>
+            ${d.links.map(l => ` · <a href="${l.url}" target="_blank" rel="noopener" class="${uid}-link">${l.label}</a>`).join('')}
+          </p>
+          <p class="${uid}-fine" style="margin-top:0.75rem;opacity:0.3;">ALL RIGHTS RESERVED · NO REFUNDS · DOORS OPEN AT LOCALHOST:3000</p>
         </div>
       </div>
     </div>
