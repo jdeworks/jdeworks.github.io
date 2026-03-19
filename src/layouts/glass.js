@@ -1,4 +1,4 @@
-// Glassmorphism — frosted glass panels over animated gradient blobs
+// Glassmorphism — frosted glass panels over colorful gradient background
 import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon } from '../helpers.js';
 
 export const name = "Glass";
@@ -7,45 +7,57 @@ export function render(d, cs, ts, hs) {
   const uid = 'gl' + Math.random().toString(36).slice(2, 6);
   return `
   <style>
-    .${uid}-root { min-height: 100vh; position: relative; overflow: hidden; background: var(--bg); }
-    .${uid}-blobs {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    .${uid}-root {
+      min-height: 100vh; position: relative; overflow: hidden;
+      background: linear-gradient(135deg,
+        var(--bg) 0%,
+        color-mix(in srgb, var(--accent) 15%, var(--bg)) 30%,
+        color-mix(in srgb, var(--accent2) 12%, var(--bg)) 60%,
+        var(--bg) 100%
+      );
+      background-attachment: fixed;
     }
-    .${uid}-blob {
-      position: absolute; border-radius: 50%; filter: blur(80px);
-      animation: ${uid}-float 20s ease-in-out infinite;
+    .${uid}-orb {
+      position: fixed; border-radius: 50%; pointer-events: none;
+      animation: ${uid}-drift 25s ease-in-out infinite;
     }
-    @keyframes ${uid}-float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(30px, -40px) scale(1.1); }
-      66% { transform: translate(-20px, 30px) scale(0.9); }
+    @keyframes ${uid}-drift {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(40px, -30px); }
+      50% { transform: translate(-20px, 40px); }
+      75% { transform: translate(30px, 20px); }
     }
-    @media (prefers-reduced-motion: reduce) { .${uid}-blob { animation: none; } }
+    @media (prefers-reduced-motion: reduce) { .${uid}-orb { animation: none; } }
     .${uid}-content { position: relative; z-index: 1; }
     .${uid}-card {
-      background: color-mix(in srgb, var(--card) 55%, transparent);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border: 1px solid color-mix(in srgb, var(--fg) 10%, transparent);
+      background: color-mix(in srgb, var(--card) 50%, transparent);
+      backdrop-filter: blur(16px) saturate(150%);
+      -webkit-backdrop-filter: blur(16px) saturate(150%);
+      border: 1px solid color-mix(in srgb, var(--fg) 12%, transparent);
       border-radius: 20px; padding: 1.75rem; margin-bottom: 1.25rem;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.06), inset 0 1px 0 color-mix(in srgb, var(--fg) 8%, transparent);
       transition: transform 0.3s, box-shadow 0.3s;
     }
-    .${uid}-card:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+    .${uid}-card:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
     .${uid}-tag {
       font-size: 0.75rem; padding: 0.25rem 0.65rem; display: inline-block; margin: 0.15rem;
-      background: color-mix(in srgb, var(--accent) 15%, transparent);
-      backdrop-filter: blur(8px); color: var(--accent); border-radius: 9999px;
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      backdrop-filter: blur(6px); color: var(--accent); border-radius: 9999px;
       border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+    }
+    .${uid}-glow {
+      position: fixed; width: 50vw; height: 50vw; max-width: 500px; max-height: 500px;
+      border-radius: 50%; pointer-events: none; z-index: 0;
+      background: radial-gradient(circle, color-mix(in srgb, var(--accent) 20%, transparent) 0%, transparent 70%);
     }
   </style>
 
   <div class="${uid}-root">
-    <div class="${uid}-blobs">
-      <div class="${uid}-blob" style="width:400px;height:400px;top:10%;left:10%;background:color-mix(in srgb, var(--accent) 30%, transparent);animation-delay:0s;"></div>
-      <div class="${uid}-blob" style="width:350px;height:350px;top:50%;right:10%;background:color-mix(in srgb, var(--accent2) 25%, transparent);animation-delay:-7s;"></div>
-      <div class="${uid}-blob" style="width:300px;height:300px;bottom:10%;left:30%;background:color-mix(in srgb, var(--accent) 20%, transparent);animation-delay:-14s;"></div>
-    </div>
+    <!-- Ambient color orbs (lightweight — no blur filter, just radial gradients) -->
+    <div class="${uid}-glow" style="top:-10%;left:-10%;"></div>
+    <div class="${uid}-glow" style="bottom:-15%;right:-10%;background:radial-gradient(circle, color-mix(in srgb, var(--accent2) 18%, transparent) 0%, transparent 70%);"></div>
+    <div class="${uid}-orb" style="width:200px;height:200px;top:20%;right:5%;background:radial-gradient(circle, color-mix(in srgb, var(--accent) 25%, transparent) 0%, transparent 70%);animation-delay:-8s;"></div>
+    <div class="${uid}-orb" style="width:150px;height:150px;bottom:30%;left:5%;background:radial-gradient(circle, color-mix(in srgb, var(--accent2) 20%, transparent) 0%, transparent 70%);animation-delay:-16s;"></div>
 
     <div class="${uid}-content" style="max-width:800px;margin:0 auto;padding:3rem 1.5rem;">
       <div class="${uid}-card" style="text-align:center;padding:3rem 2rem;">
@@ -58,8 +70,11 @@ export function render(d, cs, ts, hs) {
         <blockquote style="margin:0;padding:0 0 0 1.25rem;border-left:3px solid var(--accent);font-size:0.95rem;color:var(--fg);line-height:1.6;font-style:italic;">${d.take}</blockquote>
       </div>
 
-      <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin:1.5rem 0;">
-        ${d.tech.map(t => `<span class="${uid}-tag">${t}</span>`).join('')}
+      <div class="${uid}-card">
+        <h2 style="${headingStyle(hs, 'font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin:0 0 1rem;')}">Stack</h2>
+        <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
+          ${d.tech.map(t => `<span class="${uid}-tag">${t}</span>`).join('')}
+        </div>
       </div>
 
       <h2 style="${headingStyle(hs, 'font-size:1.25rem;margin:2rem 0 1.25rem;color:var(--fg);')}">Projects</h2>

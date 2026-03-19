@@ -533,7 +533,13 @@ function clearParams() {
 }
 
 // ─── Render ──────────────────────────────────────────────────
+function cleanupAnimations() {
+  if (matrixRainId) { cancelAnimationFrame(matrixRainId); matrixRainId = null; }
+  if (starfieldId) { cancelAnimationFrame(starfieldId); starfieldId = null; }
+}
+
 function render(opts = {}) {
+  cleanupAnimations();
   const palette = opts.palette || pick(PALETTES);
   const font = opts.font || pick(FONTS);
   const isMobileScreen = window.innerWidth <= 640;
