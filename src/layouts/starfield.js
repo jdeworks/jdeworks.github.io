@@ -1,48 +1,15 @@
-// Starfield — animated star parallax background, content floats in space
+// Starfield — canvas star parallax with twinkling + shooting stars
 import { headingStyle, tagHTML, projectLinks, githubIcon } from '../helpers.js';
 
 export const name = "Starfield";
 
 export function render(d, cs, ts, hs) {
   const uid = 'sf' + Math.random().toString(36).slice(2, 6);
-  // Generate star layers
-  const stars = (count, size, opacity, dur) =>
-    Array.from({length: count}, () =>
-      `${Math.random()*100}% ${Math.random()*100}%`
-    ).join(', ');
 
   return `
   <style>
     .${uid}-root { min-height: 100vh; background: var(--bg); position: relative; overflow: hidden; }
-    .${uid}-stars {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    }
-    .${uid}-layer {
-      position: absolute; inset: 0;
-      background-repeat: repeat;
-    }
-    .${uid}-s1 {
-      background-image: radial-gradient(1px 1px at ${stars(80)}, color-mix(in srgb, var(--fg) 80%, transparent) 50%, transparent 100%);
-      background-size: 200px 200px;
-      animation: ${uid}-drift 60s linear infinite;
-    }
-    .${uid}-s2 {
-      background-image: radial-gradient(1.5px 1.5px at ${stars(40)}, color-mix(in srgb, var(--accent) 60%, transparent) 50%, transparent 100%);
-      background-size: 300px 300px;
-      animation: ${uid}-drift 90s linear infinite reverse;
-    }
-    .${uid}-s3 {
-      background-image: radial-gradient(2px 2px at ${stars(20)}, var(--accent) 50%, transparent 100%);
-      background-size: 400px 400px;
-      animation: ${uid}-drift 120s linear infinite;
-    }
-    @keyframes ${uid}-drift {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-200px); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .${uid}-s1, .${uid}-s2, .${uid}-s3 { animation: none; }
-    }
+    .${uid}-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
     .${uid}-content { position: relative; z-index: 1; }
     .${uid}-panel {
       background: color-mix(in srgb, var(--bg) 75%, transparent);
@@ -54,25 +21,14 @@ export function render(d, cs, ts, hs) {
       background: color-mix(in srgb, var(--accent) 15%, transparent);
       color: var(--accent); border-radius: 9999px;
     }
-    .${uid}-orbit {
-      display: inline-block; animation: ${uid}-float 6s ease-in-out infinite;
-    }
-    @keyframes ${uid}-float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
-    }
   </style>
 
-  <div class="${uid}-root">
-    <div class="${uid}-stars">
-      <div class="${uid}-layer ${uid}-s1"></div>
-      <div class="${uid}-layer ${uid}-s2"></div>
-      <div class="${uid}-layer ${uid}-s3"></div>
-    </div>
+  <div class="${uid}-root" id="${uid}-root">
+    <canvas class="${uid}-canvas" id="${uid}-canvas"></canvas>
 
     <div class="${uid}-content" style="max-width:800px;margin:0 auto;padding:4rem 1.5rem;">
       <div class="${uid}-panel" style="text-align:center;">
-        <p style="color:var(--accent);font-size:2rem;margin:0;" class="${uid}-orbit">&#9790;</p>
+        <p style="color:var(--accent);font-size:2rem;margin:0;">&#9790;</p>
         <h1 style="${headingStyle(hs, 'font-size:clamp(2rem,6vw,3.5rem);margin:0.5rem 0;color:var(--fg);font-weight:700;')}">${d.name}</h1>
         <p style="color:var(--accent);font-size:1rem;margin:0 0 1rem;font-family:var(--font-head);">${d.role}</p>
         <p style="color:var(--fg2);font-size:0.95rem;line-height:1.7;max-width:500px;margin:0 auto;">${d.bio}</p>
@@ -104,5 +60,7 @@ export function render(d, cs, ts, hs) {
         <a href="${d.github}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:0.9rem;">${githubIcon(16)} <span style="margin-left:0.35rem;">${d.handle}</span></a>
       </footer>
     </div>
-  </div>`;
+  </div>
+
+  <starfield-canvas data-canvas="${uid}-canvas" data-root="${uid}-root"></starfield-canvas>`;
 }
