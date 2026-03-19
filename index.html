@@ -139,7 +139,7 @@ function setCSS(palette, font) {
   document.getElementById('combo-label').style.color = palette.fg2;
 }
 
-// ─── Post-render: activate scroll observers ──────────────────
+// ─── Post-render hooks ───────────────────────────────────────
 function activateScrollReveals() {
   const els = document.querySelectorAll('[data-reveal]');
   if (!els.length) return;
@@ -149,6 +149,49 @@ function activateScrollReveals() {
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
   els.forEach(function(el) { observer.observe(el); });
+}
+
+function activateRetroOS() {
+  const marker = document.querySelector('[data-uid]');
+  if (!marker) return;
+  const uid = marker.dataset.uid;
+  const desktop = document.getElementById(uid + '-desktop');
+  if (!desktop) return;
+
+  desktop.addEventListener('click', function(e) {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const action = btn.dataset.action;
+    const target = btn.dataset.target;
+    const win = document.getElementById(uid + '-' + target);
+    const taskbtn = document.querySelector('[data-taskbtn="' + target + '"]');
+    if (!win) return;
+
+    if (action === 'close') {
+      win.classList.add('closing');
+      setTimeout(() => { win.style.display = 'none'; }, 300);
+      if (taskbtn) taskbtn.classList.remove('active');
+    } else if (action === 'minimize') {
+      win.classList.add('minimized');
+      if (taskbtn) taskbtn.classList.remove('active');
+    }
+  });
+
+  // Taskbar buttons restore windows
+  const taskbar = document.getElementById(uid + '-taskbar');
+  if (taskbar) {
+    taskbar.addEventListener('click', function(e) {
+      const tb = e.target.closest('[data-taskbtn]');
+      if (!tb) return;
+      const id = tb.dataset.taskbtn;
+      const win = document.getElementById(uid + '-' + id);
+      if (!win) return;
+      win.classList.remove('minimized', 'closing');
+      win.style.display = '';
+      tb.classList.add('active');
+      win.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
 }
 
 // ─── Query params ────────────────────────────────────────────
@@ -229,6 +272,7 @@ function render(opts = {}) {
   // Activate scroll reveals after DOM is ready
   requestAnimationFrame(() => {
     activateScrollReveals();
+    activateRetroOS();
     requestAnimationFrame(() => { app.classList.add('ready'); });
   });
 }
