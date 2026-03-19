@@ -55,6 +55,12 @@ export function render(d, cs, ts, hs) {
       margin-top: 1rem; justify-content: center;
     }
     .${uid}-bar { width: 2px; background: var(--fg); opacity: 0.3; }
+    @media (max-width: 640px) {
+      .${uid}-root { padding: 0.75rem !important; }
+      .${uid}-top, .${uid}-bottom { padding: 1rem !important; }
+      .${uid}-code { font-size: 1.5rem !important; }
+      .${uid}-stamp { font-size: 0.6rem; padding: 0.2rem 0.5rem; }
+    }
   </style>
 
   <div class="${uid}-root">

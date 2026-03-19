@@ -114,7 +114,8 @@ export function render(d, cs, ts, hs) {
 
       <!-- Revision history (timeline) -->
       <div class="${uid}-box" data-label="revision history">
-        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+        <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;min-width:400px;">
           <tr style="border-bottom:2px solid color-mix(in srgb, var(--accent) 30%, transparent);">
             <th style="text-align:left;padding:0.4rem 0;font-size:0.7rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;">Rev</th>
             <th style="text-align:left;padding:0.4rem 0;font-size:0.7rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;">Phase</th>
@@ -128,6 +129,7 @@ export function render(d, cs, ts, hs) {
             </tr>
           `).join('')}
         </table>
+        </div>
       </div>
 
       <!-- Notes -->

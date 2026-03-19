@@ -58,7 +58,7 @@ export function render(d, cs, ts, hs) {
         <p style="font-size:0.75rem;opacity:0.8;margin:0 0 0.5rem;letter-spacing:0.1em;text-transform:uppercase;">Recipe</p>
         <h1 style="${headingStyle(hs, 'font-size:clamp(1.75rem,5vw,2.5rem);margin:0;font-weight:700;')}">${d.name}</h1>
         <p style="font-size:0.9rem;margin:0.5rem 0 0;opacity:0.85;">${d.role}</p>
-        <div style="display:flex;justify-content:center;gap:2rem;margin-top:1.5rem;font-size:0.8rem;opacity:0.8;">
+        <div style="display:flex;justify-content:center;gap:1rem 2rem;margin-top:1.5rem;font-size:0.8rem;opacity:0.8;flex-wrap:wrap;">
           <span>Prep: ${d.timeline.length} chapters</span>
           <span>Yields: ${d.projects.length} projects</span>
           <span>Serves: the internet</span>

@@ -34,8 +34,10 @@ export function render(d, cs, ts, hs) {
     @keyframes ${uid}-blink { 50% { opacity: 0; } }
     @media (prefers-reduced-motion: reduce) { .${uid}-blink { animation: none; } }
     @media (max-width: 640px) {
-      .${uid}-root { font-size: 11px !important; padding: 1rem !important; }
+      .${uid}-root { font-size: 11px !important; padding: 0.75rem !important; }
       .${uid}-box { padding: 1rem; }
+      .${uid}-tag { font-size: 9px; padding: 3px 8px; }
+      .${uid}-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     }
     .${uid}-bar-bg {
       width: 100%; height: 14px; background: #222; border: 2px solid #444;
@@ -45,7 +47,7 @@ export function render(d, cs, ts, hs) {
       height: 100%; transition: width 0.3s;
     }
     .${uid}-tag {
-      display: inline-block; font-size: 8px; padding: 3px 6px; margin: 2px;
+      display: inline-block; font-size: 10px; padding: 3px 6px; margin: 2px;
       border: 2px solid var(--accent); color: var(--accent); background: #0a0a0a;
     }
     .${uid}-link { color: var(--accent) !important; text-decoration: none; }
@@ -76,14 +78,14 @@ export function render(d, cs, ts, hs) {
         const pct = 60 + Math.floor(Math.random() * 35);
         return `
         <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;">
-          <span style="font-size:7px;width:90px;flex-shrink:0;color:#aaa;">${t}</span>
+          <span style="font-size:9px;width:90px;flex-shrink:0;color:#aaa;">${t}</span>
           <div class="${uid}-bar-bg" style="flex:1;">
             <div class="${uid}-bar-fill" style="width:${pct}%;background:var(--accent);"></div>
           </div>
-          <span style="font-size:7px;width:30px;text-align:right;" class="${uid}-score">${pct}%</span>
+          <span style="font-size:9px;width:30px;text-align:right;" class="${uid}-score">${pct}%</span>
         </div>`;
       }).join('')}
-      ${d.tech.length > 6 ? `<p style="font-size:7px;margin:0.5rem 0 0;color:#666;">+${d.tech.length - 6} MORE SKILLS UNLOCKED</p>` : ''}
+      ${d.tech.length > 6 ? `<p style="font-size:9px;margin:0.5rem 0 0;color:#666;">+${d.tech.length - 6} MORE SKILLS UNLOCKED</p>` : ''}
     </div>
 
     <!-- High scores (projects) -->
@@ -91,22 +93,22 @@ export function render(d, cs, ts, hs) {
       <p class="${uid}-score" style="font-size:8px;margin:0 0 1rem;">HIGH SCORES</p>
       <table style="width:100%;border-collapse:collapse;">
         <tr style="border-bottom:2px solid #333;">
-          <th style="text-align:left;padding:0.5rem 0;font-size:7px;color:#666;">RNK</th>
-          <th style="text-align:left;padding:0.5rem 0;font-size:7px;color:#666;">PROJECT</th>
-          <th style="text-align:right;padding:0.5rem 0;font-size:7px;color:#666;">STATUS</th>
+          <th style="text-align:left;padding:0.5rem 0;font-size:9px;color:#666;">RNK</th>
+          <th style="text-align:left;padding:0.5rem 0;font-size:9px;color:#666;">PROJECT</th>
+          <th style="text-align:right;padding:0.5rem 0;font-size:9px;color:#666;">STATUS</th>
         </tr>
         ${d.projects.map((p, i) => `
           <tr style="border-bottom:1px solid #222;">
             <td style="padding:0.75rem 0;font-size:9px;" class="${uid}-score">${i + 1}ST</td>
             <td style="padding:0.75rem 0;">
               <p style="font-size:9px;margin:0;color:#eee;">${p.name}</p>
-              <p style="font-size:7px;margin:0.35rem 0 0;color:#777;line-height:1.8;">${p.desc}</p>
+              <p style="font-size:9px;margin:0.35rem 0 0;color:#777;line-height:1.8;">${p.desc}</p>
               <div style="margin-top:0.35rem;">${p.tags.map(t => `<span class="${uid}-tag">${t}</span>`).join('')}</div>
             </td>
             <td style="padding:0.75rem 0;text-align:right;vertical-align:top;">
               ${p.soon
-                ? `<span style="font-size:7px;color:#888;">LOCKED</span>`
-                : `<a href="${p.url}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:7px;">SRC→</a>${p.demo ? ` <a href="${p.demo}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:7px;">PLAY→</a>` : ''}`}
+                ? `<span style="font-size:9px;color:#888;">LOCKED</span>`
+                : `<a href="${p.url}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:9px;">SRC→</a>${p.demo ? ` <a href="${p.demo}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:9px;">PLAY→</a>` : ''}`}
             </td>
           </tr>
         `).join('')}
@@ -125,7 +127,7 @@ export function render(d, cs, ts, hs) {
       <a href="${d.github}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:9px;">
         ${githubIcon(14)} <span style="margin-left:0.35rem;">${d.handle}</span>
       </a>
-      <p class="${uid}-blink" style="font-size:7px;margin:1.5rem 0 0;color:var(--accent);">PRESS START TO CONTINUE</p>
+      <p class="${uid}-blink" style="font-size:9px;margin:1.5rem 0 0;color:var(--accent);">PRESS START TO CONTINUE</p>
     </div>
   </div>`;
 }

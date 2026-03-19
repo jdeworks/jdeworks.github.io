@@ -190,7 +190,7 @@ export function render(d, cs, ts, hs) {
         <div class="${uid}-broken-img">
           <span>&#128444; [image not found: banner.gif]</span>
         </div>
-        <div style="position:absolute;top:10px;left:310px;width:150px;height:80px;border:1px dashed var(--accent);opacity:0.1;background:repeating-linear-gradient(45deg,transparent,transparent 5px,var(--accent) 5px,var(--accent) 6px);"></div>
+        <div style="position:absolute;top:10px;right:-20px;width:80px;height:60px;border:1px dashed var(--accent);opacity:0.1;background:repeating-linear-gradient(45deg,transparent,transparent 5px,var(--accent) 5px,var(--accent) 6px);"></div>
       </div>
 
       <!-- Console dump that shouldn't be visible -->
@@ -220,6 +220,7 @@ export function render(d, cs, ts, hs) {
       <h2 style="font-size:1.25rem;margin:1rem 0;color:var(--fg);">My Projects <span class="${uid}-blink" style="color:var(--accent);">NEW!</span></h2>
 
       <!-- Table with a "misaligned" duplicate row -->
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
       <table class="${uid}-table">
         <tr>
           <th>Project</th>
@@ -238,6 +239,7 @@ export function render(d, cs, ts, hs) {
           ${i === 1 ? `<tr style="opacity:0.04;transform:translateX(5px);pointer-events:none;"><td>${p.name}</td><td>${p.desc}</td><td>source</td></tr>` : ''}
         `).join('')}
       </table>
+      </div>
 
       <div class="${uid}-construction">
         &#128679; THIS SECTION IS UNDER CONSTRUCTION &#128679;<br>
