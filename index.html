@@ -71,9 +71,9 @@
     .picker-close:hover { opacity: 1; }
     .picker-swatch {
       width: 24px; height: 24px; border-radius: 50%; border: 2px solid transparent;
-      cursor: pointer; transition: transform 0.15s, border-color 0.15s;
+      cursor: pointer; transition: transform 0.3s, background-color 0.5s, border-color 0.15s;
     }
-    .picker-swatch:hover { transform: scale(1.2); }
+    .picker-swatch:hover { transform: scale(1.25); }
     .picker-swatch.active { border-color: var(--fg, #f1f5f9); box-shadow: 0 0 0 2px var(--bg, #0f172a); }
   </style>
 </head>
@@ -258,7 +258,7 @@ function buildPicker() {
       <button class="picker-close" id="picker-close">&times;</button>
       <h3>Palette</h3>
       <div class="picker-options">
-        ${PALETTES.map(p => `<button class="picker-swatch ${p.name === state.palette.name ? 'active' : ''}" data-type="palette" data-value="${p.name}" style="background:linear-gradient(135deg, ${p.bg} 30%, ${p.accent} 70%);" title="${p.name}"></button>`).join('')}
+        ${PALETTES.map(p => `<button class="picker-swatch ${p.name === state.palette.name ? 'active' : ''}" data-type="palette" data-value="${p.name}" style="background:${p.bg};" title="${p.name}"></button>`).join('')}
       </div>
       <h3>Font</h3>
       <div class="picker-options">
@@ -282,6 +282,20 @@ function buildPicker() {
       </div>
       <button class="picker-apply" id="picker-apply">Apply combination</button>
     `;
+
+    // Palette swatch hover: transition from bg to accent color
+    box.addEventListener('mouseover', (e) => {
+      const swatch = e.target.closest('.picker-swatch[data-type="palette"]');
+      if (!swatch) return;
+      const p = findByName(PALETTES, swatch.dataset.value);
+      if (p) swatch.style.backgroundColor = p.accent;
+    });
+    box.addEventListener('mouseout', (e) => {
+      const swatch = e.target.closest('.picker-swatch[data-type="palette"]');
+      if (!swatch) return;
+      const p = findByName(PALETTES, swatch.dataset.value);
+      if (p) swatch.style.backgroundColor = p.bg;
+    });
 
     // Event delegation
     box.onclick = (e) => {
