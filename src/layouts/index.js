@@ -37,6 +37,8 @@ import * as fileExplorer from './file-explorer.js';
 import * as boot from './boot.js';
 import * as cardDeck from './card-deck.js';
 import * as rundown from './rundown.js';
+import * as poster from './poster.js';
+import * as decayed from './decayed.js';
 
 // All layouts — always available in the picker
 export const LAYOUTS = [
@@ -75,6 +77,8 @@ export const LAYOUTS = [
   boot,
   cardDeck,
   rundown,
+  poster,
+  decayed,
 ];
 
 // Layouts that look great on mobile — used for random rotation on small screens
@@ -107,4 +111,6 @@ export const MOBILE_LAYOUTS = [
   boot,
   cardDeck,
   rundown,
+  poster,
+  decayed,
 ];
