@@ -22,6 +22,9 @@ import * as landing from './landing.js';
 import * as matrix from './matrix.js';
 import * as retroOs from './retro-os.js';
 import * as newspaper from './newspaper.js';
+import * as blueprint from './blueprint.js';
+import * as arcade from './arcade.js';
+import * as comic from './comic.js';
 
 export const LAYOUTS = [
   centeredHero,
@@ -45,4 +48,7 @@ export const LAYOUTS = [
   matrix,
   retroOs,
   newspaper,
+  blueprint,
+  arcade,
+  comic,
 ];
