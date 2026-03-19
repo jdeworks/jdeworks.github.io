@@ -12,6 +12,10 @@ export function render(d, cs, ts, hs) {
       <p style="color:var(--fg2);font-size:clamp(1rem,2vw,1.25rem);line-height:1.7;max-width:600px;">${d.bio}</p>
     </header>
     <section style="padding:0 clamp(1.5rem,5vw,4rem) 4rem;max-width:1100px;margin:0 auto;">
+      <div style="display:flex;gap:2.5rem;flex-wrap:wrap;margin-bottom:3rem;">
+        <blockquote style="flex:1;min-width:280px;margin:0;padding:1.25rem 0 1.25rem 1.5rem;border-left:4px solid var(--accent);font-size:1.05rem;color:var(--fg);line-height:1.65;font-style:italic;">${d.take}</blockquote>
+        <p style="flex:1;min-width:280px;color:var(--fg2);font-size:0.95rem;line-height:1.7;margin:0;">${d.about}</p>
+      </div>
       <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:3rem;">
         ${d.tech.map(t => tagHTML(t, ts)).join("")}
       </div>

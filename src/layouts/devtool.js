@@ -32,8 +32,17 @@ export function render(d, cs, ts, hs) {
           </div>
           <div style="padding:1rem;font-family:monospace;font-size:0.8rem;line-height:1.8;color:var(--fg2);">
             <span style="color:var(--accent);">$</span> echo $STACK<br>
-            <span style="color:var(--fg);">${d.tech.join(" · ")}</span>
+            <span style="color:var(--fg);">${d.tech.join(" · ")}</span><br>
+            <span style="color:var(--accent);">$</span> echo $TAKE<br>
+            <span style="color:var(--fg);font-style:italic;">${d.take}</span>
           </div>
+        </div>
+      </section>
+
+      <section style="margin-bottom:2rem;">
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1.25rem;font-family:monospace;font-size:0.8rem;line-height:1.8;color:var(--fg2);">
+          <span style="color:color-mix(in srgb, var(--fg2) 60%, transparent);">// career.timeline</span><br>
+          ${d.timeline.map(t => `<span style="color:color-mix(in srgb, var(--fg2) 60%, transparent);">// </span><span style="color:var(--accent);">${t.period}</span> <span style="color:var(--fg2);">→ ${t.label}</span>`).join("<br>")}
         </div>
       </section>
 

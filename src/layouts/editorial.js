@@ -13,8 +13,9 @@ export function render(d, cs, ts, hs) {
     </nav>
 
     <section style="padding:clamp(3rem,8vw,5rem) 0;">
-      <p style="font-family:var(--font-head);font-size:clamp(1.5rem,4vw,2.25rem);color:var(--fg);line-height:1.4;font-weight:400;margin:0;font-style:italic;">&ldquo;${d.bio}&rdquo;</p>
+      <p style="font-family:var(--font-head);font-size:clamp(1.5rem,4vw,2.25rem);color:var(--fg);line-height:1.4;font-weight:400;margin:0;font-style:italic;">&ldquo;${d.take}&rdquo;</p>
       <div style="width:48px;height:3px;background:var(--accent);margin:2.5rem 0;"></div>
+      <p style="color:var(--fg2);font-size:0.95rem;line-height:1.7;margin:0 0 2rem;">${d.bio}</p>
       <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
         ${d.tech.map(t => `<span style="font-size:0.75rem;padding:0.3rem 0.75rem;border:1px solid var(--border);border-radius:9999px;color:var(--fg2);">${t}</span>`).join("")}
       </div>
@@ -30,8 +31,8 @@ export function render(d, cs, ts, hs) {
             ${p.tags.map(t => tagHTML(t, ts)).join("")}
           </div>
           <div style="display:flex;gap:1.5rem;">
-            <a href="${p.url}" target="_blank" rel="noopener" style="color:var(--fg);font-size:0.85rem;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;text-decoration-color:var(--border);transition:text-decoration-color 0.2s;" onmouseover="this.style.textDecorationColor='var(--accent)'" onmouseout="this.style.textDecorationColor='var(--border)'">Source</a>
-            ${p.demo ? `<a href="${p.demo}" target="_blank" rel="noopener" style="color:var(--fg);font-size:0.85rem;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;text-decoration-color:var(--border);transition:text-decoration-color 0.2s;" onmouseover="this.style.textDecorationColor='var(--accent)'" onmouseout="this.style.textDecorationColor='var(--border)'">Demo</a>` : ''}
+            ${p.soon ? `<span style="font-size:0.85rem;color:var(--fg2);font-style:italic;">Coming soon</span>` : `<a href="${p.url}" target="_blank" rel="noopener" style="color:var(--fg);font-size:0.85rem;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;text-decoration-color:var(--border);transition:text-decoration-color 0.2s;" onmouseover="this.style.textDecorationColor='var(--accent)'" onmouseout="this.style.textDecorationColor='var(--border)'">Source</a>
+            ${p.demo ? `<a href="${p.demo}" target="_blank" rel="noopener" style="color:var(--fg);font-size:0.85rem;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;text-decoration-color:var(--border);transition:text-decoration-color 0.2s;" onmouseover="this.style.textDecorationColor='var(--accent)'" onmouseout="this.style.textDecorationColor='var(--border)'">Demo</a>` : ''}`}
           </div>
         </article>
       `).join("")}

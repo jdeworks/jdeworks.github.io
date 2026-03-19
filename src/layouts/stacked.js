@@ -18,11 +18,29 @@ export function render(d, cs, ts, hs) {
           <p style="font-family:monospace;font-size:0.8rem;color:var(--accent);margin:0 0 1rem;">// about</p>
           <h1 style="${headingStyle(hs, 'font-size:clamp(2rem,5vw,3rem);margin:0;color:var(--fg);font-weight:700;line-height:1.15;')}">${d.role}</h1>
           <p style="color:var(--fg2);font-size:1rem;margin:1.25rem 0 0;line-height:1.7;">${d.bio}</p>
+          <p style="color:var(--fg2);font-size:0.9rem;margin:1rem 0 0;line-height:1.7;opacity:0.85;">${d.about}</p>
         </div>
         <div style="flex-shrink:0;">
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;">
             ${d.tech.map(t => `<span style="font-size:0.7rem;padding:0.35rem 0.6rem;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--fg2);text-align:center;white-space:nowrap;">${t}</span>`).join("")}
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding:clamp(2rem,6vw,4rem) clamp(1.5rem,4vw,3rem);">
+      <div style="max-width:1000px;margin:0 auto;">
+        <h2 style="${headingStyle(hs, 'font-size:1.5rem;margin:0 0 2rem;color:var(--fg);')}">
+          <span style="font-family:monospace;font-size:0.8rem;color:var(--accent);display:block;margin-bottom:0.5rem;">// timeline</span>
+          The journey
+        </h2>
+        <div style="display:flex;flex-wrap:wrap;gap:1rem;">
+          ${d.timeline.map(t => `
+            <div style="flex:1;min-width:180px;padding:1rem;background:var(--card);border:1px solid var(--border);border-radius:8px;">
+              <p style="font-family:monospace;font-size:0.75rem;color:var(--accent);margin:0 0 0.35rem;font-weight:600;">${t.period}</p>
+              <p style="color:var(--fg2);font-size:0.8rem;margin:0;line-height:1.5;">${t.label}</p>
+            </div>
+          `).join("")}
         </div>
       </div>
     </section>

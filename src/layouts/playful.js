@@ -23,9 +23,14 @@ export function render(d, cs, ts, hs) {
       <section style="display:grid;grid-template-columns:1fr;gap:2rem;align-items:center;margin-bottom:4rem;" class="playful-hero">
         <style>@media(min-width:768px){.playful-hero{grid-template-columns:1fr auto !important;}}</style>
         <div>
-          <div style="display:inline-flex;align-items:center;gap:0.5rem;background:color-mix(in srgb, var(--card) 70%, transparent);backdrop-filter:blur(8px);border-radius:9999px;padding:0.4rem 1rem;margin-bottom:1.25rem;border:1px solid var(--border);">
-            <span style="width:8px;height:8px;border-radius:50%;background:#22c55e;"></span>
-            <span style="font-size:0.75rem;font-weight:700;color:var(--fg2);">Building cool stuff</span>
+          <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.25rem;">
+            <div style="display:inline-flex;align-items:center;gap:0.5rem;background:color-mix(in srgb, var(--card) 70%, transparent);backdrop-filter:blur(8px);border-radius:9999px;padding:0.4rem 1rem;border:1px solid var(--border);">
+              <span style="width:8px;height:8px;border-radius:50%;background:#22c55e;"></span>
+              <span style="font-size:0.75rem;font-weight:700;color:var(--fg2);">Building cool stuff</span>
+            </div>
+            <div style="display:inline-flex;align-items:center;gap:0.5rem;background:color-mix(in srgb, var(--card) 70%, transparent);backdrop-filter:blur(8px);border-radius:9999px;padding:0.4rem 1rem;border:1px solid var(--border);">
+              <span style="font-size:0.75rem;color:var(--fg2);">${d.interests}</span>
+            </div>
           </div>
           <h1 style="${headingStyle(hs, 'font-size:clamp(2.25rem,5vw,3.5rem);margin:0;color:var(--fg);font-weight:800;line-height:1.1;')}">Hey, I'm <span style="color:var(--accent);">${d.name}</span>!</h1>
           <p style="color:var(--fg2);font-size:1.1rem;margin:0.75rem 0 0;line-height:1.6;max-width:500px;">${d.bio}</p>
@@ -52,6 +57,10 @@ export function render(d, cs, ts, hs) {
             </div>
           `).join("")}
         </div>
+      </section>
+
+      <section style="margin-top:2.5rem;padding:2rem;background:color-mix(in srgb, var(--card) 70%, transparent);backdrop-filter:blur(12px);border-radius:1.5rem;border:1px solid color-mix(in srgb, var(--border) 50%, transparent);">
+        <p style="color:var(--fg2);font-size:0.9rem;line-height:1.7;margin:0;">${d.about}</p>
       </section>
 
       <footer style="margin-top:4rem;padding-top:1.5rem;border-top:1px solid var(--border);text-align:center;">

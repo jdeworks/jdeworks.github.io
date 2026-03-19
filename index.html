@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jens — jdeworks</title>
-  <meta name="description" content="Full-stack software developer. Tools, games, and things that make development more fun.">
+  <meta name="description" content="Full-stack software developer. AI-augmented dev tools, games, and things that make development more fun.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,9 +26,13 @@
       position: fixed; bottom: 1.5rem; left: 1.5rem; z-index: 50;
       font-size: 0.7rem; opacity: 0.4; font-family: monospace;
     }
+    #gradient-bg {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    }
   </style>
 </head>
 <body>
+<div id="gradient-bg"></div>
 <div id="app"></div>
 
 <button class="shuffle-btn" id="shuffle-btn" title="Shuffle layout" aria-label="Shuffle layout">
@@ -41,7 +45,7 @@
 <div class="combo-label" id="combo-label"></div>
 
 <script type="module">
-import { DATA } from './src/data.js';
+import { DATA, pickBio, pickAbout, pickTake, pickInterests } from './src/data.js';
 import { PALETTES } from './src/palettes/palettes.js';
 import { FONTS } from './src/fonts/fonts.js';
 import { CARD_STYLES, TAG_STYLES, HEADING_STYLES } from './src/styles/styles.js';
@@ -69,6 +73,10 @@ function setCSS(palette, font) {
   document.body.style.fontFamily = `${font.body}, sans-serif`;
   document.body.style.margin = '0';
 
+  // Apply gradient mesh background from palette
+  const gradBg = document.getElementById('gradient-bg');
+  gradBg.style.background = palette.gradient && palette.gradient !== 'none' ? palette.gradient : 'none';
+
   const btn = document.getElementById('shuffle-btn');
   btn.style.background = palette.accent;
   btn.style.color = palette.bg;
@@ -84,11 +92,20 @@ function render() {
   const ts = pick(TAG_STYLES);
   const hs = pick(HEADING_STYLES);
 
+  // Build a snapshot of data with randomly picked text variants
+  const snapshot = {
+    ...DATA,
+    bio: pickBio(),
+    about: pickAbout(),
+    take: pickTake(),
+    interests: pickInterests(),
+  };
+
   loadFont(font);
   setCSS(palette, font);
 
   const app = document.getElementById('app');
-  app.innerHTML = layout.render(DATA, cs, ts, hs);
+  app.innerHTML = layout.render(snapshot, cs, ts, hs);
   app.setAttribute('data-layout', 'true');
 
   document.getElementById('combo-label').textContent =

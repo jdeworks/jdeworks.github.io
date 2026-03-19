@@ -10,7 +10,8 @@ export function render(d, cs, ts, hs) {
       <div style="width:64px;height:64px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:var(--bg);font-family:var(--font-head);font-weight:700;font-size:1.5rem;margin-bottom:1.5rem;">${d.name[0]}</div>
       <h1 style="${headingStyle(hs, 'font-size:1.75rem;margin:0 0 0.25rem;color:var(--fg);font-weight:700;')}">${d.name}</h1>
       <p style="color:var(--accent);font-size:0.9rem;margin:0 0 1.25rem;font-family:var(--font-head);">${d.role}</p>
-      <p style="color:var(--fg2);font-size:0.9rem;line-height:1.65;margin:0 0 2rem;">${d.bio}</p>
+      <p style="color:var(--fg2);font-size:0.9rem;line-height:1.65;margin:0 0 1.5rem;">${d.bio}</p>
+      <blockquote style="margin:0 0 2rem;padding:0.75rem 0 0.75rem 1rem;border-left:3px solid var(--accent);font-size:0.85rem;color:var(--fg2);line-height:1.6;font-style:italic;">${d.take}</blockquote>
       <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:2rem;">
         ${d.tech.map(t => tagHTML(t, ts)).join("")}
       </div>

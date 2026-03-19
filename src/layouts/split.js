@@ -12,7 +12,9 @@ export function render(d, cs, ts, hs) {
     <section style="width:45%;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:4rem 3rem;background:var(--bg2);">
       <h1 style="${headingStyle(hs, 'font-size:clamp(2.5rem,5vw,3.5rem);margin:0;color:var(--fg);font-weight:700;')}">${d.name}</h1>
       <p style="color:var(--accent);font-size:1.1rem;margin:0.5rem 0 1.5rem;font-family:var(--font-head);">${d.role}</p>
-      <p style="color:var(--fg2);font-size:1rem;line-height:1.7;margin:0 0 2rem;">${d.bio}</p>
+      <p style="color:var(--fg2);font-size:1rem;line-height:1.7;margin:0 0 1rem;">${d.bio}</p>
+      <p style="color:var(--fg2);font-size:0.9rem;line-height:1.7;margin:0 0 1.25rem;opacity:0.85;">${d.about}</p>
+      <p style="color:var(--fg2);font-size:0.85rem;line-height:1.6;margin:0 0 2rem;font-style:italic;">${d.interests}</p>
       <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:2rem;">
         ${d.tech.map(t => tagHTML(t, ts)).join("")}
       </div>

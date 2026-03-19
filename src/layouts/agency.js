@@ -21,6 +21,8 @@ export function render(d, cs, ts, hs) {
 
       <section style="padding:2rem 0 3rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
         <p style="color:var(--fg2);font-size:clamp(1rem,2vw,1.2rem);line-height:1.7;max-width:600px;">${d.bio}</p>
+        <p style="color:var(--fg2);font-size:0.95rem;line-height:1.7;max-width:600px;margin-top:1rem;">${d.about}</p>
+        <blockquote style="margin:2rem 0 0;padding:1.5rem 0 1.5rem 2rem;border-left:4px solid var(--accent);font-family:var(--font-head);font-size:clamp(1.1rem,2vw,1.4rem);color:var(--fg);line-height:1.5;font-style:italic;max-width:700px;">${d.take}</blockquote>
         <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.5rem;">
           ${d.tech.map(t => tagHTML(t, ts)).join("")}
         </div>

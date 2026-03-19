@@ -15,6 +15,7 @@ export function render(d, cs, ts, hs) {
     <section style="padding:clamp(3rem,10vw,6rem) 0;">
       <h1 style="${headingStyle(hs, 'font-size:clamp(2rem,5vw,3rem);margin:0;color:var(--fg);font-weight:300;line-height:1.15;letter-spacing:-0.01em;')}">${d.name}.<br>${d.role}.</h1>
       <p style="color:var(--fg2);font-size:0.95rem;margin:2rem 0 0;max-width:420px;line-height:1.7;font-weight:300;">${d.bio}</p>
+      <p style="color:var(--fg2);font-size:0.85rem;margin:1.25rem 0 0;max-width:420px;line-height:1.7;font-weight:300;font-style:italic;opacity:0.75;">${d.take}</p>
       <div style="margin-top:3rem;">
         <a href="#work" style="font-size:0.9rem;color:var(--fg);border-bottom:1px solid var(--fg);padding-bottom:2px;text-decoration:none;transition:color 0.2s,border-color 0.2s;" onmouseover="this.style.color='var(--accent)';this.style.borderColor='var(--accent)'" onmouseout="this.style.color='var(--fg)';this.style.borderColor='var(--fg)'">Selected work &darr;</a>
       </div>
@@ -27,8 +28,8 @@ export function render(d, cs, ts, hs) {
             <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;">
               <h3 style="font-family:var(--font-head);font-size:1rem;margin:0;color:var(--fg);font-weight:400;">${p.name}</h3>
               <div style="display:flex;gap:0.75rem;flex-shrink:0;">
-                <a href="${p.url}" target="_blank" rel="noopener" style="font-size:0.75rem;color:var(--fg2);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--fg2)'">src</a>
-                ${p.demo ? `<a href="${p.demo}" target="_blank" rel="noopener" style="font-size:0.75rem;color:var(--fg2);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--fg2)'">demo</a>` : ''}
+                ${p.soon ? `<span style="font-size:0.75rem;color:var(--fg2);font-style:italic;">soon</span>` : `<a href="${p.url}" target="_blank" rel="noopener" style="font-size:0.75rem;color:var(--fg2);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--fg2)'">src</a>
+                ${p.demo ? `<a href="${p.demo}" target="_blank" rel="noopener" style="font-size:0.75rem;color:var(--fg2);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--fg2)'">demo</a>` : ''}`}
               </div>
             </div>
             <p style="color:var(--fg2);font-size:0.8rem;margin:0.25rem 0 0;font-weight:300;line-height:1.5;">${p.desc}</p>

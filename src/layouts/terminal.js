@@ -18,8 +18,12 @@ export function render(d, cs, ts, hs) {
         <p style="margin:0;color:var(--fg);">${d.name} — ${d.role}</p>
         <p style="margin:0.75rem 0 0;">${prompt}<span style="color:var(--fg);">cat about.txt</span></p>
         <p style="margin:0;color:var(--fg2);">${d.bio}</p>
+        <p style="margin:0.75rem 0 0;">${prompt}<span style="color:var(--fg);">cat philosophy.txt</span></p>
+        <p style="margin:0;color:var(--fg2);font-style:italic;">${d.take}</p>
         <p style="margin:0.75rem 0 0;">${prompt}<span style="color:var(--fg);">ls tech/</span></p>
         <p style="margin:0;color:var(--accent);">${d.tech.join("  ")}</p>
+        <p style="margin:0.75rem 0 0;">${prompt}<span style="color:var(--fg);">history</span></p>
+        ${d.timeline.map((t, i) => `<p style="margin:0;color:var(--fg2);"><span style="color:var(--accent);opacity:0.5;margin-right:0.5rem;">${String(i + 1).padStart(3, ' ')}</span>${t.period} — ${t.label}</p>`).join("")}
       </div>
     </div>
     <h2 style="${headingStyle(hs, 'font-size:1.25rem;margin:0 0 1.25rem;color:var(--fg);')}"><span style="color:var(--accent);font-family:monospace;">ls</span> projects/</h2>

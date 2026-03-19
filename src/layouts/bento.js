@@ -22,7 +22,11 @@ export function render(d, cs, ts, hs) {
       </div>
       <div style="background:var(--card);border-radius:16px;padding:2rem;${cardCSS(cs)};">
         <h2 style="${headingStyle(hs, 'font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg2);margin:0 0 1rem;')}">About</h2>
-        <p style="color:var(--fg2);font-size:0.875rem;line-height:1.65;margin:0;">${d.bio}</p>
+        <p style="color:var(--fg2);font-size:0.875rem;line-height:1.65;margin:0;">${d.about}</p>
+      </div>
+      <div class="span2" style="background:var(--card);border-radius:16px;padding:2rem;${cardCSS(cs)};">
+        <h2 style="${headingStyle(hs, 'font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg2);margin:0 0 0.75rem;')}">Perspective</h2>
+        <p style="color:var(--fg2);font-size:0.875rem;line-height:1.65;margin:0;font-style:italic;">${d.take}</p>
       </div>
       <div class="span2" style="background:var(--card);border-radius:16px;padding:2rem;${cardCSS(cs)};">
         <h2 style="${headingStyle(hs, 'font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg2);margin:0 0 1rem;')}">Tech</h2>

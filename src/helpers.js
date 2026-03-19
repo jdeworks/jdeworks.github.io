@@ -9,6 +9,9 @@ export function githubIcon(size = 20) {
 }
 
 export function projectLinks(p) {
+  if (p.soon) {
+    return `<span style="font-size: 0.8rem; color: var(--fg2); font-style: italic;">Coming soon</span>`;
+  }
   let links = `<a href="${p.url}" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none; font-size: 0.9rem; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">GitHub &rarr;</a>`;
   if (p.demo) {
     links += ` <a href="${p.demo}" target="_blank" rel="noopener" style="color: var(--fg2); text-decoration: none; font-size: 0.9rem; margin-left: 1rem; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Live Demo &rarr;</a>`;
