@@ -31,7 +31,7 @@ export function render(d, cs, ts, hs) {
 
     <!-- Giant Hero -->
     <section style="max-width:1200px;margin:0 auto;padding:clamp(4rem,12vw,10rem) clamp(1.5rem,4vw,3rem) clamp(2rem,6vw,4rem);">
-      <h1 style="${headingStyle(hs, 'font-size:clamp(4rem,12vw,9rem);margin:0;color:var(--fg);font-weight:700;line-height:0.9;letter-spacing:-0.04em;')}">${d.name}</h1>
+      <h1 style="${headingStyle(hs, 'font-size:clamp(2.5rem,12vw,9rem);margin:0;color:var(--fg);font-weight:700;line-height:0.9;letter-spacing:-0.04em;')}">${d.name}</h1>
       <p style="color:var(--accent);font-size:clamp(1rem,2vw,1.5rem);margin:1rem 0 0;font-family:var(--font-head);">${d.role}</p>
     </section>
 
