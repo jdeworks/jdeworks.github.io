@@ -26,6 +26,8 @@ export function render(d, cs, ts, hs) {
     .${uid}-box {
       border: 2px solid color-mix(in srgb, var(--accent) 50%, transparent);
       padding: 1.5rem; margin-bottom: 1.5rem; position: relative;
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(2px);
     }
     .${uid}-box::before {
       content: attr(data-label); position: absolute; top: -0.6rem; left: 1rem;
@@ -66,7 +68,7 @@ export function render(d, cs, ts, hs) {
 
       <!-- Title block -->
       <div style="display:flex;justify-content:flex-end;margin-bottom:2rem;">
-        <div style="border:2px solid color-mix(in srgb, var(--accent) 60%, transparent);padding:1rem 1.5rem;text-align:right;">
+        <div style="border:2px solid color-mix(in srgb, var(--accent) 60%, transparent);padding:1rem 1.5rem;text-align:right;background:color-mix(in srgb, var(--bg) 88%, transparent);backdrop-filter:blur(2px);">
           <p style="font-size:0.65rem;margin:0;color:var(--accent);text-transform:uppercase;letter-spacing:0.15em;font-weight:700;">Project</p>
           <h1 style="font-size:clamp(1.5rem,4vw,2.5rem);margin:0.25rem 0;font-weight:700;color:var(--fg);">${d.name}</h1>
           <p style="font-size:0.85rem;margin:0;color:var(--fg2);">${d.role}</p>

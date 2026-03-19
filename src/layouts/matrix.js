@@ -21,6 +21,11 @@ export function render(d, cs, ts, hs) {
     .${uid}-content {
       position: relative; z-index: 2; color: var(--accent);
     }
+    .${uid}-scrim {
+      background: color-mix(in srgb, var(--bg) 80%, transparent);
+      backdrop-filter: blur(3px); border-radius: 8px; padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
     .${uid}-glow { text-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent), 0 0 40px var(--accent2); }
     .${uid}-dim { color: var(--accent2) !important; opacity: 0.7; }
     .${uid}-link { color: var(--accent) !important; text-decoration: none; transition: text-shadow 0.2s; }
@@ -47,7 +52,7 @@ export function render(d, cs, ts, hs) {
     <canvas class="${uid}-canvas" id="${uid}-canvas"></canvas>
 
     <div class="${uid}-content" style="max-width:760px;margin:0 auto;padding:3rem 1.5rem;">
-      <div style="margin-bottom:3rem;">
+      <div class="${uid}-scrim">
         <p class="${uid}-dim" style="font-size:0.8rem;margin:0 0 0.5rem;">wake up, neo...</p>
         <h1 class="${uid}-glow" style="font-size:clamp(2rem,5vw,3rem);margin:0;font-weight:400;color:var(--accent);">
           &gt; ${d.name}_
@@ -56,11 +61,11 @@ export function render(d, cs, ts, hs) {
         <p style="font-size:0.9rem;margin:1rem 0 0;line-height:1.8;opacity:0.8;color:var(--fg);">${d.bio}</p>
       </div>
 
-      <div style="margin-bottom:3rem;padding:1.5rem;border-left:2px solid var(--accent);background:color-mix(in srgb, var(--bg) 85%, transparent);backdrop-filter:blur(2px);">
+      <div class="${uid}-scrim" style="border-left:2px solid var(--accent);">
         <p style="font-size:0.85rem;margin:0;line-height:1.7;font-style:italic;color:var(--fg);opacity:0.9;">"${d.take}"</p>
       </div>
 
-      <div style="margin-bottom:2rem;">
+      <div class="${uid}-scrim">
         <p class="${uid}-dim" style="font-size:0.75rem;margin:0 0 1rem;">[SYSTEM] loading repositories...</p>
         ${d.projects.map(p => `
           <div class="${uid}-card">
@@ -77,17 +82,17 @@ export function render(d, cs, ts, hs) {
         `).join('')}
       </div>
 
-      <div style="margin-bottom:2rem;">
+      <div class="${uid}-scrim">
         <p class="${uid}-dim" style="font-size:0.75rem;margin:0 0 0.75rem;">[SYSTEM] skills.dat</p>
         <div>${d.tech.map(t => `<span class="${uid}-tag">${t}</span>`).join('')}</div>
       </div>
 
-      <div style="margin-bottom:2rem;">
+      <div class="${uid}-scrim">
         <p class="${uid}-dim" style="font-size:0.75rem;margin:0 0 0.75rem;">[LOG] history</p>
         ${d.timeline.map(t => `<p style="font-size:0.8rem;margin:0 0 0.35rem;color:var(--fg);"><span style="opacity:0.5;">${t.period}</span> <span class="${uid}-dim">→</span> ${t.label}</p>`).join('')}
       </div>
 
-      <footer style="border-top:1px solid color-mix(in srgb, var(--accent) 12%, transparent);padding-top:1.5rem;margin-top:2rem;">
+      <footer class="${uid}-scrim" style="border-top:1px solid color-mix(in srgb, var(--accent) 12%, transparent);">
         <p style="font-size:0.8rem;margin:0 0 0.75rem;color:var(--fg2);">${d.interests}</p>
         <a href="${d.github}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:0.85rem;">
           ${githubIcon(16)} <span style="margin-left:0.35rem;">${d.handle}</span>
