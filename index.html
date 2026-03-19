@@ -184,6 +184,10 @@ function writeParams(palette, font, layout, cs, ts, hs) {
   window.history.replaceState(null, '', url);
 }
 
+function clearParams() {
+  window.history.replaceState(null, '', window.location.pathname);
+}
+
 // ─── Render ──────────────────────────────────────────────────
 function render(opts = {}) {
   const palette = opts.palette || pick(PALETTES);
@@ -210,10 +214,14 @@ function render(opts = {}) {
   app.innerHTML = layout.render(snapshot, cs, ts, hs);
   app.setAttribute('data-layout', 'true');
 
-  // Update label + URL
+  // Update label, only write URL params if explicitly picked
   const label = `${palette.name} · ${font.name} · ${layout.name} · ${cs} · ${ts} · ${hs}`;
   document.getElementById('combo-label').textContent = label;
-  writeParams(palette, font, layout, cs, ts, hs);
+  if (opts._writeParams) {
+    writeParams(palette, font, layout, cs, ts, hs);
+  } else {
+    clearParams();
+  }
 
   // Scroll to top
   window.scrollTo({ top: 0, behavior: 'instant' });
@@ -301,6 +309,7 @@ function buildPicker() {
           card: state.card,
           tag: state.tag,
           heading: state.heading,
+          _writeParams: true,
         }), 100);
         return;
       }
@@ -336,6 +345,8 @@ if (params.card && CARD_STYLES.includes(params.card)) initOpts.card = params.car
 if (params.tag && TAG_STYLES.includes(params.tag)) initOpts.tag = params.tag;
 if (params.heading && HEADING_STYLES.includes(params.heading)) initOpts.heading = params.heading;
 
+// Keep params in URL if we loaded from a parameterized link
+if (window.location.search) initOpts._writeParams = true;
 render(initOpts);
 
 // Shuffle button
