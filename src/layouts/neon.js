@@ -8,12 +8,16 @@ export function render(d, cs, ts, hs) {
   return `
   <style>
     .${uid}-root {
-      min-height: 100vh; background: var(--bg); position: relative;
+      min-height: 100vh; position: relative;
       font-family: var(--font-body);
+      background:
+        radial-gradient(ellipse at 20% 30%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, color-mix(in srgb, var(--accent2) 8%, transparent) 0%, transparent 50%),
+        var(--bg);
     }
     .${uid}-root::after {
       content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1;
-      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px);
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.05) 2px, rgba(0,0,0,0.05) 4px);
     }
     .${uid}-content { position: relative; z-index: 2; }
     .${uid}-glow-box {
@@ -21,26 +25,37 @@ export function render(d, cs, ts, hs) {
       border-radius: 4px; position: relative;
       box-shadow: 0 0 10px var(--accent), 0 0 40px color-mix(in srgb, var(--accent) 30%, transparent),
                   inset 0 0 20px color-mix(in srgb, var(--accent) 10%, transparent);
-      background: color-mix(in srgb, var(--bg) 92%, transparent);
-      animation: ${uid}-box-pulse 4s ease-in-out infinite;
+      background: color-mix(in srgb, var(--bg) 90%, transparent);
+      animation: ${uid}-box-pulse 6s cubic-bezier(0.37, 0, 0.63, 1) infinite;
     }
     .${uid}-glow-box:hover {
-      box-shadow: 0 0 15px var(--accent), 0 0 60px color-mix(in srgb, var(--accent) 45%, transparent),
-                  inset 0 0 30px color-mix(in srgb, var(--accent) 15%, transparent);
+      box-shadow: 0 0 20px var(--accent), 0 0 80px color-mix(in srgb, var(--accent) 50%, transparent),
+                  inset 0 0 40px color-mix(in srgb, var(--accent) 18%, transparent);
     }
     @keyframes ${uid}-box-pulse {
-      0%, 100% { box-shadow: 0 0 10px var(--accent), 0 0 40px color-mix(in srgb, var(--accent) 30%, transparent), inset 0 0 20px color-mix(in srgb, var(--accent) 10%, transparent); }
-      50% { box-shadow: 0 0 5px var(--accent), 0 0 20px color-mix(in srgb, var(--accent) 15%, transparent), inset 0 0 10px color-mix(in srgb, var(--accent) 5%, transparent); }
+      0%, 100% {
+        box-shadow: 0 0 10px var(--accent), 0 0 40px color-mix(in srgb, var(--accent) 30%, transparent), inset 0 0 20px color-mix(in srgb, var(--accent) 10%, transparent);
+        border-color: var(--accent);
+      }
+      50% {
+        box-shadow: 0 0 4px color-mix(in srgb, var(--accent) 60%, transparent), 0 0 15px color-mix(in srgb, var(--accent) 12%, transparent), inset 0 0 8px color-mix(in srgb, var(--accent) 4%, transparent);
+        border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+      }
     }
     .${uid}-glow-text {
       text-shadow: 0 0 7px var(--accent), 0 0 20px var(--accent), 0 0 60px color-mix(in srgb, var(--accent) 50%, transparent);
     }
-    .${uid}-pulse { animation: ${uid}-pulse 2s ease-in-out infinite; }
-    @keyframes ${uid}-pulse {
-      0%, 100% { opacity: 1; text-shadow: 0 0 8px var(--accent); }
-      50% { opacity: 0.4; text-shadow: 0 0 2px var(--accent); }
+    .${uid}-pulse {
+      animation: ${uid}-pulse 3s cubic-bezier(0.37, 0, 0.63, 1) infinite;
     }
-    @media (prefers-reduced-motion: reduce) { .${uid}-pulse { animation: none; } }
+    @keyframes ${uid}-pulse {
+      0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent); }
+      50% { opacity: 0.3; text-shadow: 0 0 2px color-mix(in srgb, var(--accent) 40%, transparent); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .${uid}-pulse { animation: none; }
+      .${uid}-glow-box { animation: none; }
+    }
     .${uid}-divider {
       height: 1px; margin: 2rem 0;
       background: linear-gradient(90deg, transparent, var(--accent), transparent);
