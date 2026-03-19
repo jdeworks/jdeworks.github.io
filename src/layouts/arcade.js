@@ -106,7 +106,7 @@ export function render(d, cs, ts, hs) {
             <td style="padding:0.75rem 0;text-align:right;vertical-align:top;">
               ${p.soon
                 ? `<span style="font-size:7px;color:#888;">LOCKED</span>`
-                : `<a href="${p.url}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:7px;">PLAY→</a>`}
+                : `<a href="${p.url}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:7px;">SRC→</a>${p.demo ? ` <a href="${p.demo}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:7px;">PLAY→</a>` : ''}`}
             </td>
           </tr>
         `).join('')}
