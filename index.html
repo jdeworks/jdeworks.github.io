@@ -236,7 +236,7 @@ function activateMatrixRain() {
 
   function draw() {
     // Fade with background color
-    ctx.fillStyle = `rgba(${bgRgb.r},${bgRgb.g},${bgRgb.b},0.06)`;
+    ctx.fillStyle = `rgba(${bgRgb.r},${bgRgb.g},${bgRgb.b},0.03)`;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.font = fontSize + 'px monospace';
@@ -247,7 +247,7 @@ function activateMatrixRain() {
       const y = drops[i] * fontSize;
 
       // Head of column is brighter
-      const brightness = 0.15 + Math.random() * 0.25;
+      const brightness = 0.2 + Math.random() * 0.35;
       ctx.fillStyle = `rgba(${accentRgb.r},${accentRgb.g},${accentRgb.b},${brightness})`;
       ctx.fillText(char, x, y);
 
