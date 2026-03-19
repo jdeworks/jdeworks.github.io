@@ -15,7 +15,7 @@ export function render(d, cs, ts, hs) {
     </div>
     <div style="width:100%;text-align:left;">
       <h2 style="${headingStyle(hs, 'font-size:1.25rem;margin:0 0 1.5rem;color:var(--fg);text-align:center;')}">Projects</h2>
-      <div style="display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));">
+      <div style="display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));">
         ${d.projects.map(p => `
           <div style="background:var(--card);border-radius:12px;padding:1.5rem;${cardCSS(cs)}">
             <h3 style="font-family:var(--font-head);font-size:1.05rem;margin:0 0 0.5rem;color:var(--fg);">${p.name}</h3>

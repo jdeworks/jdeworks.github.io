@@ -64,7 +64,7 @@ export function render(d, cs, ts, hs) {
     <!-- Projects (card reveal with stagger) -->
     <section style="max-width:960px;margin:0 auto;padding:2rem 1.5rem 4rem;">
       <h2 class="${uid}-reveal" data-reveal style="${headingStyle(hs, 'font-size:1.5rem;margin:0 0 2rem;color:var(--fg);text-align:center;')}">Projects</h2>
-      <div style="display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));">
+      <div style="display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));">
         ${d.projects.map((p, i) => `
           <div class="${uid}-card" data-reveal style="background:var(--card);border-radius:14px;padding:1.75rem;${cardCSS(cs)};transition-delay:${i * 100}ms;">
             <h3 style="font-family:var(--font-head);font-size:1.05rem;margin:0 0 0.5rem;color:var(--fg);">${p.name}</h3>

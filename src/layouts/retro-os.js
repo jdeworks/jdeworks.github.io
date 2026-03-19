@@ -103,6 +103,9 @@ export function render(d, cs, ts, hs) {
       .${uid}-win { margin-bottom: 0.75rem; }
       .${uid}-body { padding: 8px; }
       .${uid}-taskbtn { max-width: 80px; font-size: 9px; }
+      .${uid}-title-btn { width: 28px; height: 24px; font-size: 14px; line-height: 22px; }
+      .${uid}-taskbar { height: 36px; }
+      .${uid}-start { padding: 2px 10px; }
     }
   </style>
 

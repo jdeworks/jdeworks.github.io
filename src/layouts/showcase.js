@@ -60,7 +60,7 @@ export function render(d, cs, ts, hs) {
 
     <!-- About + Take -->
     <section style="max-width:1100px;margin:0 auto;padding:clamp(3rem,8vw,5rem) clamp(1.5rem,4vw,3rem);">
-      <div class="${uid}-reveal" data-reveal style="display:grid;grid-template-columns:1fr;gap:3rem;" class="${uid}-about">
+      <div class="${uid}-reveal ${uid}-about" data-reveal style="display:grid;grid-template-columns:1fr;gap:3rem;">
         <style>@media(min-width:768px){.${uid}-about{grid-template-columns:1fr 1fr !important;}}</style>
         <div>
           <h2 style="${headingStyle(hs, 'font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--fg2);margin:0 0 1.5rem;')}">Background</h2>
@@ -77,10 +77,10 @@ export function render(d, cs, ts, hs) {
     <!-- Projects — large stacking cards -->
     <section style="max-width:1100px;margin:0 auto;padding:0 clamp(1.5rem,4vw,3rem) clamp(3rem,8vw,5rem);">
       <h2 class="${uid}-reveal" data-reveal style="${headingStyle(hs, 'font-size:1.5rem;margin:0 0 2rem;color:var(--fg);')}">Projects</h2>
+      <style>@media(min-width:640px){.${uid}-pcard{grid-template-columns:1fr 2fr !important;}}</style>
       <div style="display:flex;flex-direction:column;gap:1.5rem;">
         ${d.projects.map((p, i) => `
-          <div class="${uid}-reveal ${uid}-feature" data-reveal style="background:var(--card);border-radius:16px;padding:2rem;${cardCSS(cs)};display:grid;grid-template-columns:1fr;gap:1.5rem;transition-delay:${i * 80}ms;" class="${uid}-pcard">
-            <style>@media(min-width:640px){.${uid}-pcard{grid-template-columns:1fr 2fr !important;}}</style>
+          <div class="${uid}-reveal ${uid}-feature ${uid}-pcard" data-reveal style="background:var(--card);border-radius:16px;padding:2rem;${cardCSS(cs)};display:grid;grid-template-columns:1fr;gap:1.5rem;transition-delay:${i * 80}ms;">
             <div>
               <h3 style="font-family:var(--font-head);font-size:1.25rem;margin:0 0 0.5rem;color:var(--fg);font-weight:600;">${p.name}</h3>
               <div>${p.tags.map(t => tagHTML(t, ts)).join("")}</div>

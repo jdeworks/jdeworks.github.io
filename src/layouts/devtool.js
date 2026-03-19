@@ -48,7 +48,7 @@ export function render(d, cs, ts, hs) {
 
       <section>
         <h2 style="${headingStyle(hs, 'font-size:1.25rem;margin:0 0 1.5rem;color:var(--fg);')}"><span style="font-family:monospace;color:var(--accent);font-weight:400;font-size:0.9rem;">02.</span> Projects</h2>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:1rem;">
           ${d.projects.map(p => `
             <div class="glow-card" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;">
               <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">

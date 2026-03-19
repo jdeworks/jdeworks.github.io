@@ -46,7 +46,7 @@ export function render(d, cs, ts, hs) {
     <section class="${uid}-reveal" data-reveal style="max-width:1100px;margin:0 auto;padding:clamp(3rem,8vw,5rem) clamp(1.5rem,4vw,3rem);">
       <h2 style="${headingStyle(hs, 'font-size:1.5rem;margin:0 0 0.75rem;color:var(--fg);text-align:center;')}">Projects</h2>
       <p style="color:var(--fg2);font-size:0.95rem;text-align:center;margin:0 0 3rem;max-width:500px;margin-left:auto;margin-right:auto;">${d.take}</p>
-      <div style="display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));">
+      <div style="display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));">
         ${d.projects.map(p => `
           <div style="background:var(--card);border-radius:14px;padding:2rem;${cardCSS(cs)};transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
             <h3 style="font-family:var(--font-head);font-size:1.1rem;margin:0 0 0.5rem;color:var(--fg);font-weight:600;">${p.name}</h3>
