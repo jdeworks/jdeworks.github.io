@@ -1,20 +1,10 @@
-// Matrix (1999) — falling code rain, palette-aware colors, full-screen rain
+// Matrix (1999) — dense falling code rain with changing characters, palette-aware
 import { projectLinks, githubIcon } from '../helpers.js';
 
 export const name = "Matrix";
 
 export function render(d, cs, ts, hs) {
   const uid = 'mx' + Math.random().toString(36).slice(2, 6);
-  // Generate columns covering full width
-  const cols = Array.from({length: 40}, (_, i) => {
-    const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789';
-    const col = Array.from({length: 35}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
-    const left = (i * 2.6) + Math.random() * 1.5;
-    const dur = 6 + Math.random() * 14;
-    const delay = Math.random() * -20;
-    const size = 11 + Math.random() * 5;
-    return `<span class="${uid}-col" style="left:${left}%;animation-duration:${dur}s;animation-delay:${delay}s;font-size:${size}px;">${col}</span>`;
-  }).join('');
 
   return `
   <style>
@@ -24,24 +14,13 @@ export function render(d, cs, ts, hs) {
       font-family: 'Courier New', monospace !important;
     }
     .${uid}-root * { font-family: inherit; }
-    .${uid}-rain {
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 0;
-      pointer-events: none; overflow: hidden;
+    .${uid}-canvas {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
     }
-    .${uid}-col {
-      position: absolute; top: -100%;
-      color: var(--accent); opacity: 0.2; writing-mode: vertical-rl;
-      animation: ${uid}-fall linear infinite;
-      text-shadow: 0 0 8px var(--accent);
+    .${uid}-content {
+      position: relative; z-index: 2; color: var(--accent);
     }
-    @keyframes ${uid}-fall {
-      0% { transform: translateY(-100vh); }
-      100% { transform: translateY(200vh); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .${uid}-col { animation: none; opacity: 0.08; transform: translateY(50vh); }
-    }
-    .${uid}-content { position: relative; z-index: 1; color: var(--accent); }
     .${uid}-glow { text-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent), 0 0 40px var(--accent2); }
     .${uid}-dim { color: var(--accent2) !important; opacity: 0.7; }
     .${uid}-link { color: var(--accent) !important; text-decoration: none; transition: text-shadow 0.2s; }
@@ -54,17 +33,18 @@ export function render(d, cs, ts, hs) {
     .${uid}-card {
       border: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
       padding: 1.5rem; margin-bottom: 1rem;
-      background: color-mix(in srgb, var(--accent) 3%, transparent);
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
+      backdrop-filter: blur(2px);
       transition: background 0.3s, border-color 0.3s;
     }
     .${uid}-card:hover {
-      background: color-mix(in srgb, var(--accent) 6%, transparent);
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
       border-color: color-mix(in srgb, var(--accent) 25%, transparent);
     }
   </style>
 
-  <div class="${uid}-root">
-    <div class="${uid}-rain">${cols}</div>
+  <div class="${uid}-root" id="${uid}-root">
+    <canvas class="${uid}-canvas" id="${uid}-canvas"></canvas>
 
     <div class="${uid}-content" style="max-width:760px;margin:0 auto;padding:3rem 1.5rem;">
       <div style="margin-bottom:3rem;">
@@ -76,7 +56,7 @@ export function render(d, cs, ts, hs) {
         <p style="font-size:0.9rem;margin:1rem 0 0;line-height:1.8;opacity:0.8;color:var(--fg);">${d.bio}</p>
       </div>
 
-      <div style="margin-bottom:3rem;padding:1.5rem;border-left:2px solid var(--accent);background:color-mix(in srgb, var(--accent) 3%, transparent);">
+      <div style="margin-bottom:3rem;padding:1.5rem;border-left:2px solid var(--accent);background:color-mix(in srgb, var(--bg) 85%, transparent);backdrop-filter:blur(2px);">
         <p style="font-size:0.85rem;margin:0;line-height:1.7;font-style:italic;color:var(--fg);opacity:0.9;">"${d.take}"</p>
       </div>
 
@@ -115,5 +95,7 @@ export function render(d, cs, ts, hs) {
         <p class="${uid}-dim" style="font-size:0.7rem;margin:1rem 0 0;">follow the white rabbit...</p>
       </footer>
     </div>
-  </div>`;
+  </div>
+
+  <matrix-rain data-canvas="${uid}-canvas" data-root="${uid}-root"></matrix-rain>`;
 }
