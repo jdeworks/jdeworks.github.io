@@ -332,17 +332,18 @@ function activateStarfield() {
   let lastShoot = 0;
 
   function spawnShootingStar(time) {
-    const angle = (0.5 + Math.random() * 0.8) * Math.PI; // mostly downward-right
-    const speed = 8 + Math.random() * 12;
+    // Angle: always downward, slight left or right lean
+    const angle = (Math.PI * 0.5) + (Math.random() - 0.5) * 0.6; // ~60-120 degrees (straight down ± 17°)
+    const speed = 4 + Math.random() * 16; // wide speed range
     shootingStars.push({
-      x: Math.random() * canvas.width * 0.8,
-      y: Math.random() * canvas.height * 0.3,
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height * 0.2,
       vx: Math.cos(angle) * speed,
       vy: Math.sin(angle) * speed,
       life: 0,
-      maxLife: 40 + Math.random() * 40,
-      length: 40 + Math.random() * 80,
-      width: 1 + Math.random() * 1.5,
+      maxLife: 30 + Math.random() * 60,
+      length: 30 + Math.random() * 120, // wide trail range
+      width: 0.8 + Math.random() * 2,
     });
     lastShoot = time;
   }
@@ -371,7 +372,7 @@ function activateStarfield() {
     }
 
     // Spawn shooting stars
-    if (time - lastShoot > 2000 + Math.random() * 4000) {
+    if (time - lastShoot > 800 + Math.random() * 1500) {
       spawnShootingStar(time);
     }
 
