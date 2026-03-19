@@ -33,6 +33,10 @@ export function render(d, cs, ts, hs) {
     .${uid}-blink { animation: ${uid}-blink 1s step-end infinite; }
     @keyframes ${uid}-blink { 50% { opacity: 0; } }
     @media (prefers-reduced-motion: reduce) { .${uid}-blink { animation: none; } }
+    @media (max-width: 640px) {
+      .${uid}-root { font-size: 11px !important; padding: 1rem !important; }
+      .${uid}-box { padding: 1rem; }
+    }
     .${uid}-bar-bg {
       width: 100%; height: 14px; background: #222; border: 2px solid #444;
       position: relative; overflow: hidden;

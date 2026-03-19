@@ -30,6 +30,11 @@
       transition: opacity 0.2s;
     }
     .combo-label:hover { opacity: 0.8; }
+    @media (max-width: 640px) {
+      .shuffle-btn { bottom: 1rem; right: 1rem; width: 44px; height: 44px; }
+      .shuffle-btn svg { width: 18px; height: 18px; }
+      .combo-label { bottom: 1rem; left: 1rem; font-size: 0.6rem; max-width: 55%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    }
     #gradient-bg {
       position: fixed; inset: 0; z-index: -1; pointer-events: none;
     }
@@ -44,8 +49,16 @@
     .picker-box {
       background: var(--card, #1e293b); border: 1px solid var(--border, #334155);
       border-radius: 16px; padding: 1.5rem; max-width: 580px; width: 90%;
-      max-height: 80vh; overflow-y: auto;
+      max-height: 80vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
       color: var(--fg, #f1f5f9); font-family: system-ui, sans-serif;
+    }
+    @media (max-width: 640px) {
+      .picker-box {
+        width: 100%; max-width: 100%; border-radius: 16px 16px 0 0;
+        max-height: 85vh; padding: 1.25rem 1rem;
+        position: fixed; bottom: 0; left: 0; right: 0;
+      }
+      .picker-overlay { align-items: flex-end; }
     }
     .picker-box h3 { margin: 0 0 0.75rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.6; }
     .picker-options { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; }
@@ -53,15 +66,15 @@
       font-size: 0.8rem; padding: 0.35rem 0.75rem; border-radius: 8px;
       border: 1px solid var(--border, #334155); background: transparent;
       color: var(--fg, #f1f5f9); cursor: pointer; transition: all 0.15s;
-      font-family: inherit;
+      font-family: inherit; min-height: 36px; display: inline-flex; align-items: center;
     }
     .picker-opt:hover { border-color: var(--accent, #38bdf8); color: var(--accent, #38bdf8); }
     .picker-opt.active { background: var(--accent, #38bdf8); color: var(--bg, #0f172a); border-color: var(--accent, #38bdf8); }
     .picker-apply {
-      width: 100%; padding: 0.6rem; border-radius: 10px; border: none;
+      width: 100%; padding: 0.75rem; border-radius: 10px; border: none;
       background: var(--accent, #38bdf8); color: var(--bg, #0f172a);
       font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: opacity 0.15s;
-      font-family: inherit;
+      font-family: inherit; min-height: 44px;
     }
     .picker-apply:hover { opacity: 0.85; }
     .picker-close {
@@ -70,10 +83,13 @@
     }
     .picker-close:hover { opacity: 1; }
     .picker-swatch {
-      width: 24px; height: 24px; border-radius: 50%; border: 2px solid transparent;
+      width: 28px; height: 28px; border-radius: 50%; border: 2px solid transparent;
       cursor: pointer; transition: transform 0.15s, border-color 0.15s;
     }
     .picker-swatch:hover { transform: scale(1.2); }
+    @media (max-width: 640px) {
+      .picker-swatch { width: 32px; height: 32px; }
+    }
     .picker-swatch.active { border-color: var(--fg, #f1f5f9); box-shadow: 0 0 0 2px var(--bg, #0f172a); }
   </style>
 </head>
@@ -464,7 +480,10 @@ document.getElementById('picker-overlay').addEventListener('click', (e) => {
 });
 
 // Double-click combo label to open picker
-document.getElementById('combo-label').addEventListener('dblclick', buildPicker);
+// Double-click on desktop, single tap on mobile
+const comboLabel = document.getElementById('combo-label');
+const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+comboLabel.addEventListener(isMobile ? 'click' : 'dblclick', buildPicker);
 
 // ─── Initial render ──────────────────────────────────────────
 const params = readParams();

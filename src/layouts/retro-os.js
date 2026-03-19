@@ -98,6 +98,12 @@ export function render(d, cs, ts, hs) {
     }
     .${uid}-link { color: #0000ff; text-decoration: underline; cursor: pointer; }
     .${uid}-link:hover { color: #ff0000; }
+    @media (max-width: 640px) {
+      .${uid}-root { padding: 0.75rem 0.75rem 2.5rem !important; }
+      .${uid}-win { margin-bottom: 0.75rem; }
+      .${uid}-body { padding: 8px; }
+      .${uid}-taskbtn { max-width: 80px; font-size: 9px; }
+    }
   </style>
 
   <div class="${uid}-root" id="${uid}-desktop">
