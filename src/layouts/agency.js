@@ -16,7 +16,7 @@ export function render(d, cs, ts, hs) {
 
       <section style="padding:clamp(4rem,12vw,8rem) 0 clamp(3rem,8vw,5rem);">
         <p style="color:var(--accent);font-size:0.8rem;letter-spacing:0.15em;text-transform:uppercase;margin:0 0 1.5rem;font-family:var(--font-head);">${d.role}</p>
-        <h1 style="${headingStyle(hs, 'font-size:clamp(3.5rem,10vw,7rem);margin:0;color:var(--fg);font-weight:700;line-height:0.95;letter-spacing:-0.03em;')}">${d.name}</h1>
+        <h1 style="${headingStyle(hs, 'font-size:clamp(2.5rem,10vw,7rem);margin:0;color:var(--fg);font-weight:700;line-height:0.95;letter-spacing:-0.03em;')}">${d.name}</h1>
       </section>
 
       <section style="padding:2rem 0 3rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">

@@ -1,5 +1,6 @@
 // Layout registry — import and re-export all layouts
 // To add a new layout: create a new file, then add it here
+// Set mobile: false to exclude from random rotation on mobile (still selectable via picker)
 
 import * as centeredHero from './centered-hero.js';
 import * as sidebar from './sidebar.js';
@@ -28,6 +29,7 @@ import * as comic from './comic.js';
 import * as stories from './stories.js';
 import * as chat from './chat.js';
 
+// All layouts — always available in the picker
 export const LAYOUTS = [
   centeredHero,
   sidebar,
@@ -55,4 +57,28 @@ export const LAYOUTS = [
   comic,
   stories,
   chat,
+];
+
+// Layouts that look great on mobile — used for random rotation on small screens
+// (multi-column and panel-heavy layouts are excluded since they collapse to
+//  the same single-column on mobile, but they're still selectable in the picker)
+export const MOBILE_LAYOUTS = [
+  centeredHero,
+  terminal,
+  minimalist,
+  playful,
+  devtool,
+  editorial,
+  stacked,
+  scrollReveal,
+  narrative,
+  matrix,
+  retroOs,
+  newspaper,
+  arcade,
+  comic,
+  stories,
+  chat,
+  agency,
+  landing,
 ];

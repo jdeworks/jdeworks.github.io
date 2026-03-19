@@ -117,7 +117,7 @@ import { DATA, pickBio, pickAbout, pickTake, pickInterests } from './src/data.js
 import { PALETTES } from './src/palettes/palettes.js';
 import { FONTS } from './src/fonts/fonts.js';
 import { CARD_STYLES, TAG_STYLES, HEADING_STYLES } from './src/styles/styles.js';
-import { LAYOUTS } from './src/layouts/index.js';
+import { LAYOUTS, MOBILE_LAYOUTS } from './src/layouts/index.js';
 import { pick } from './src/helpers.js';
 
 // ─── State ───────────────────────────────────────────────────
@@ -354,7 +354,8 @@ function clearParams() {
 function render(opts = {}) {
   const palette = opts.palette || pick(PALETTES);
   const font = opts.font || pick(FONTS);
-  const layout = opts.layout || pick(LAYOUTS);
+  const isMobileScreen = window.innerWidth <= 640;
+  const layout = opts.layout || pick(isMobileScreen ? MOBILE_LAYOUTS : LAYOUTS);
   const cs = opts.card || pick(CARD_STYLES);
   const ts = opts.tag || pick(TAG_STYLES);
   const hs = opts.heading || pick(HEADING_STYLES);
