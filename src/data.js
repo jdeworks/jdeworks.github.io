@@ -1,9 +1,10 @@
 // ─── Content Data ────────────────────────────────────────────
 // Bio variants and background sections are randomly mixed per render.
 // Each layout picks what it needs — short bio, long bio, background items, etc.
+// To add variety: just add more strings to any array below.
 
 export const DATA = {
-  name: "Jens",
+  name: "jdeworks",
   handle: "jdeworks",
   role: "Full-Stack Developer",
   github: "https://github.com/jdeworks",
@@ -14,6 +15,9 @@ export const DATA = {
     "Developer at heart since day one. I build AI-augmented dev tools, games, and creative software — always looking for ways to make vibe coding actually work.",
     "Full-stack developer with a background that spans software development, teaching, game dev, and leading engineering at an AI startup. I like building things people enjoy using.",
     "Building tools that make AI-assisted development better. I believe vibe coding is here to stay — my job is to help it grow up.",
+    "Software developer, tool builder, occasional game maker. I spend most of my time at the intersection of AI and developer experience.",
+    "Making vibe-coded software reliable is the problem I care about most. I build the tooling, sandboxes, and design systems that get us there.",
+    "I've built enterprise systems, taught at a college, shipped indie games, and led an AI engineering team. Now I make tools for developers who work with AI.",
   ],
 
   // Extended about — for layouts that have room for more
@@ -21,6 +25,8 @@ export const DATA = {
     "Started coding young, studied software development in Germany (MATSE, dual studies), then took the scenic route — software dev, SAP data migration consulting, lecturing at a college, indie game development, and eventually leading engineering at an AI startup that got acquired. Now part of a larger company, still building.",
     "My path through tech has been anything but linear. From writing enterprise migration scripts to teaching students to building tower defense games to leading an AI engineering team — each chapter taught me something different. The common thread: I like making complex things work.",
     "I've worn a lot of hats — developer, consultant, lecturer, game dev, engineering lead. These days I'm focused on the intersection of AI and developer tooling, building the things that make vibe-coded software actually reliable.",
+    "Started with dual studies in Germany, bounced through enterprise dev, data migration consulting, and teaching before landing in the AI startup world. The startup got acquired, and now I channel everything into open-source developer tools.",
+    "Most developers pick a lane early. I picked all of them — enterprise, consulting, education, games, AI. Turns out that wide background is exactly what you need when you're building tools that have to work for everyone.",
   ],
 
   // Philosophy / takes — for layouts that feature a quote or stance
@@ -28,6 +34,9 @@ export const DATA = {
     "We're in the early stages of vibe coding. It has real problems today, but give it 2–5 years and nothing will ship without at least partial AI assistance. I'd rather build the tools that make it work than pretend it's not happening.",
     "AI-assisted development isn't optional anymore — you swim with the flow or you drown. But 'vibe coded' shouldn't mean 'untested and fragile.' That's the gap I'm working to close.",
     "The best code I've shipped lately was a collaboration between me and an AI. The worst code I've reviewed lately was also a collaboration between someone and an AI. The difference is tooling, process, and taste.",
+    "Vibe coding gets 80% of the way there remarkably fast. The last 20% — the polish, the security, the edge cases — that's where it falls apart. I build the tools that catch what the vibes miss.",
+    "Every tool I build starts from the same question: what's the gap between what AI can generate and what's actually safe to ship?",
+    "Good developer tools should feel like they're not there. They should catch problems before you know they exist and get out of the way when everything's fine.",
   ],
 
   // Interests — humanizing details
@@ -35,6 +44,8 @@ export const DATA = {
     "Former theatre actor, current gaming enthusiast, and full-time believer that the best debugging happens at 2 AM.",
     "When I'm not coding, I'm gaming, binge-watching series, or thinking about how to make the next vibe-coded project not fall apart.",
     "Background in theatre and acting, which turns out to be surprisingly useful when presenting technical concepts. Also: games, movies, and an unreasonable number of side projects.",
+    "Gaming, series, and too many side projects. The kind of developer who starts a new repo before finishing the last three.",
+    "Ask me about tower defense game design, obscure series recommendations, or why every developer should try acting at least once.",
   ],
 
   projects: [

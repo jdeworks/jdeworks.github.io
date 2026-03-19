@@ -16,6 +16,9 @@ import * as stacked from './stacked.js';
 import * as scrollReveal from './scroll-reveal.js';
 import * as showcase from './showcase.js';
 import * as portfolio from './portfolio.js';
+import * as resume from './resume.js';
+import * as narrative from './narrative.js';
+import * as landing from './landing.js';
 
 export const LAYOUTS = [
   centeredHero,
@@ -33,4 +36,7 @@ export const LAYOUTS = [
   scrollReveal,
   showcase,
   portfolio,
+  resume,
+  narrative,
+  landing,
 ];

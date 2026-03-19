@@ -1,4 +1,4 @@
-# Hi, I'm Jens
+# jdeworks
 
 Full-stack software developer. I build tools, games, and things that make development more fun. Currently working mostly with web technologies, Python, and C#.
 
