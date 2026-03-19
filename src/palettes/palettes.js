@@ -65,40 +65,41 @@ export const PALETTES = [
     gradient: "none" },
 
   // ─── Light palettes (Tailwind-based) ───────────────
+  // bg2 and card use a tinted shade (not pure white) to stay cohesive
 
   // Cloud (blue)
-  { name: "Cloud",     bg: "#f8fafc", bg2: "#ffffff", fg: "#0f172a", fg2: "#475569", accent: "#3b82f6", accent2: "#2563eb", card: "#ffffff", border: "#e2e8f0",
+  { name: "Cloud",     bg: "#f0f5ff", bg2: "#e8eefb", fg: "#0f172a", fg2: "#475569", accent: "#3b82f6", accent2: "#2563eb", card: "#edf2fc", border: "#cbd5e8",
     gradient: "radial-gradient(ellipse at 70% 20%, rgba(59,130,246,0.06) 0%, transparent 50%)" },
 
   // Mint (green)
-  { name: "Mint",      bg: "#f0fdf4", bg2: "#ffffff", fg: "#14532d", fg2: "#166534", accent: "#16a34a", accent2: "#15803d", card: "#ffffff", border: "#d1d5db",
+  { name: "Mint",      bg: "#f0fdf4", bg2: "#e2f7e8", fg: "#14532d", fg2: "#166534", accent: "#16a34a", accent2: "#15803d", card: "#e6f9ec", border: "#b8d8c2",
     gradient: "radial-gradient(ellipse at 60% 30%, rgba(22,163,74,0.05) 0%, transparent 50%)" },
 
   // Sand (amber)
-  { name: "Sand",      bg: "#fefce8", bg2: "#ffffff", fg: "#422006", fg2: "#713f12", accent: "#ca8a04", accent2: "#a16207", card: "#ffffff", border: "#e5e7eb",
+  { name: "Sand",      bg: "#fefce8", bg2: "#faf5d6", fg: "#422006", fg2: "#713f12", accent: "#ca8a04", accent2: "#a16207", card: "#fbf7dc", border: "#e5dbb8",
     gradient: "radial-gradient(ellipse at 50% 30%, rgba(202,138,4,0.05) 0%, transparent 50%)" },
 
   // Blush (fuchsia)
-  { name: "Blush",     bg: "#fdf2f8", bg2: "#ffffff", fg: "#4a044e", fg2: "#86198f", accent: "#d946ef", accent2: "#a21caf", card: "#ffffff", border: "#f3e8ff",
+  { name: "Blush",     bg: "#fdf2f8", bg2: "#f9e4f0", fg: "#4a044e", fg2: "#86198f", accent: "#d946ef", accent2: "#a21caf", card: "#fae8f3", border: "#e8c8de",
     gradient: "radial-gradient(ellipse at 40% 30%, rgba(217,70,239,0.04) 0%, transparent 50%)" },
 
   // Petal (rose)
-  { name: "Petal",     bg: "#fff1f2", bg2: "#ffffff", fg: "#4c0519", fg2: "#9f1239", accent: "#e11d48", accent2: "#be123c", card: "#ffffff", border: "#fecdd3",
+  { name: "Petal",     bg: "#fff1f2", bg2: "#fce4e6", fg: "#4c0519", fg2: "#9f1239", accent: "#e11d48", accent2: "#be123c", card: "#fde8ea", border: "#f0bfc4",
     gradient: "radial-gradient(ellipse at 60% 25%, rgba(225,29,72,0.04) 0%, transparent 50%)" },
 
   // Ice (cyan)
-  { name: "Ice",       bg: "#f0f9ff", bg2: "#ffffff", fg: "#0c4a6e", fg2: "#0369a1", accent: "#0284c7", accent2: "#0369a1", card: "#ffffff", border: "#bae6fd",
+  { name: "Ice",       bg: "#f0f9ff", bg2: "#e0f2fc", fg: "#0c4a6e", fg2: "#0369a1", accent: "#0284c7", accent2: "#0369a1", card: "#e4f4fd", border: "#a8d4ef",
     gradient: "radial-gradient(ellipse at 50% 40%, rgba(2,132,199,0.05) 0%, transparent 50%)" },
 
   // Pearl (violet)
-  { name: "Pearl",     bg: "#faf5ff", bg2: "#ffffff", fg: "#2e1065", fg2: "#6b21a8", accent: "#a855f7", accent2: "#9333ea", card: "#ffffff", border: "#e9d5ff",
+  { name: "Pearl",     bg: "#faf5ff", bg2: "#f0e5fc", fg: "#2e1065", fg2: "#6b21a8", accent: "#a855f7", accent2: "#9333ea", card: "#f2e9fd", border: "#d5bef0",
     gradient: "radial-gradient(ellipse at 50% 30%, rgba(168,85,247,0.04) 0%, transparent 50%)" },
 
   // Cream (warm neutral)
-  { name: "Cream",     bg: "#fffbeb", bg2: "#ffffff", fg: "#1c1917", fg2: "#78716c", accent: "#d97706", accent2: "#b45309", card: "#ffffff", border: "#e7e5e4",
+  { name: "Cream",     bg: "#fffbeb", bg2: "#f7f0d8", fg: "#1c1917", fg2: "#78716c", accent: "#d97706", accent2: "#b45309", card: "#faf3de", border: "#e0d5b8",
     gradient: "none" },
 
   // Stone (cool neutral)
-  { name: "Stone",     bg: "#fafaf9", bg2: "#ffffff", fg: "#1c1917", fg2: "#57534e", accent: "#78716c", accent2: "#57534e", card: "#ffffff", border: "#d6d3d1",
+  { name: "Stone",     bg: "#f5f5f4", bg2: "#eaeae8", fg: "#1c1917", fg2: "#57534e", accent: "#78716c", accent2: "#57534e", card: "#edeceb", border: "#d0cfcc",
     gradient: "none" },
 ];
