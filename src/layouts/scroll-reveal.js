@@ -85,4 +85,3 @@ export function render(d, cs, ts, hs) {
 
 `;
 }
-}
