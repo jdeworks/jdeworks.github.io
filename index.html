@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jens — jdeworks</title>
+  <meta name="description" content="Full-stack software developer. Tools, games, and things that make development more fun.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+    [data-layout] { opacity: 0; transition: opacity 0.4s ease; }
+    [data-layout].ready { opacity: 1; }
+    .shuffle-btn {
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 50;
+      width: 48px; height: 48px; border-radius: 9999px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; border: none;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .shuffle-btn:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+    .shuffle-btn:active { transform: scale(0.95); }
+    .shuffle-btn svg { width: 22px; height: 22px; }
+    .combo-label {
+      position: fixed; bottom: 1.5rem; left: 1.5rem; z-index: 50;
+      font-size: 0.7rem; opacity: 0.4; font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+
+<button class="shuffle-btn" id="shuffle-btn" title="Shuffle layout" aria-label="Shuffle layout">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/>
+    <polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/>
+    <line x1="4" y1="4" x2="9" y2="9"/>
+  </svg>
+</button>
+<div class="combo-label" id="combo-label"></div>
+
+<script type="module">
+import { DATA } from './src/data.js';
+import { PALETTES } from './src/palettes/palettes.js';
+import { FONTS } from './src/fonts/fonts.js';
+import { CARD_STYLES, TAG_STYLES, HEADING_STYLES } from './src/styles/styles.js';
+import { LAYOUTS } from './src/layouts/index.js';
+import { pick } from './src/helpers.js';
+
+function loadFont(font) {
+  const existing = document.getElementById('gfont');
+  if (existing) existing.remove();
+  const link = document.createElement('link');
+  link.id = 'gfont';
+  link.rel = 'stylesheet';
+  link.href = `https://fonts.googleapis.com/css2?${font.url}&display=swap`;
+  document.head.appendChild(link);
+}
+
+function setCSS(palette, font) {
+  document.documentElement.style.cssText = `
+    --bg: ${palette.bg}; --bg2: ${palette.bg2}; --fg: ${palette.fg}; --fg2: ${palette.fg2};
+    --accent: ${palette.accent}; --accent2: ${palette.accent2}; --card: ${palette.card}; --border: ${palette.border};
+    --font-head: ${font.head}, sans-serif; --font-body: ${font.body}, sans-serif;
+  `;
+  document.body.style.background = palette.bg;
+  document.body.style.color = palette.fg;
+  document.body.style.fontFamily = `${font.body}, sans-serif`;
+  document.body.style.margin = '0';
+
+  const btn = document.getElementById('shuffle-btn');
+  btn.style.background = palette.accent;
+  btn.style.color = palette.bg;
+
+  document.getElementById('combo-label').style.color = palette.fg2;
+}
+
+function render() {
+  const palette = pick(PALETTES);
+  const font = pick(FONTS);
+  const layout = pick(LAYOUTS);
+  const cs = pick(CARD_STYLES);
+  const ts = pick(TAG_STYLES);
+  const hs = pick(HEADING_STYLES);
+
+  loadFont(font);
+  setCSS(palette, font);
+
+  const app = document.getElementById('app');
+  app.innerHTML = layout.render(DATA, cs, ts, hs);
+  app.setAttribute('data-layout', 'true');
+
+  document.getElementById('combo-label').textContent =
+    `${palette.name} · ${font.name} · ${layout.name} · ${cs} · ${ts} · ${hs}`;
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => { app.classList.add('ready'); });
+  });
+}
+
+function shuffle() {
+  const app = document.getElementById('app');
+  app.classList.remove('ready');
+  setTimeout(render, 100);
+}
+
+// Initial render
+render();
+
+// Shuffle button
+document.getElementById('shuffle-btn').addEventListener('click', shuffle);
+</script>
+</body>
+</html>
