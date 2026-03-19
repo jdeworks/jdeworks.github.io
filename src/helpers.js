@@ -29,7 +29,7 @@ export function cardCSS(style) {
 }
 
 export function tagHTML(tag, style) {
-  const base = "font-size: 0.75rem; display: inline-block; margin: 0.15rem;";
+  const base = "font-size: 0.75rem; display: inline-block; margin: 0.15rem; max-width: 100%; overflow-wrap: break-word;";
   switch (style) {
     // Rounded pill with tinted background
     case "pill": return `<span style="${base} padding: 0.25rem 0.75rem; background: color-mix(in srgb, var(--accent) 15%, transparent); color: var(--accent); border-radius: 9999px;">${tag}</span>`;

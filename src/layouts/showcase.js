@@ -39,7 +39,7 @@ export function render(d, cs, ts, hs) {
 
     <!-- Stats bar -->
     <section style="border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-      <div style="max-width:1100px;margin:0 auto;padding:2rem clamp(1.5rem,4vw,3rem);display:flex;flex-wrap:wrap;gap:3rem;">
+      <div style="max-width:1100px;margin:0 auto;padding:2rem clamp(1.5rem,4vw,3rem);display:flex;flex-wrap:wrap;gap:1.5rem 3rem;">
         <div>
           <span style="font-family:var(--font-head);font-size:2rem;font-weight:700;color:var(--fg);">${d.projects.length}</span>
           <span style="color:var(--fg2);font-size:0.85rem;margin-left:0.5rem;">Projects</span>
