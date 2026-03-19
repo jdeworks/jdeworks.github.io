@@ -29,13 +29,17 @@ export function cardCSS(style) {
 }
 
 export function tagHTML(tag, style) {
-  const base = "font-size: 0.75rem; padding: 0.25rem 0.65rem; display: inline-block; margin: 0.15rem;";
+  const base = "font-size: 0.75rem; display: inline-block; margin: 0.15rem;";
   switch (style) {
-    case "pill": return `<span style="${base} background: color-mix(in srgb, var(--accent) 15%, transparent); color: var(--accent); border-radius: 9999px;">${tag}</span>`;
-    case "square": return `<span style="${base} background: color-mix(in srgb, var(--accent) 15%, transparent); color: var(--accent); border-radius: 4px;">${tag}</span>`;
-    case "outline": return `<span style="${base} border: 1px solid var(--accent); color: var(--accent); border-radius: 9999px;">${tag}</span>`;
-    case "dot": return `<span style="${base} color: var(--fg2); border-radius: 4px;"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:0.35rem;vertical-align:middle;"></span>${tag}</span>`;
-    default: return `<span style="${base} color: var(--accent);">${tag}</span>`;
+    // Rounded pill with tinted background
+    case "pill": return `<span style="${base} padding: 0.25rem 0.75rem; background: color-mix(in srgb, var(--accent) 15%, transparent); color: var(--accent); border-radius: 9999px;">${tag}</span>`;
+    // Sharp rectangle with solid accent background
+    case "square": return `<span style="${base} padding: 0.3rem 0.6rem; background: var(--accent); color: var(--bg); border-radius: 3px; font-weight: 600; letter-spacing: 0.02em;">${tag}</span>`;
+    // Outlined pill, no fill
+    case "outline": return `<span style="${base} padding: 0.25rem 0.7rem; border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent); color: var(--accent); border-radius: 9999px;">${tag}</span>`;
+    // Dot prefix, no background
+    case "dot": return `<span style="${base} padding: 0.25rem 0.5rem; color: var(--fg2); border-radius: 4px;"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:0.4rem;vertical-align:middle;"></span>${tag}</span>`;
+    default: return `<span style="${base} padding: 0.25rem 0.65rem; color: var(--accent);">${tag}</span>`;
   }
 }
 

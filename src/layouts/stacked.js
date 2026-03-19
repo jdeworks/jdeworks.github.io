@@ -21,8 +21,8 @@ export function render(d, cs, ts, hs) {
           <p style="color:var(--fg2);font-size:0.9rem;margin:1rem 0 0;line-height:1.7;opacity:0.85;">${d.about}</p>
         </div>
         <div style="flex-shrink:0;">
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;">
-            ${d.tech.map(t => `<span style="font-size:0.7rem;padding:0.35rem 0.6rem;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--fg2);text-align:center;white-space:nowrap;">${t}</span>`).join("")}
+          <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
+            ${d.tech.map(t => tagHTML(t, ts)).join("")}
           </div>
         </div>
       </div>
