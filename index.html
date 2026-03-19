@@ -211,6 +211,27 @@ function activateRetroOS() {
   }
 }
 
+function activateStoryDots() {
+  const marker = document.querySelector('story-dots');
+  if (!marker) return;
+  const uid = marker.dataset.uid;
+  const sections = document.querySelectorAll('[data-story]');
+  const dots = document.querySelectorAll('#' + uid + '-dots .'+uid+'-dot');
+  if (!sections.length || !dots.length) return;
+
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        const idx = parseInt(e.target.dataset.story);
+        dots.forEach(function(d, i) {
+          d.classList.toggle('active', i === idx);
+        });
+      }
+    });
+  }, { threshold: 0.5 });
+  sections.forEach(function(s) { observer.observe(s); });
+}
+
 let matrixRainId = null;
 function activateMatrixRain() {
   // Clean up previous rain
@@ -372,6 +393,7 @@ function render(opts = {}) {
     activateScrollReveals();
     activateRetroOS();
     activateMatrixRain();
+    activateStoryDots();
     requestAnimationFrame(() => { app.classList.add('ready'); });
   });
 }

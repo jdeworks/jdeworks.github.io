@@ -25,6 +25,8 @@ import * as newspaper from './newspaper.js';
 import * as blueprint from './blueprint.js';
 import * as arcade from './arcade.js';
 import * as comic from './comic.js';
+import * as stories from './stories.js';
+import * as chat from './chat.js';
 
 export const LAYOUTS = [
   centeredHero,
@@ -51,4 +53,6 @@ export const LAYOUTS = [
   blueprint,
   arcade,
   comic,
+  stories,
+  chat,
 ];
