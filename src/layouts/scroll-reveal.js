@@ -83,17 +83,6 @@ export function render(d, cs, ts, hs) {
     </footer>
   </div>
 
-  <script>
-  (function() {
-    var root = document.getElementById('${uid}-root');
-    if (!root) return;
-    var els = root.querySelectorAll('[data-reveal]');
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
-        if (e.isIntersecting) { e.target.classList.add('visible'); }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
-    els.forEach(function(el) { observer.observe(el); });
-  })();
-  </script>`;
+`;
+}
 }

@@ -26,10 +26,55 @@
     .combo-label {
       position: fixed; bottom: 1.5rem; left: 1.5rem; z-index: 50;
       font-size: 0.7rem; opacity: 0.4; font-family: monospace;
+      cursor: default; user-select: none;
+      transition: opacity 0.2s;
     }
+    .combo-label:hover { opacity: 0.8; }
     #gradient-bg {
       position: fixed; inset: 0; z-index: -1; pointer-events: none;
     }
+    /* Picker overlay */
+    .picker-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.2s;
+    }
+    .picker-overlay.open { opacity: 1; pointer-events: auto; }
+    .picker-box {
+      background: var(--card, #1e293b); border: 1px solid var(--border, #334155);
+      border-radius: 16px; padding: 1.5rem; max-width: 480px; width: 90%;
+      max-height: 80vh; overflow-y: auto;
+      color: var(--fg, #f1f5f9); font-family: system-ui, sans-serif;
+    }
+    .picker-box h3 { margin: 0 0 0.75rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.6; }
+    .picker-options { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; }
+    .picker-opt {
+      font-size: 0.8rem; padding: 0.35rem 0.75rem; border-radius: 8px;
+      border: 1px solid var(--border, #334155); background: transparent;
+      color: var(--fg, #f1f5f9); cursor: pointer; transition: all 0.15s;
+      font-family: inherit;
+    }
+    .picker-opt:hover { border-color: var(--accent, #38bdf8); color: var(--accent, #38bdf8); }
+    .picker-opt.active { background: var(--accent, #38bdf8); color: var(--bg, #0f172a); border-color: var(--accent, #38bdf8); }
+    .picker-apply {
+      width: 100%; padding: 0.6rem; border-radius: 10px; border: none;
+      background: var(--accent, #38bdf8); color: var(--bg, #0f172a);
+      font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: opacity 0.15s;
+      font-family: inherit;
+    }
+    .picker-apply:hover { opacity: 0.85; }
+    .picker-close {
+      position: absolute; top: 1rem; right: 1rem; background: none; border: none;
+      color: var(--fg, #f1f5f9); cursor: pointer; font-size: 1.2rem; opacity: 0.5;
+    }
+    .picker-close:hover { opacity: 1; }
+    .picker-swatch {
+      width: 24px; height: 24px; border-radius: 50%; border: 2px solid transparent;
+      cursor: pointer; transition: transform 0.15s, border-color 0.15s;
+    }
+    .picker-swatch:hover { transform: scale(1.2); }
+    .picker-swatch.active { border-color: var(--fg, #f1f5f9); box-shadow: 0 0 0 2px var(--bg, #0f172a); }
   </style>
 </head>
 <body>
@@ -45,6 +90,11 @@
 </button>
 <div class="combo-label" id="combo-label"></div>
 
+<!-- Picker overlay -->
+<div class="picker-overlay" id="picker-overlay">
+  <div class="picker-box" style="position:relative;" id="picker-box"></div>
+</div>
+
 <script type="module">
 import { DATA, pickBio, pickAbout, pickTake, pickInterests } from './src/data.js';
 import { PALETTES } from './src/palettes/palettes.js';
@@ -53,6 +103,10 @@ import { CARD_STYLES, TAG_STYLES, HEADING_STYLES } from './src/styles/styles.js'
 import { LAYOUTS } from './src/layouts/index.js';
 import { pick } from './src/helpers.js';
 
+// ─── State ───────────────────────────────────────────────────
+let current = {};
+
+// ─── Font loader ─────────────────────────────────────────────
 function loadFont(font) {
   const existing = document.getElementById('gfont');
   if (existing) existing.remove();
@@ -63,6 +117,7 @@ function loadFont(font) {
   document.head.appendChild(link);
 }
 
+// ─── CSS vars ────────────────────────────────────────────────
 function setCSS(palette, font) {
   document.documentElement.style.cssText = `
     --bg: ${palette.bg}; --bg2: ${palette.bg2}; --fg: ${palette.fg}; --fg2: ${palette.fg2};
@@ -74,7 +129,6 @@ function setCSS(palette, font) {
   document.body.style.fontFamily = `${font.body}, sans-serif`;
   document.body.style.margin = '0';
 
-  // Apply gradient mesh background from palette
   const gradBg = document.getElementById('gradient-bg');
   gradBg.style.background = palette.gradient && palette.gradient !== 'none' ? palette.gradient : 'none';
 
@@ -85,15 +139,62 @@ function setCSS(palette, font) {
   document.getElementById('combo-label').style.color = palette.fg2;
 }
 
-function render() {
-  const palette = pick(PALETTES);
-  const font = pick(FONTS);
-  const layout = pick(LAYOUTS);
-  const cs = pick(CARD_STYLES);
-  const ts = pick(TAG_STYLES);
-  const hs = pick(HEADING_STYLES);
+// ─── Post-render: activate scroll observers ──────────────────
+function activateScrollReveals() {
+  const els = document.querySelectorAll('[data-reveal]');
+  if (!els.length) return;
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  els.forEach(function(el) { observer.observe(el); });
+}
 
-  // Build a snapshot of data with randomly picked text variants
+// ─── Query params ────────────────────────────────────────────
+function findByName(arr, name) {
+  return arr.find(x => x.name.toLowerCase() === name.toLowerCase());
+}
+
+function findInArray(arr, val) {
+  return arr.find(x => x.toLowerCase() === val.toLowerCase());
+}
+
+function readParams() {
+  const p = new URLSearchParams(window.location.search);
+  return {
+    palette: p.get('palette'),
+    font: p.get('font'),
+    layout: p.get('layout'),
+    card: p.get('card'),
+    tag: p.get('tag'),
+    heading: p.get('heading'),
+  };
+}
+
+function writeParams(palette, font, layout, cs, ts, hs) {
+  const p = new URLSearchParams();
+  p.set('palette', palette.name);
+  p.set('font', font.name);
+  p.set('layout', layout.name);
+  p.set('card', cs);
+  p.set('tag', ts);
+  p.set('heading', hs);
+  const url = window.location.pathname + '?' + p.toString();
+  window.history.replaceState(null, '', url);
+}
+
+// ─── Render ──────────────────────────────────────────────────
+function render(opts = {}) {
+  const palette = opts.palette || pick(PALETTES);
+  const font = opts.font || pick(FONTS);
+  const layout = opts.layout || pick(LAYOUTS);
+  const cs = opts.card || pick(CARD_STYLES);
+  const ts = opts.tag || pick(TAG_STYLES);
+  const hs = opts.heading || pick(HEADING_STYLES);
+
+  current = { palette, font, layout, card: cs, tag: ts, heading: hs };
+
   const snapshot = {
     ...DATA,
     bio: pickBio(),
@@ -109,10 +210,17 @@ function render() {
   app.innerHTML = layout.render(snapshot, cs, ts, hs);
   app.setAttribute('data-layout', 'true');
 
-  document.getElementById('combo-label').textContent =
-    `${palette.name} · ${font.name} · ${layout.name} · ${cs} · ${ts} · ${hs}`;
+  // Update label + URL
+  const label = `${palette.name} · ${font.name} · ${layout.name} · ${cs} · ${ts} · ${hs}`;
+  document.getElementById('combo-label').textContent = label;
+  writeParams(palette, font, layout, cs, ts, hs);
 
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'instant' });
+
+  // Activate scroll reveals after DOM is ready
   requestAnimationFrame(() => {
+    activateScrollReveals();
     requestAnimationFrame(() => { app.classList.add('ready'); });
   });
 }
@@ -120,11 +228,115 @@ function render() {
 function shuffle() {
   const app = document.getElementById('app');
   app.classList.remove('ready');
-  setTimeout(render, 100);
+  setTimeout(() => render(), 100);
 }
 
-// Initial render
-render();
+// ─── Picker (easter egg) ─────────────────────────────────────
+function buildPicker() {
+  const overlay = document.getElementById('picker-overlay');
+  const box = document.getElementById('picker-box');
+
+  const state = {
+    palette: current.palette,
+    font: current.font,
+    layout: current.layout,
+    card: current.card,
+    tag: current.tag,
+    heading: current.heading,
+  };
+
+  function renderPicker() {
+    box.innerHTML = `
+      <button class="picker-close" id="picker-close">&times;</button>
+      <h3>Palette</h3>
+      <div class="picker-options">
+        ${PALETTES.map(p => `<button class="picker-swatch ${p.name === state.palette.name ? 'active' : ''}" data-type="palette" data-value="${p.name}" style="background:${p.accent};" title="${p.name}"></button>`).join('')}
+      </div>
+      <h3>Font</h3>
+      <div class="picker-options">
+        ${FONTS.map(f => `<button class="picker-opt ${f.name === state.font.name ? 'active' : ''}" data-type="font" data-value="${f.name}">${f.name}</button>`).join('')}
+      </div>
+      <h3>Layout</h3>
+      <div class="picker-options">
+        ${LAYOUTS.map(l => `<button class="picker-opt ${l.name === state.layout.name ? 'active' : ''}" data-type="layout" data-value="${l.name}">${l.name}</button>`).join('')}
+      </div>
+      <h3>Card Style</h3>
+      <div class="picker-options">
+        ${CARD_STYLES.map(s => `<button class="picker-opt ${s === state.card ? 'active' : ''}" data-type="card" data-value="${s}">${s}</button>`).join('')}
+      </div>
+      <h3>Tag Style</h3>
+      <div class="picker-options">
+        ${TAG_STYLES.map(s => `<button class="picker-opt ${s === state.tag ? 'active' : ''}" data-type="tag" data-value="${s}">${s}</button>`).join('')}
+      </div>
+      <h3>Heading Style</h3>
+      <div class="picker-options">
+        ${HEADING_STYLES.map(s => `<button class="picker-opt ${s === state.heading ? 'active' : ''}" data-type="heading" data-value="${s}">${s}</button>`).join('')}
+      </div>
+      <button class="picker-apply" id="picker-apply">Apply combination</button>
+    `;
+
+    // Event delegation
+    box.onclick = (e) => {
+      const btn = e.target.closest('[data-type]');
+      if (btn) {
+        const type = btn.dataset.type;
+        const val = btn.dataset.value;
+        if (type === 'palette') state.palette = findByName(PALETTES, val);
+        else if (type === 'font') state.font = findByName(FONTS, val);
+        else if (type === 'layout') state.layout = findByName(LAYOUTS, val);
+        else if (type === 'card') state.card = val;
+        else if (type === 'tag') state.tag = val;
+        else if (type === 'heading') state.heading = val;
+        renderPicker();
+        return;
+      }
+      if (e.target.id === 'picker-apply') {
+        closePicker();
+        const app = document.getElementById('app');
+        app.classList.remove('ready');
+        setTimeout(() => render({
+          palette: state.palette,
+          font: state.font,
+          layout: state.layout,
+          card: state.card,
+          tag: state.tag,
+          heading: state.heading,
+        }), 100);
+        return;
+      }
+      if (e.target.id === 'picker-close') {
+        closePicker();
+      }
+    };
+  }
+
+  renderPicker();
+  overlay.classList.add('open');
+}
+
+function closePicker() {
+  document.getElementById('picker-overlay').classList.remove('open');
+}
+
+// Close on overlay background click
+document.getElementById('picker-overlay').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closePicker();
+});
+
+// Double-click combo label to open picker
+document.getElementById('combo-label').addEventListener('dblclick', buildPicker);
+
+// ─── Initial render ──────────────────────────────────────────
+const params = readParams();
+const initOpts = {};
+if (params.palette) initOpts.palette = findByName(PALETTES, params.palette);
+if (params.font) initOpts.font = findByName(FONTS, params.font);
+if (params.layout) initOpts.layout = findByName(LAYOUTS, params.layout);
+if (params.card && CARD_STYLES.includes(params.card)) initOpts.card = params.card;
+if (params.tag && TAG_STYLES.includes(params.tag)) initOpts.tag = params.tag;
+if (params.heading && HEADING_STYLES.includes(params.heading)) initOpts.heading = params.heading;
+
+render(initOpts);
 
 // Shuffle button
 document.getElementById('shuffle-btn').addEventListener('click', shuffle);
