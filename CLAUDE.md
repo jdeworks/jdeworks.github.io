@@ -108,6 +108,23 @@ import * as myLayout from './my-layout.js';
 // add to LAYOUTS array
 ```
 
+3. Update the style supports map in `src/layouts/index.js` (`_S` object). If your layout uses all three helpers (`cardCSS`, `tagHTML`, `headingStyle`) with the `cs`/`ts`/`hs` parameters, you can skip this step (defaults to all supported). Otherwise, add an entry marking which axes have no effect:
+```js
+'My Layout': { card: false, tag: true, heading: true },
+```
+
+**Current style support matrix:**
+
+| Layout | Card | Tag | Heading |
+|--------|------|-----|---------|
+| Centered Hero, Sidebar, Terminal, Bento Grid, Split, Scroll Reveal, Showcase, Stories, Landing | yes | yes | yes |
+| Magazine, Playful, DevTool, Editorial, Agency, Stacked, Portfolio, Resume, Narrative | - | yes | yes |
+| Chat | - | yes | - |
+| Minimalist, Neon, Glass, Starfield, Card Deck, Rundown, Poster, Recipe | - | - | yes |
+| Matrix, Retro OS, Newspaper, Blueprint, Arcade, Comic Book, Boarding Pass, Code Editor, Boot Sequence, Broken Page | - | - | - |
+
+Layouts not using an axis will: skip it during random shuffle, and dim/disable the buttons in the picker modal.
+
 **Layout guidelines:**
 - Use CSS custom properties: `var(--bg)`, `var(--bg2)`, `var(--fg)`, `var(--fg2)`, `var(--accent)`, `var(--accent2)`, `var(--card)`, `var(--border)`, `var(--font-head)`, `var(--font-body)`
 - Use helper functions: `tagHTML(tag, ts)`, `cardCSS(cs)`, `headingStyle(hs, extraCSS)`, `projectLinks(p)`, `githubIcon(size)`
