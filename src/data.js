@@ -73,6 +73,21 @@ export const DATA = {
       tags: ["Game", "React", "TypeScript", "Vibe Coded"]
     },
     {
+      name: "think-tank",
+      desc: "AI-guided project planning tool that transforms ideas into structured, comprehensive plans through interactive conversation.",
+      longDesc: "Answer guided questions about architecture, tech stack, hosting, security, and budget. Generates interactive diagrams, structured JSON, and exportable documentation — all running entirely in the browser with no backend required.",
+      url: "https://github.com/jdeworks/think-tank",
+      demo: "https://jdeworks.github.io/think-tank",
+      tags: ["AI", "React", "TypeScript", "Planning"]
+    },
+    {
+      name: "make-a-website",
+      desc: "An AI-agent-readable knowledge base that guides beginners from idea to deployed website. Step-by-step instructions with security best practices included.",
+      longDesc: "Comprehensive guide designed for both AI agents and humans, with pre-configured starter templates offering working foundations and professional tooling out of the box. Covers building, testing, and deploying with Vanilla JS, React, Tailwind, Vite, and more.",
+      url: "https://github.com/jdeworks/make-a-website",
+      tags: ["Guide", "AI", "Web Dev", "Knowledge Base"]
+    },
+    {
       name: "infinite-story",
       desc: "An AI-powered creative writing platform that generates branching, personalized narratives. Stories that adapt and grow.",
       url: null,
