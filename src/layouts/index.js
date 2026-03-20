@@ -40,6 +40,45 @@ import * as rundown from './rundown.js';
 import * as poster from './poster.js';
 import * as decayed from './decayed.js';
 
+// Which style axes actually change the rendered output per layout.
+// Omitted layouts default to { card: true, tag: true, heading: true }.
+const DEFAULTS = { card: true, tag: true, heading: true };
+const _S = {
+  'Magazine':      { card: false, tag: true,  heading: true  },
+  'Minimalist':    { card: false, tag: false, heading: true  },
+  'Playful':       { card: false, tag: true,  heading: true  },
+  'DevTool':       { card: false, tag: true,  heading: true  },
+  'Editorial':     { card: false, tag: true,  heading: true  },
+  'Agency':        { card: false, tag: true,  heading: true  },
+  'Stacked':       { card: false, tag: true,  heading: true  },
+  'Portfolio':     { card: false, tag: true,  heading: true  },
+  'Resume':        { card: false, tag: true,  heading: true  },
+  'Narrative':     { card: false, tag: true,  heading: true  },
+  'Matrix':        { card: false, tag: false, heading: false },
+  'Retro OS':      { card: false, tag: false, heading: false },
+  'Newspaper':     { card: false, tag: false, heading: false },
+  'Blueprint':     { card: false, tag: false, heading: false },
+  'Arcade':        { card: false, tag: false, heading: false },
+  'Comic Book':    { card: false, tag: false, heading: false },
+  'Chat':          { card: false, tag: true,  heading: false },
+  'Neon':          { card: false, tag: false, heading: true  },
+  'Glass':         { card: false, tag: false, heading: true  },
+  'Recipe':        { card: false, tag: false, heading: true  },
+  'Boarding Pass': { card: false, tag: false, heading: false },
+  'Starfield':     { card: false, tag: false, heading: true  },
+  'Code Editor':   { card: false, tag: false, heading: false },
+  'Boot Sequence': { card: false, tag: false, heading: false },
+  'Card Deck':     { card: false, tag: false, heading: true  },
+  'Rundown':       { card: false, tag: false, heading: true  },
+  'Poster':        { card: false, tag: false, heading: true  },
+  'Broken Page':   { card: false, tag: false, heading: false },
+};
+
+/** Return { card, tag, heading } booleans for a layout name */
+export function layoutSupports(name) {
+  return _S[name] || DEFAULTS;
+}
+
 // All layouts — always available in the picker
 export const LAYOUTS = [
   centeredHero,

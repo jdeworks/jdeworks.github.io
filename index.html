@@ -78,6 +78,14 @@
       font-family: inherit; min-height: 44px;
     }
     .picker-apply:hover { opacity: 0.85; }
+    .picker-opt.disabled, .picker-swatch.disabled {
+      opacity: 0.25; pointer-events: none; cursor: default;
+    }
+    .picker-section-disabled { opacity: 0.35; }
+    .picker-section-disabled h3::after {
+      content: ' (no effect on this layout)'; font-size: 0.65rem; text-transform: none;
+      letter-spacing: 0; opacity: 0.7; font-weight: 400;
+    }
     .picker-close {
       position: absolute; top: 1rem; right: 1rem; background: none; border: none;
       color: var(--fg, #f1f5f9); cursor: pointer; font-size: 1.2rem; opacity: 0.5;
@@ -117,7 +125,7 @@ import { DATA, pickBio, pickAbout, pickTake, pickInterests } from './src/data.js
 import { PALETTES } from './src/palettes/palettes.js';
 import { FONTS } from './src/fonts/fonts.js';
 import { CARD_STYLES, TAG_STYLES, HEADING_STYLES } from './src/styles/styles.js';
-import { LAYOUTS, MOBILE_LAYOUTS } from './src/layouts/index.js';
+import { LAYOUTS, MOBILE_LAYOUTS, layoutSupports } from './src/layouts/index.js';
 import { pick } from './src/helpers.js';
 
 // ─── State ───────────────────────────────────────────────────
@@ -545,9 +553,10 @@ function render(opts = {}) {
   const font = opts.font || pick(FONTS);
   const isMobileScreen = window.innerWidth <= 640;
   const layout = opts.layout || pick(isMobileScreen ? MOBILE_LAYOUTS : LAYOUTS);
-  const cs = opts.card || pick(CARD_STYLES);
-  const ts = opts.tag || pick(TAG_STYLES);
-  const hs = opts.heading || pick(HEADING_STYLES);
+  const sup = layoutSupports(layout.name);
+  const cs = opts.card || (sup.card ? pick(CARD_STYLES) : CARD_STYLES[0]);
+  const ts = opts.tag || (sup.tag ? pick(TAG_STYLES) : TAG_STYLES[0]);
+  const hs = opts.heading || (sup.heading ? pick(HEADING_STYLES) : HEADING_STYLES[0]);
 
   current = { palette, font, layout, card: cs, tag: ts, heading: hs };
 
@@ -611,6 +620,7 @@ function buildPicker() {
   };
 
   function renderPicker() {
+    const sup = layoutSupports(state.layout.name);
     box.innerHTML = `
       <button class="picker-close" id="picker-close">&times;</button>
       <h3>Accent Colors</h3>
@@ -630,17 +640,23 @@ function buildPicker() {
       <div class="picker-options">
         ${LAYOUTS.map(l => `<button class="picker-opt ${l.name === state.layout.name ? 'active' : ''}" data-type="layout" data-value="${l.name}">${l.name}</button>`).join('')}
       </div>
-      <h3>Card Style</h3>
-      <div class="picker-options">
-        ${CARD_STYLES.map(s => `<button class="picker-opt ${s === state.card ? 'active' : ''}" data-type="card" data-value="${s}">${s}</button>`).join('')}
+      <div class="${sup.card ? '' : 'picker-section-disabled'}">
+        <h3>Card Style</h3>
+        <div class="picker-options">
+          ${CARD_STYLES.map(s => `<button class="picker-opt ${s === state.card ? 'active' : ''} ${sup.card ? '' : 'disabled'}" data-type="card" data-value="${s}">${s}</button>`).join('')}
+        </div>
       </div>
-      <h3>Tag Style</h3>
-      <div class="picker-options">
-        ${TAG_STYLES.map(s => `<button class="picker-opt ${s === state.tag ? 'active' : ''}" data-type="tag" data-value="${s}">${s}</button>`).join('')}
+      <div class="${sup.tag ? '' : 'picker-section-disabled'}">
+        <h3>Tag Style</h3>
+        <div class="picker-options">
+          ${TAG_STYLES.map(s => `<button class="picker-opt ${s === state.tag ? 'active' : ''} ${sup.tag ? '' : 'disabled'}" data-type="tag" data-value="${s}">${s}</button>`).join('')}
+        </div>
       </div>
-      <h3>Heading Style</h3>
-      <div class="picker-options">
-        ${HEADING_STYLES.map(s => `<button class="picker-opt ${s === state.heading ? 'active' : ''}" data-type="heading" data-value="${s}">${s}</button>`).join('')}
+      <div class="${sup.heading ? '' : 'picker-section-disabled'}">
+        <h3>Heading Style</h3>
+        <div class="picker-options">
+          ${HEADING_STYLES.map(s => `<button class="picker-opt ${s === state.heading ? 'active' : ''} ${sup.heading ? '' : 'disabled'}" data-type="heading" data-value="${s}">${s}</button>`).join('')}
+        </div>
       </div>
       <button class="picker-apply" id="picker-apply">Apply combination</button>
     `;
@@ -649,6 +665,7 @@ function buildPicker() {
     box.onclick = (e) => {
       const btn = e.target.closest('[data-type]');
       if (btn) {
+        if (btn.classList.contains('disabled')) return;
         const type = btn.dataset.type;
         const val = btn.dataset.value;
         if (type === 'palette') state.palette = findByName(PALETTES, val);
