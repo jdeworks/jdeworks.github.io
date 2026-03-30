@@ -51,8 +51,8 @@ export const DATA = {
   projects: [
     {
       name: "make-it-look-good",
-      desc: "Evidence-based design knowledge base for LLMs and developers. Point your AI assistant at it to get actually good UI/UX output — concrete numbers, real patterns, and copy-paste snippets.",
-      longDesc: "44 design topics, 38+ HTML+Tailwind presets with multiple personality variants, and a live preview tool. Instead of vague 'make it pretty' results, your LLM gets specific contrast ratios, spacing scales, and production-ready components.",
+      desc: "Evidence-based design knowledge base and analyzer for LLMs and developers. Point your AI assistant at it to get actually good UI/UX output — concrete numbers, real patterns, and copy-paste snippets.",
+      longDesc: "45 design topics, 121 prebuilt templates across 38 elements, a live preview tool, and a Design Analyzer that scores any website against ~60 evidence-based checks across 14 modules. Includes a consultation playbook that turns any LLM into a design consultant.",
       url: "https://github.com/jdeworks/make-it-look-good",
       demo: "https://jdeworks.github.io/make-it-look-good/",
       tags: ["Design", "AI", "Tailwind", "Knowledge Base"]
@@ -81,11 +81,27 @@ export const DATA = {
       tags: ["AI", "React", "TypeScript", "Planning"]
     },
     {
-      name: "make-a-website",
-      desc: "An AI-agent-readable knowledge base that guides beginners from idea to deployed website. Step-by-step instructions with security best practices included.",
-      longDesc: "Comprehensive guide designed for both AI agents and humans, with pre-configured starter templates offering working foundations and professional tooling out of the box. Covers building, testing, and deploying with Vanilla JS, React, Tailwind, Vite, and more.",
-      url: "https://github.com/jdeworks/make-a-website",
-      tags: ["Guide", "AI", "Web Dev", "Knowledge Base"]
+      name: "project-starter-kit",
+      desc: "A structured foundation for AI-assisted software projects. Quality infrastructure that keeps AI agents producing maintainable code across any project type.",
+      longDesc: "10 project variants (website, API, SaaS, CLI, MCP server, game dev, and more), multi-agent support (Claude Code, OpenCode, Cursor, Windsurf, Copilot), CLI tooling, and starter templates per framework. Full and lean modes for enforcement vs. prototyping.",
+      url: "https://github.com/jdeworks/project-starter-kit",
+      tags: ["DevTools", "AI", "CLI", "Knowledge Base"]
+    },
+    {
+      name: "get-me-started",
+      desc: "Guides complete beginners from zero to a working website setup using AI. No coding experience required — just pick your OS and follow along.",
+      longDesc: "A setup page that detects your OS and walks you through everything. Works with any AI chatbot (ChatGPT, Claude, Gemini) via a starter prompt. Includes concept explainer guides and connects to the rest of the jdeworks ecosystem.",
+      url: "https://github.com/jdeworks/get-me-started",
+      demo: "https://jdeworks.github.io/get-me-started/",
+      tags: ["Guide", "Beginner", "Web Dev", "AI"]
+    },
+    {
+      name: "noodle-jump",
+      desc: "A pasta-themed endless jumper game built with PixiJS and TypeScript. Tilt controls on mobile, keyboard on desktop.",
+      longDesc: "10 power-ups, 3 themed zones (Kitchen, Ocean, Space) with parallax backgrounds, progressive difficulty, combo system, and procedural SFX via Web Audio API. A showcase project for the game-dev variant in project-starter-kit.",
+      url: "https://github.com/jdeworks/noodle-jump",
+      demo: "https://jdeworks.github.io/noodle-jump/",
+      tags: ["Game", "TypeScript", "PixiJS", "Vibe Coded"]
     },
     {
       name: "infinite-story",
