@@ -6,43 +6,44 @@
 export const DATA = {
   name: "jdeworks",
   handle: "jdeworks",
-  role: "Full-Stack Developer",
+  role: "Developer & AI Builder",
   github: "https://github.com/jdeworks",
 
   // Short bios — one picked at random per render
   bios: [
-    "I build tools, games, and things that make development more fun. Currently working mostly with web technologies, Python, and C#.",
-    "Developer at heart since day one. I build AI-augmented dev tools, games, and creative software — always looking for ways to make vibe coding actually work.",
-    "Full-stack developer with a background that spans software development, teaching, game dev, and leading engineering at an AI startup. I like building things people enjoy using.",
-    "Building tools that make AI-assisted development better. I believe vibe coding is here to stay — my job is to help it grow up.",
-    "Software developer, tool builder, occasional game maker. I spend most of my time at the intersection of AI and developer experience.",
-    "Making vibe-coded software reliable is the problem I care about most. I build the tooling, sandboxes, and design systems that get us there.",
-    "I've built enterprise systems, taught at a college, shipped indie games, and led an AI engineering team. Now I make tools for developers who work with AI.",
+    "I build dev tools, games, and creative AI experiments — whatever's interesting and pushes what's possible. Currently working mostly with web technologies, Python, and C#.",
+    "Developer who can't pick a lane. Dev tools one week, a pasta-themed jumper game the next, an AI audiobook creator after that. The common thread is building things with AI and seeing how far it goes.",
+    "Full-stack developer with a background that spans software development, teaching, game dev, and leading engineering at an AI startup. These days I build tools, games, and creative software — mostly with AI as a collaborator.",
+    "I explore what happens when you build with AI — sometimes that's tooling that makes vibe coding reliable, sometimes it's turning a short story into a multi-voice audiobook, sometimes it's a game about combining elements.",
+    "Part developer, part experimenter. I build sandboxes for AI agents, design systems for developers, games for fun, and creative tools that probably shouldn't work but do.",
+    "I've built enterprise systems, taught at a college, shipped indie games, and led an AI engineering team. Now I build open-source tools and creative experiments at the intersection of AI and everything else.",
+    "Making AI-assisted development actually work is one thing I care about. The other is using AI to build things that are just fun — games, audiobooks, stories. I do both.",
   ],
 
   // Extended about — for layouts that have room for more
   about: [
-    "Started coding young, studied software development in Germany (MATSE, dual studies), then took the scenic route — software dev, SAP data migration consulting, lecturing at a college, indie game development, and eventually leading engineering at an AI startup that got acquired. Now part of a larger company, still building.",
-    "My path through tech has been anything but linear. From writing enterprise migration scripts to teaching students to building tower defense games to leading an AI engineering team — each chapter taught me something different. The common thread: I like making complex things work.",
-    "I've worn a lot of hats — developer, consultant, lecturer, game dev, engineering lead. These days I'm focused on the intersection of AI and developer tooling, building the things that make vibe-coded software actually reliable.",
-    "Started with dual studies in Germany, bounced through enterprise dev, data migration consulting, and teaching before landing in the AI startup world. The startup got acquired, and now I channel everything into open-source developer tools.",
-    "Most developers pick a lane early. I picked all of them — enterprise, consulting, education, games, AI. Turns out that wide background is exactly what you need when you're building tools that have to work for everyone.",
+    "Started coding young, studied software development in Germany (MATSE, dual studies), then took the scenic route — software dev, SAP data migration consulting, lecturing at a college, indie game development, and eventually leading engineering at an AI startup that got acquired. Now part of a larger company, building open-source tools and creative AI experiments on the side.",
+    "My path through tech has been anything but linear. From writing enterprise migration scripts to teaching students to building tower defense games to leading an AI engineering team — each chapter taught me something different. The common thread: I like building things, and I don't much care what category they fall into.",
+    "I've worn a lot of hats — developer, consultant, lecturer, game dev, engineering lead. These days I split my time between making AI-assisted development more reliable and using AI to build things that are just creative and fun.",
+    "Started with dual studies in Germany, bounced through enterprise dev, data migration consulting, and teaching before landing in the AI startup world. The startup got acquired, and now I channel everything into open-source — dev tools, games, creative experiments, beginner guides.",
+    "Most developers pick a lane early. I picked all of them — enterprise, consulting, education, games, AI. That wide background means I can build a Docker sandbox for coding agents one day and an AI audiobook creator the next.",
   ],
 
   // Philosophy / takes — for layouts that feature a quote or stance
   takes: [
-    "We're in the early stages of vibe coding. It has real problems today, but give it 2–5 years and nothing will ship without at least partial AI assistance. I'd rather build the tools that make it work than pretend it's not happening.",
-    "AI-assisted development isn't optional anymore — you swim with the flow or you drown. But 'vibe coded' shouldn't mean 'untested and fragile.' That's the gap I'm working to close.",
     "The best code I've shipped lately was a collaboration between me and an AI. The worst code I've reviewed lately was also a collaboration between someone and an AI. The difference is tooling, process, and taste.",
     "Vibe coding gets 80% of the way there remarkably fast. The last 20% — the polish, the security, the edge cases — that's where it falls apart. I build the tools that catch what the vibes miss.",
-    "Every tool I build starts from the same question: what's the gap between what AI can generate and what's actually safe to ship?",
+    "AI doesn't just change how we code — it changes what's worth building. An audiobook creator that would've taken a team six months? One person can prototype that in a weekend now. The question isn't whether to use AI, it's what to aim it at.",
+    "I think the most interesting use of AI right now isn't chatbots — it's building things that couldn't have existed before. A game with 74,000 recipes. Stories that branch based on who you are. Audiobooks with distinct character voices. That's the stuff I want to make.",
+    "Half my projects exist to make AI-assisted development safer and more reliable. The other half exist because AI made them possible in the first place. Both matter.",
+    "The barrier to building software is dropping fast. I want to be on both sides of that — making tools for experienced developers, and making guides for people writing their first line of code.",
     "Good developer tools should feel like they're not there. They should catch problems before you know they exist and get out of the way when everything's fine.",
   ],
 
   // Interests — humanizing details
   interests: [
     "Former theatre actor, current gaming enthusiast, and full-time believer that the best debugging happens at 2 AM.",
-    "When I'm not coding, I'm gaming, binge-watching series, or thinking about how to make the next vibe-coded project not fall apart.",
+    "When I'm not coding, I'm gaming, binge-watching series, or sketching out the next project that probably doesn't need to exist but will be fun to build.",
     "Background in theatre and acting, which turns out to be surprisingly useful when presenting technical concepts. Also: games, movies, and an unreasonable number of side projects.",
     "Gaming, series, and too many side projects. The kind of developer who starts a new repo before finishing the last three.",
     "Ask me about tower defense game design, obscure series recommendations, or why every developer should try acting at least once.",
@@ -149,7 +150,7 @@ export const DATA = {
     { period: "Teaching", label: "Lecturer at a college" },
     { period: "Game Dev", label: "Indie game development" },
     { period: "AI Startup", label: "Engineering lead at an AI startup" },
-    { period: "Now", label: "Part of a larger company post-acquisition, building dev tools" },
+    { period: "Now", label: "Part of a larger company post-acquisition, building open-source dev tools and creative AI experiments" },
   ],
 
   // Links beyond GitHub
