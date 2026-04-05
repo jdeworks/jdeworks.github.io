@@ -34,7 +34,7 @@ export const DATA = {
     "The best code I've shipped lately was a collaboration between me and an AI. The worst code I've reviewed lately was also a collaboration between someone and an AI. The difference is tooling, process, and taste.",
     "Vibe coding gets 80% of the way there remarkably fast. The last 20% — the polish, the security, the edge cases — that's where it falls apart. I build the tools that catch what the vibes miss.",
     "AI doesn't just change how we code — it changes what's worth building. An audiobook creator that would've taken a team six months? One person can prototype that in a weekend now. The question isn't whether to use AI, it's what to aim it at.",
-    "I think the most interesting use of AI right now isn't chatbots — it's building things that couldn't have existed before. A game with 74,000 recipes. Stories that branch based on who you are. Audiobooks with distinct character voices. That's the stuff I want to make.",
+    "I think the most interesting use of AI right now isn't chatbots — it's building things that couldn't have existed before. A game with 74,000 recipes. Collaborative stories that branch into infinite narrative trees. Audiobooks with distinct character voices. That's the stuff I want to make.",
     "Half my projects exist to make AI-assisted development safer and more reliable. The other half exist because AI made them possible in the first place. Both matter.",
     "The barrier to building software is dropping fast. I want to be on both sides of that — making tools for experienced developers, and making guides for people writing their first line of code.",
     "Good developer tools should feel like they're not there. They should catch problems before you know they exist and get out of the way when everything's fine.",
@@ -53,18 +53,18 @@ export const DATA = {
     {
       name: "make-it-look-good",
       desc: "Evidence-based design knowledge base and analyzer for LLMs and developers. Point your AI assistant at it to get actually good UI/UX output — concrete numbers, real patterns, and copy-paste snippets.",
-      longDesc: "45 design topics, 121 prebuilt templates across 38 elements, a live preview tool, and a Design Analyzer that scores any website against ~60 evidence-based checks across 14 modules. Includes a consultation playbook that turns any LLM into a design consultant.",
+      longDesc: "45 design topics, 125 prebuilt templates across 41 elements, a live preview tool, and a Design Analyzer that scores any website against ~70 evidence-based checks across 14 modules. Includes a consultation playbook that turns any LLM into a design consultant.",
       links: [
         { label: "GitHub", url: "https://github.com/jdeworks/make-it-look-good" },
         { label: "Live Demo", url: "https://jdeworks.github.io/make-it-look-good/", tip: "Browse the design knowledge base and preview tool" },
-        { label: "Analyzer", url: "https://jdeworks.github.io/make-it-look-good/analyzer.html", tip: "Score any website against ~60 evidence-based design checks" }
+        { label: "Analyzer", url: "https://jdeworks.github.io/make-it-look-good/analyzer.html", tip: "Score any website against ~70 evidence-based design checks" }
       ],
       tags: ["Design", "AI", "Tailwind", "Knowledge Base"]
     },
     {
       name: "agent-sandbox",
-      desc: "Isolated Docker sandbox for AI coding agents. Each project runs inside a locked-down container with your choice of agent and only the runtimes you need.",
-      longDesc: "Supports Claude Code, OpenCode, Cursor CLI, and GitHub Copilot. 12 language runtimes, profile import/export, config mirroring, and plugin discovery. Runs on Linux, macOS, WSL, and Windows.",
+      desc: "Isolated Docker sandbox for AI coding agents. Each project runs inside a locked-down container with your choice of agent, runtimes, and MCP servers.",
+      longDesc: "Supports Claude Code, OpenCode, Cursor CLI, and GitHub Copilot. 15 language runtimes, template profiles for quick start, VS Code Server option, MCP server integration, plugin discovery, profile import/export, and config mirroring. Runs on Linux, macOS, WSL, and Windows.",
       links: [
         { label: "GitHub", url: "https://github.com/jdeworks/agent-sandbox" }
       ],
@@ -73,7 +73,7 @@ export const DATA = {
     {
       name: "elemental-surprise",
       desc: "A scalable element combination game — 2,767 elements with 74,000+ recipes spanning nature, technology, mythology, and more. Entirely vibe-coded.",
-      longDesc: "Built end-to-end through conversational AI collaboration. Features auto-solve spectator mode, semantic icon matching across 24k+ candidates, lazy-loaded recipe buckets, and an honest 'where vibe coding works and doesn't' writeup.",
+      longDesc: "Built end-to-end through conversational AI collaboration. Features auto-solve spectator mode, semantic icon matching across 40k+ candidates from 13 icon sources, lazy-loaded recipe buckets, and an honest 'where vibe coding works and doesn't' writeup.",
       links: [
         { label: "GitHub", url: "https://github.com/jdeworks/elemental-surprise" },
         { label: "Live Demo", url: "https://jdeworks.github.io/elemental-surprise/" }
@@ -82,8 +82,8 @@ export const DATA = {
     },
     {
       name: "think-tank",
-      desc: "AI-guided project planning tool that transforms ideas into structured, comprehensive plans through interactive conversation.",
-      longDesc: "Answer guided questions about architecture, tech stack, hosting, security, and budget. Generates interactive diagrams, structured JSON, and exportable documentation — all running entirely in the browser with no backend required.",
+      desc: "AI-guided project planning tool that transforms ideas into structured, comprehensive plans through interactive conversation. BYOK with OpenAI, Claude, or any compatible API.",
+      longDesc: "5 AI personalities, 12-section structured plans, interactive diagrams (React Flow + Mermaid), voice mode, and full export (JSON, Markdown, ZIP with SVGs). Includes a CLI companion. Runs entirely in the browser with no backend required.",
       links: [
         { label: "GitHub", url: "https://github.com/jdeworks/think-tank" },
         { label: "Live Demo", url: "https://jdeworks.github.io/think-tank" }
@@ -93,7 +93,7 @@ export const DATA = {
     {
       name: "project-starter-kit",
       desc: "A structured foundation for AI-assisted software projects. Quality infrastructure that keeps AI agents producing maintainable code across any project type.",
-      longDesc: "10 project variants (website, API, SaaS, CLI, MCP server, game dev, and more), multi-agent support (Claude Code, OpenCode, Cursor, Windsurf, Copilot), CLI tooling, and starter templates per framework. Full and lean modes for enforcement vs. prototyping.",
+      longDesc: "10 project variants (website, API, SaaS, CLI, MCP server, game dev, and more), multi-agent support (Claude Code, OpenCode, Cursor, Windsurf, Copilot, and online agents via bundle.xml), CLI tooling, and starter templates per framework. Full and lean modes for enforcement vs. prototyping.",
       links: [
         { label: "GitHub", url: "https://github.com/jdeworks/project-starter-kit" }
       ],
@@ -111,8 +111,8 @@ export const DATA = {
     },
     {
       name: "noodle-jump",
-      desc: "A pasta-themed endless jumper game built with PixiJS and TypeScript. Tilt controls on mobile, keyboard on desktop.",
-      longDesc: "10 power-ups, 3 themed zones (Kitchen, Ocean, Space) with parallax backgrounds, progressive difficulty, combo system, and procedural SFX via Web Audio API. A showcase project for the game-dev variant in project-starter-kit.",
+      desc: "A pasta-themed endless jumper game built with PixiJS and TypeScript. Tilt controls on mobile, keyboard on desktop — including P2P multiplayer on static hosting.",
+      longDesc: "13 power-ups, 7 themed zones, 13 playable characters, 3 boss fights, 35 achievements, and online multiplayer via WebRTC — all running on GitHub Pages with no backend. Local co-op split-screen, dynamic music per zone, and a PWA that works offline.",
       links: [
         { label: "GitHub", url: "https://github.com/jdeworks/noodle-jump" },
         { label: "Play", url: "https://jdeworks.github.io/noodle-jump/" }
@@ -121,14 +121,14 @@ export const DATA = {
     },
     {
       name: "infinite-story",
-      desc: "An AI-powered creative writing platform that generates branching, personalized narratives. Stories that adapt and grow.",
-      tags: ["AI", "Creative Writing", "Python", "Coming Soon"],
+      desc: "An AI-powered collaborative storytelling platform where community members expand branching narrative trees. Multiple story formats, character libraries, and multi-provider LLM support.",
+      tags: ["AI", "Creative Writing", "Next.js", "FastAPI", "Coming Soon"],
       soon: true
     },
     {
       name: "narratu",
       desc: "Proof-of-concept audiobook creator that turns short stories into multi-voice audiobooks entirely in the browser. Paste a story, AI handles the rest.",
-      longDesc: "A 95% solution for automated audiobook production. AI analyzes characters, emotions, and speech directions, then generates distinct voices per character with production-grade audio processing — LUFS normalization, peak limiting, and context-aware pacing. Supports ElevenLabs, Hume AI, and Chrome Web Speech via bring-your-own-key. Includes a fully voiced demo of 'The Open Window' by Saki.",
+      longDesc: "The one-stop solution to create engaging audiobooks automatically. AI analyzes characters, emotions, and speech directions, then generates distinct voices per character with production-grade audio processing — LUFS normalization, peak limiting, and context-aware pacing. Includes a mixing timeline, LLM-powered music/SFX placement, and a fully voiced demo of 'The Open Window' by Saki. Supports ElevenLabs, Hume AI, and Chrome Web Speech via bring-your-own-key.",
       tags: ["AI", "React", "TypeScript", "Audio", "Coming Soon"],
       soon: true
     }
