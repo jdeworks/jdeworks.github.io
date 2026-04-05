@@ -77,7 +77,7 @@ export function render(d, cs, ts, hs) {
       <div class="${uid}-block ${uid}-line" style="animation-delay:${delay}ms;">
         <p style="margin:0;"><span class="${uid}-bright">${p.name}</span> ${p.soon ? `<span class="${uid}-warn">[STAGING]</span>` : `<span class="${uid}-ok">[MOUNTED]</span>`}</p>
         <p style="margin:0;color:var(--fg2);">${p.desc}</p>
-        ${!p.soon ? `<p style="margin:0.25rem 0 0;">${p.url ? `<a href="${p.url}" target="_blank" rel="noopener" class="${uid}-link">src</a>` : ''}${p.demo ? ` <a href="${p.demo}" target="_blank" rel="noopener" class="${uid}-link">demo</a>` : ''}</p>` : ''}
+        ${!p.soon && p.links ? `<p style="margin:0.25rem 0 0;">${p.links.map(l => `<a href="${l.url}" target="_blank" rel="noopener" class="${uid}-link"${l.tip ? ` title="${l.tip}"` : ''}>${l.label.toLowerCase()}</a>`).join(' ')}</p>` : ''}
       </div>`;
     }).join('')}
 

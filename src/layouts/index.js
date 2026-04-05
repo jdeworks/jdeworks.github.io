@@ -1,44 +1,46 @@
-// Layout registry — import and re-export all layouts
-// To add a new layout: create a new file, then add it here
-// Set mobile: false to exclude from random rotation on mobile (still selectable via picker)
+// Layout registry — lightweight metadata, layouts loaded on demand via dynamic import
+// To add a new layout: add an entry to _REGISTRY, then create the layout file
 
-import * as centeredHero from './centered-hero.js';
-import * as sidebar from './sidebar.js';
-import * as terminal from './terminal.js';
-import * as magazine from './magazine.js';
-import * as bento from './bento.js';
-import * as split from './split.js';
-import * as minimalist from './minimalist.js';
-import * as playful from './playful.js';
-import * as devtool from './devtool.js';
-import * as editorial from './editorial.js';
-import * as agency from './agency.js';
-import * as stacked from './stacked.js';
-import * as scrollReveal from './scroll-reveal.js';
-import * as showcase from './showcase.js';
-import * as portfolio from './portfolio.js';
-import * as resume from './resume.js';
-import * as narrative from './narrative.js';
-import * as landing from './landing.js';
-import * as matrix from './matrix.js';
-import * as retroOs from './retro-os.js';
-import * as newspaper from './newspaper.js';
-import * as blueprint from './blueprint.js';
-import * as arcade from './arcade.js';
-import * as comic from './comic.js';
-import * as stories from './stories.js';
-import * as chat from './chat.js';
-import * as neon from './neon.js';
-import * as glass from './glass.js';
-import * as recipe from './recipe.js';
-import * as boardingPass from './boarding-pass.js';
-import * as starfield from './starfield.js';
-import * as fileExplorer from './file-explorer.js';
-import * as boot from './boot.js';
-import * as cardDeck from './card-deck.js';
-import * as rundown from './rundown.js';
-import * as poster from './poster.js';
-import * as decayed from './decayed.js';
+// Each entry: { name (display name), file (filename), mobile (included in mobile rotation) }
+const _REGISTRY = [
+  { name: 'Centered Hero',  file: 'centered-hero.js',  mobile: true },
+  { name: 'Sidebar',        file: 'sidebar.js',        mobile: false },
+  { name: 'Terminal',        file: 'terminal.js',       mobile: true },
+  { name: 'Magazine',        file: 'magazine.js',       mobile: false },
+  { name: 'Bento Grid',     file: 'bento.js',          mobile: false },
+  { name: 'Split',           file: 'split.js',          mobile: false },
+  { name: 'Minimalist',      file: 'minimalist.js',     mobile: true },
+  { name: 'Playful',         file: 'playful.js',        mobile: true },
+  { name: 'DevTool',         file: 'devtool.js',        mobile: true },
+  { name: 'Editorial',       file: 'editorial.js',      mobile: true },
+  { name: 'Agency',          file: 'agency.js',         mobile: true },
+  { name: 'Stacked',         file: 'stacked.js',        mobile: true },
+  { name: 'Scroll Reveal',   file: 'scroll-reveal.js',  mobile: true },
+  { name: 'Showcase',        file: 'showcase.js',       mobile: false },
+  { name: 'Portfolio',       file: 'portfolio.js',      mobile: false },
+  { name: 'Resume',          file: 'resume.js',         mobile: false },
+  { name: 'Narrative',       file: 'narrative.js',      mobile: true },
+  { name: 'Landing',         file: 'landing.js',        mobile: true },
+  { name: 'Matrix',          file: 'matrix.js',         mobile: true },
+  { name: 'Retro OS',        file: 'retro-os.js',       mobile: true },
+  { name: 'Newspaper',       file: 'newspaper.js',      mobile: true },
+  { name: 'Blueprint',       file: 'blueprint.js',      mobile: true },
+  { name: 'Arcade',          file: 'arcade.js',         mobile: true },
+  { name: 'Comic Book',      file: 'comic.js',          mobile: true },
+  { name: 'Stories',         file: 'stories.js',        mobile: true },
+  { name: 'Chat',            file: 'chat.js',           mobile: true },
+  { name: 'Neon',            file: 'neon.js',           mobile: true },
+  { name: 'Glass',           file: 'glass.js',          mobile: true },
+  { name: 'Recipe',          file: 'recipe.js',         mobile: true },
+  { name: 'Boarding Pass',   file: 'boarding-pass.js',  mobile: true },
+  { name: 'Starfield',       file: 'starfield.js',      mobile: true },
+  { name: 'Code Editor',     file: 'file-explorer.js',  mobile: false },
+  { name: 'Boot Sequence',   file: 'boot.js',           mobile: true },
+  { name: 'Card Deck',       file: 'card-deck.js',      mobile: true },
+  { name: 'Rundown',         file: 'rundown.js',        mobile: true },
+  { name: 'Poster',          file: 'poster.js',         mobile: true },
+  { name: 'Broken Page',     file: 'decayed.js',        mobile: true },
+];
 
 // Which style axes actually change the rendered output per layout.
 // Omitted layouts default to { card: true, tag: true, heading: true }.
@@ -79,77 +81,27 @@ export function layoutSupports(name) {
   return _S[name] || DEFAULTS;
 }
 
-// All layouts — always available in the picker
-export const LAYOUTS = [
-  centeredHero,
-  sidebar,
-  terminal,
-  magazine,
-  bento,
-  split,
-  minimalist,
-  playful,
-  devtool,
-  editorial,
-  agency,
-  stacked,
-  scrollReveal,
-  showcase,
-  portfolio,
-  resume,
-  narrative,
-  landing,
-  matrix,
-  retroOs,
-  newspaper,
-  blueprint,
-  arcade,
-  comic,
-  stories,
-  chat,
-  neon,
-  glass,
-  recipe,
-  boardingPass,
-  starfield,
-  fileExplorer,
-  boot,
-  cardDeck,
-  rundown,
-  poster,
-  decayed,
-];
+// ─── Layout name lists (for random pick + picker UI) ────────
+export const LAYOUT_NAMES = _REGISTRY.map(r => r.name);
+export const MOBILE_LAYOUT_NAMES = _REGISTRY.filter(r => r.mobile).map(r => r.name);
 
-// Layouts that look great on mobile — used for random rotation on small screens
-// (multi-column and panel-heavy layouts are excluded since they collapse to
-//  the same single-column on mobile, but they're still selectable in the picker)
-export const MOBILE_LAYOUTS = [
-  centeredHero,
-  terminal,
-  minimalist,
-  playful,
-  devtool,
-  editorial,
-  stacked,
-  scrollReveal,
-  narrative,
-  matrix,
-  retroOs,
-  newspaper,
-  arcade,
-  comic,
-  stories,
-  chat,
-  agency,
-  landing,
-  neon,
-  glass,
-  recipe,
-  boardingPass,
-  starfield,
-  boot,
-  cardDeck,
-  rundown,
-  poster,
-  decayed,
-];
+// ─── Dynamic loading ────────────────────────────────────────
+const _cache = new Map();
+
+/** Load a single layout by display name. Returns { name, render }. */
+export async function loadLayout(name) {
+  if (_cache.has(name)) return _cache.get(name);
+  const entry = _REGISTRY.find(r => r.name === name);
+  if (!entry) throw new Error(`Unknown layout: ${name}`);
+  const mod = await import('./' + entry.file);
+  const layout = { name: mod.name, render: mod.render };
+  _cache.set(name, layout);
+  return layout;
+}
+
+/** Preload all layouts in the background. */
+export function loadAllLayouts() {
+  return Promise.all(
+    _REGISTRY.filter(r => !_cache.has(r.name)).map(r => loadLayout(r.name))
+  );
+}

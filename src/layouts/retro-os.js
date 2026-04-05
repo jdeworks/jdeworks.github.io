@@ -143,7 +143,7 @@ export function render(d, cs, ts, hs) {
             </div>
             ${w.data.soon
               ? `<span style="font-size:11px;color:#808080;">⏳ Coming soon...</span>`
-              : `<a href="${w.data.url}" target="_blank" rel="noopener" class="${uid}-btn" style="text-decoration:none;color:#000;">📁 Open</a>${w.data.demo ? `<a href="${w.data.demo}" target="_blank" rel="noopener" class="${uid}-btn" style="text-decoration:none;color:#000;">▶️ Run</a>` : ''}`}
+              : (w.data.links || []).map(l => `<a href="${l.url}" target="_blank" rel="noopener" class="${uid}-btn" style="text-decoration:none;color:#000;"${l.tip ? ` title="${l.tip}"` : ''}>📁 ${l.label}</a>`).join('')}
           ` : `
             <div style="text-align:center;">
               <p style="font-size:14px;font-weight:700;margin:8px 0 4px;">${d.name}</p>

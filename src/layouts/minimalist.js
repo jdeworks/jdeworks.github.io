@@ -28,8 +28,7 @@ export function render(d, cs, ts, hs) {
             <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;">
               <h3 style="font-family:var(--font-head);font-size:1rem;margin:0;color:var(--fg);font-weight:400;">${p.name}</h3>
               <div style="display:flex;gap:0.75rem;flex-shrink:0;">
-                ${p.soon ? `<span style="font-size:0.75rem;color:var(--fg2);font-style:italic;">soon</span>` : `<a href="${p.url}" target="_blank" rel="noopener" style="font-size:0.75rem;color:var(--fg2);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--fg2)'">src</a>
-                ${p.demo ? `<a href="${p.demo}" target="_blank" rel="noopener" style="font-size:0.75rem;color:var(--fg2);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--fg2)'">demo</a>` : ''}`}
+                ${p.soon ? `<span style="font-size:0.75rem;color:var(--fg2);font-style:italic;">soon</span>` : (p.links || []).map(l => `<a href="${l.url}" target="_blank" rel="noopener"${l.tip ? ` title="${l.tip}"` : ''} style="font-size:0.75rem;color:var(--fg2);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--fg2)'">${l.label.toLowerCase()}</a>`).join('\n                ')}
               </div>
             </div>
             <p style="color:var(--fg2);font-size:0.8rem;margin:0.25rem 0 0;font-weight:300;line-height:1.5;">${p.desc}</p>

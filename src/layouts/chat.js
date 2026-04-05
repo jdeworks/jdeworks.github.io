@@ -14,10 +14,11 @@ export function render(d, cs, ts, hs) {
   function msg(text, fromMe = false, extra = '') {
     const align = fromMe ? 'margin-left:auto;' : '';
     const bg = fromMe ? 'background:var(--accent);color:var(--bg);' : 'background:var(--card);color:var(--fg);';
+    const cls = fromMe ? ` class="${uid}-mine"` : '';
     const radius = fromMe
       ? 'border-radius:18px 18px 4px 18px;'
       : 'border-radius:18px 18px 18px 4px;';
-    return `<div style="max-width:85%;${align}${bg}${radius}padding:0.75rem 1rem;margin-bottom:0.35rem;font-size:0.9rem;line-height:1.6;">
+    return `<div${cls} style="max-width:85%;${align}${bg}${radius}padding:0.75rem 1rem;margin-bottom:0.35rem;font-size:0.9rem;line-height:1.6;">
       ${text}${extra}
     </div>`;
   }
@@ -38,6 +39,10 @@ export function render(d, cs, ts, hs) {
 
   return `
   <style>
+    .${uid}-mine { color: var(--bg); }
+    .${uid}-mine * { color: inherit !important; background: transparent !important; border-color: transparent !important; }
+    .${uid}-mine a { text-decoration: underline; text-underline-offset: 3px; opacity: 0.85; }
+    .${uid}-mine a:hover { opacity: 1; }
     @keyframes ${uid}-typing {
       0%, 100% { opacity: 0.3; transform: translateY(0); }
       50% { opacity: 0.8; transform: translateY(-3px); }

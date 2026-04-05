@@ -9,7 +9,7 @@ export function render(d, cs, ts, hs) {
       .split-wrap { flex-direction: row; }
       @media(max-width:768px) { .split-wrap { flex-direction: column !important; } .split-wrap > section { width: 100% !important; min-height: auto !important; padding: 2.5rem 1.5rem !important; } }
     </style>
-    <section style="width:45%;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:4rem 3rem;background:var(--bg2);">
+    <section style="width:45%;min-height:100vh;display:flex;flex-direction:column;padding:4rem 3rem;background:var(--bg2);">
       <h1 style="${headingStyle(hs, 'font-size:clamp(2.5rem,5vw,3.5rem);margin:0;color:var(--fg);font-weight:700;')}">${d.name}</h1>
       <p style="color:var(--accent);font-size:1.1rem;margin:0.5rem 0 1.5rem;font-family:var(--font-head);">${d.role}</p>
       <p style="color:var(--fg2);font-size:1rem;line-height:1.7;margin:0 0 1rem;">${d.bio}</p>

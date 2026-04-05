@@ -53,70 +53,90 @@ export const DATA = {
       name: "make-it-look-good",
       desc: "Evidence-based design knowledge base and analyzer for LLMs and developers. Point your AI assistant at it to get actually good UI/UX output — concrete numbers, real patterns, and copy-paste snippets.",
       longDesc: "45 design topics, 121 prebuilt templates across 38 elements, a live preview tool, and a Design Analyzer that scores any website against ~60 evidence-based checks across 14 modules. Includes a consultation playbook that turns any LLM into a design consultant.",
-      url: "https://github.com/jdeworks/make-it-look-good",
-      demo: "https://jdeworks.github.io/make-it-look-good/",
+      links: [
+        { label: "GitHub", url: "https://github.com/jdeworks/make-it-look-good" },
+        { label: "Live Demo", url: "https://jdeworks.github.io/make-it-look-good/", tip: "Browse the design knowledge base and preview tool" },
+        { label: "Analyzer", url: "https://jdeworks.github.io/make-it-look-good/analyzer.html", tip: "Score any website against ~60 evidence-based design checks" }
+      ],
       tags: ["Design", "AI", "Tailwind", "Knowledge Base"]
     },
     {
       name: "agent-sandbox",
       desc: "Isolated Docker sandbox for AI coding agents. Each project runs inside a locked-down container with your choice of agent and only the runtimes you need.",
       longDesc: "Supports Claude Code, OpenCode, Cursor CLI, and GitHub Copilot. 12 language runtimes, profile import/export, config mirroring, and plugin discovery. Runs on Linux, macOS, WSL, and Windows.",
-      url: "https://github.com/jdeworks/agent-sandbox",
+      links: [
+        { label: "GitHub", url: "https://github.com/jdeworks/agent-sandbox" }
+      ],
       tags: ["Docker", "CLI", "DevTools", "AI Agents"]
     },
     {
       name: "elemental-surprise",
       desc: "A scalable element combination game — 2,767 elements with 74,000+ recipes spanning nature, technology, mythology, and more. Entirely vibe-coded.",
       longDesc: "Built end-to-end through conversational AI collaboration. Features auto-solve spectator mode, semantic icon matching across 24k+ candidates, lazy-loaded recipe buckets, and an honest 'where vibe coding works and doesn't' writeup.",
-      url: "https://github.com/jdeworks/elemental-surprise",
-      demo: "https://jdeworks.github.io/elemental-surprise/",
+      links: [
+        { label: "GitHub", url: "https://github.com/jdeworks/elemental-surprise" },
+        { label: "Live Demo", url: "https://jdeworks.github.io/elemental-surprise/" }
+      ],
       tags: ["Game", "React", "TypeScript", "Vibe Coded"]
     },
     {
       name: "think-tank",
       desc: "AI-guided project planning tool that transforms ideas into structured, comprehensive plans through interactive conversation.",
       longDesc: "Answer guided questions about architecture, tech stack, hosting, security, and budget. Generates interactive diagrams, structured JSON, and exportable documentation — all running entirely in the browser with no backend required.",
-      url: "https://github.com/jdeworks/think-tank",
-      demo: "https://jdeworks.github.io/think-tank",
+      links: [
+        { label: "GitHub", url: "https://github.com/jdeworks/think-tank" },
+        { label: "Live Demo", url: "https://jdeworks.github.io/think-tank" }
+      ],
       tags: ["AI", "React", "TypeScript", "Planning"]
     },
     {
       name: "project-starter-kit",
       desc: "A structured foundation for AI-assisted software projects. Quality infrastructure that keeps AI agents producing maintainable code across any project type.",
       longDesc: "10 project variants (website, API, SaaS, CLI, MCP server, game dev, and more), multi-agent support (Claude Code, OpenCode, Cursor, Windsurf, Copilot), CLI tooling, and starter templates per framework. Full and lean modes for enforcement vs. prototyping.",
-      url: "https://github.com/jdeworks/project-starter-kit",
+      links: [
+        { label: "GitHub", url: "https://github.com/jdeworks/project-starter-kit" }
+      ],
       tags: ["DevTools", "AI", "CLI", "Knowledge Base"]
     },
     {
       name: "get-me-started",
       desc: "Guides complete beginners from zero to a working website setup using AI. No coding experience required — just pick your OS and follow along.",
       longDesc: "A setup page that detects your OS and walks you through everything. Works with any AI chatbot (ChatGPT, Claude, Gemini) via a starter prompt. Includes concept explainer guides and connects to the rest of the jdeworks ecosystem.",
-      url: "https://github.com/jdeworks/get-me-started",
-      demo: "https://jdeworks.github.io/get-me-started/",
+      links: [
+        { label: "GitHub", url: "https://github.com/jdeworks/get-me-started" },
+        { label: "Live Demo", url: "https://jdeworks.github.io/get-me-started/" }
+      ],
       tags: ["Guide", "Beginner", "Web Dev", "AI"]
     },
     {
       name: "noodle-jump",
       desc: "A pasta-themed endless jumper game built with PixiJS and TypeScript. Tilt controls on mobile, keyboard on desktop.",
       longDesc: "10 power-ups, 3 themed zones (Kitchen, Ocean, Space) with parallax backgrounds, progressive difficulty, combo system, and procedural SFX via Web Audio API. A showcase project for the game-dev variant in project-starter-kit.",
-      url: "https://github.com/jdeworks/noodle-jump",
-      demo: "https://jdeworks.github.io/noodle-jump/",
+      links: [
+        { label: "GitHub", url: "https://github.com/jdeworks/noodle-jump" },
+        { label: "Play", url: "https://jdeworks.github.io/noodle-jump/" }
+      ],
       tags: ["Game", "TypeScript", "PixiJS", "Vibe Coded"]
     },
     {
       name: "infinite-story",
       desc: "An AI-powered creative writing platform that generates branching, personalized narratives. Stories that adapt and grow.",
-      url: null,
       tags: ["AI", "Creative Writing", "Python", "Coming Soon"],
       soon: true
     },
     {
-      name: "security-suite",
-      desc: "Comprehensive security vulnerability scanner for vibe-coded applications. Multiple scanner types with AI-powered exploit analysis and PDF reports.",
-      url: null,
-      tags: ["Security", "SAST", "DAST", "Docker", "Coming Soon"],
+      name: "narratu",
+      desc: "Proof-of-concept audiobook creator that turns short stories into multi-voice audiobooks entirely in the browser. Paste a story, AI handles the rest.",
+      longDesc: "A 95% solution for automated audiobook production. AI analyzes characters, emotions, and speech directions, then generates distinct voices per character with production-grade audio processing — LUFS normalization, peak limiting, and context-aware pacing. Supports ElevenLabs, Hume AI, and Chrome Web Speech via bring-your-own-key. Includes a fully voiced demo of 'The Open Window' by Saki.",
+      tags: ["AI", "React", "TypeScript", "Audio", "Coming Soon"],
       soon: true
     }
+    // {
+    //   name: "security-suite",
+    //   desc: "Comprehensive security vulnerability scanner for vibe-coded applications. Multiple scanner types with AI-powered exploit analysis and PDF reports.",
+    //   tags: ["Security", "SAST", "DAST", "Docker", "Coming Soon"],
+    //   soon: true
+    // }
   ],
 
   tech: ["Python", "TypeScript", "JavaScript", "C#", "React", "FastAPI", "Docker", "Tailwind CSS", "Azure"],

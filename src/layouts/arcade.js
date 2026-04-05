@@ -108,7 +108,7 @@ export function render(d, cs, ts, hs) {
             <td style="padding:0.75rem 0;text-align:right;vertical-align:top;">
               ${p.soon
                 ? `<span style="font-size:9px;color:#888;">LOCKED</span>`
-                : `<a href="${p.url}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:9px;">SRC→</a>${p.demo ? ` <a href="${p.demo}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:9px;">PLAY→</a>` : ''}`}
+                : (p.links || []).map(l => `<a href="${l.url}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:9px;"${l.tip ? ` title="${l.tip}"` : ''}>${l.label.toUpperCase()}→</a>`).join(' ')}
             </td>
           </tr>
         `).join('')}

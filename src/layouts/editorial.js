@@ -31,8 +31,7 @@ export function render(d, cs, ts, hs) {
             ${p.tags.map(t => tagHTML(t, ts)).join("")}
           </div>
           <div style="display:flex;gap:1.5rem;">
-            ${p.soon ? `<span style="font-size:0.85rem;color:var(--fg2);font-style:italic;">Coming soon</span>` : `<a href="${p.url}" target="_blank" rel="noopener" style="color:var(--fg);font-size:0.85rem;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;text-decoration-color:var(--border);transition:text-decoration-color 0.2s;" onmouseover="this.style.textDecorationColor='var(--accent)'" onmouseout="this.style.textDecorationColor='var(--border)'">Source</a>
-            ${p.demo ? `<a href="${p.demo}" target="_blank" rel="noopener" style="color:var(--fg);font-size:0.85rem;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;text-decoration-color:var(--border);transition:text-decoration-color 0.2s;" onmouseover="this.style.textDecorationColor='var(--accent)'" onmouseout="this.style.textDecorationColor='var(--border)'">Demo</a>` : ''}`}
+            ${p.soon ? `<span style="font-size:0.85rem;color:var(--fg2);font-style:italic;">Coming soon</span>` : (p.links || []).map(l => `<a href="${l.url}" target="_blank" rel="noopener"${l.tip ? ` title="${l.tip}"` : ''} style="color:var(--fg);font-size:0.85rem;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;text-decoration-color:var(--border);transition:text-decoration-color 0.2s;" onmouseover="this.style.textDecorationColor='var(--accent)'" onmouseout="this.style.textDecorationColor='var(--border)'">${l.label}</a>`).join('\n            ')}
           </div>
         </article>
       `).join("")}

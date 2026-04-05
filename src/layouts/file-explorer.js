@@ -48,7 +48,7 @@ export function render(d, cs, ts, hs) {
     }
   </style>
 
-  <div class="${uid}-root">
+  <div class="${uid}-root" style="max-width:1200px;margin:0 auto;">
     <div style="display:grid;grid-template-columns:220px 1fr;min-height:100vh;" class="${uid}-layout">
       <!-- Sidebar -->
       <div class="${uid}-sidebar">
@@ -115,9 +115,8 @@ export function render(d, cs, ts, hs) {
               out += L(n++, `&nbsp;&nbsp;{`);
               out += L(n++, `&nbsp;&nbsp;&nbsp;&nbsp;${fn('name')}: ${str(p.name)},`);
               out += L(n++, `&nbsp;&nbsp;&nbsp;&nbsp;${fn('desc')}: ${str(p.desc)},`);
-              const urlPart = p.url ? `${fn('url')}: ${lnk(p.url, p.url)}` : `${fn('url')}: ${kw('null')}`;
-              const demoPart = p.demo ? `, ${fn('demo')}: ${lnk(p.demo, p.demo)}` : '';
-              out += L(n++, `&nbsp;&nbsp;&nbsp;&nbsp;${urlPart}${demoPart},`);
+              const linksPart = (p.links || []).map(l => `${fn(l.label)}: ${lnk(l.url, l.url)}`).join(', ');
+              out += L(n++, `&nbsp;&nbsp;&nbsp;&nbsp;${linksPart || `${fn('url')}: ${kw('null')}`},`);
               out += L(n++, `&nbsp;&nbsp;},`);
             });
             out += L(n++, `];`);

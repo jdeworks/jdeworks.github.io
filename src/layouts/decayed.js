@@ -233,7 +233,7 @@ export function render(d, cs, ts, hs) {
             <td style="color:var(--fg2);">${p.desc}</td>
             <td>${p.soon
               ? `<span style="color:var(--fg2);font-style:italic;">coming soon</span>`
-              : `<a href="${p.url}" target="_blank" rel="noopener" class="${uid}-unstyled-link">source</a>${p.demo ? ` | <a href="${p.demo}" target="_blank" rel="noopener" class="${uid}-unstyled-link">demo</a>` : ''}`
+              : (p.links || []).map(l => `<a href="${l.url}" target="_blank" rel="noopener" class="${uid}-unstyled-link"${l.tip ? ` title="${l.tip}"` : ''}>${l.label.toLowerCase()}</a>`).join(' | ')
             }</td>
           </tr>
           ${i === 1 ? `<tr style="opacity:0.04;transform:translateX(5px);pointer-events:none;"><td>${p.name}</td><td>${p.desc}</td><td>source</td></tr>` : ''}

@@ -6,12 +6,12 @@
   <title>jdeworks</title>
   <meta name="description" content="Full-stack software developer. AI-augmented dev tools, games, and things that make development more fun.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <style>
-    html, body { overflow-x: hidden; }
-    [data-layout] { opacity: 0; transition: opacity 0.4s ease; }
+    html, body { overflow-x: clip; margin: 0; }
+    [data-layout] { opacity: 0; transition: opacity 0.25s ease; }
+    [data-layout]::after { content: ''; display: block; height: 5rem; }
     [data-layout].ready { opacity: 1; }
     .shuffle-btn {
       position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 50;
@@ -125,18 +125,18 @@ import { DATA, pickBio, pickAbout, pickTake, pickInterests } from './src/data.js
 import { PALETTES } from './src/palettes/palettes.js';
 import { FONTS } from './src/fonts/fonts.js';
 import { CARD_STYLES, TAG_STYLES, HEADING_STYLES } from './src/styles/styles.js';
-import { LAYOUTS, MOBILE_LAYOUTS, layoutSupports } from './src/layouts/index.js';
+import { LAYOUT_NAMES, MOBILE_LAYOUT_NAMES, loadLayout, loadAllLayouts, layoutSupports } from './src/layouts/index.js';
 import { pick } from './src/helpers.js';
 
 // ─── State ───────────────────────────────────────────────────
 let current = {};
 
-// ─── Font loader ─────────────────────────────────────────────
+// ─── Font loader (cached — keeps all loaded fonts in DOM) ────
+const _loadedFonts = new Set();
 function loadFont(font) {
-  const existing = document.getElementById('gfont');
-  if (existing) existing.remove();
+  if (_loadedFonts.has(font.url)) return;
+  _loadedFonts.add(font.url);
   const link = document.createElement('link');
-  link.id = 'gfont';
   link.rel = 'stylesheet';
   link.href = `https://fonts.googleapis.com/css2?${font.url}&display=swap`;
   document.head.appendChild(link);
@@ -547,12 +547,15 @@ function cleanupAnimations() {
   if (starfieldId) { cancelAnimationFrame(starfieldId); starfieldId = null; }
 }
 
-function render(opts = {}) {
+async function render(opts = {}) {
   cleanupAnimations();
   const palette = opts.palette || pick(PALETTES);
   const font = opts.font || pick(FONTS);
   const isMobileScreen = window.innerWidth <= 640;
-  const layout = opts.layout || pick(isMobileScreen ? MOBILE_LAYOUTS : LAYOUTS);
+
+  // Resolve layout: string name → load dynamically, or pick random
+  const layoutName = opts.layout || pick(isMobileScreen ? MOBILE_LAYOUT_NAMES : LAYOUT_NAMES);
+  const layout = await loadLayout(layoutName);
   const sup = layoutSupports(layout.name);
   const cs = opts.card || (sup.card ? pick(CARD_STYLES) : CARD_STYLES[0]);
   const ts = opts.tag || (sup.tag ? pick(TAG_STYLES) : TAG_STYLES[0]);
@@ -587,15 +590,15 @@ function render(opts = {}) {
   // Scroll to top
   window.scrollTo({ top: 0, behavior: 'instant' });
 
-  // Activate scroll reveals after DOM is ready
+  // Show content immediately, activate hooks after DOM settles
   requestAnimationFrame(() => {
+    app.classList.add('ready');
     activateScrollReveals();
     activateRetroOS();
     activateMatrixRain();
     activateStoryDots();
     activateCardDeck();
     activateStarfield();
-    requestAnimationFrame(() => { app.classList.add('ready'); });
   });
 }
 
@@ -613,14 +616,14 @@ function buildPicker() {
   const state = {
     palette: current.palette,
     font: current.font,
-    layout: current.layout,
+    layout: current.layout.name,
     card: current.card,
     tag: current.tag,
     heading: current.heading,
   };
 
   function renderPicker() {
-    const sup = layoutSupports(state.layout.name);
+    const sup = layoutSupports(state.layout);
     box.innerHTML = `
       <button class="picker-close" id="picker-close">&times;</button>
       <h3>Accent Colors</h3>
@@ -638,7 +641,7 @@ function buildPicker() {
       </div>
       <h3>Layout</h3>
       <div class="picker-options">
-        ${LAYOUTS.map(l => `<button class="picker-opt ${l.name === state.layout.name ? 'active' : ''}" data-type="layout" data-value="${l.name}">${l.name}</button>`).join('')}
+        ${LAYOUT_NAMES.map(n => `<button class="picker-opt ${n === state.layout ? 'active' : ''}" data-type="layout" data-value="${n}">${n}</button>`).join('')}
       </div>
       <div class="${sup.card ? '' : 'picker-section-disabled'}">
         <h3>Card Style</h3>
@@ -670,7 +673,7 @@ function buildPicker() {
         const val = btn.dataset.value;
         if (type === 'palette') state.palette = findByName(PALETTES, val);
         else if (type === 'font') state.font = findByName(FONTS, val);
-        else if (type === 'layout') state.layout = findByName(LAYOUTS, val);
+        else if (type === 'layout') state.layout = val;
         else if (type === 'card') state.card = val;
         else if (type === 'tag') state.tag = val;
         else if (type === 'heading') state.heading = val;
@@ -722,14 +725,17 @@ const params = readParams();
 const initOpts = {};
 if (params.palette) initOpts.palette = findByName(PALETTES, params.palette);
 if (params.font) initOpts.font = findByName(FONTS, params.font);
-if (params.layout) initOpts.layout = findByName(LAYOUTS, params.layout);
+if (params.layout) initOpts.layout = params.layout;
 if (params.card && CARD_STYLES.includes(params.card)) initOpts.card = params.card;
 if (params.tag && TAG_STYLES.includes(params.tag)) initOpts.tag = params.tag;
 if (params.heading && HEADING_STYLES.includes(params.heading)) initOpts.heading = params.heading;
 
 // Keep params in URL if we loaded from a parameterized link
 if (window.location.search) initOpts._writeParams = true;
-render(initOpts);
+await render(initOpts);
+
+// Preload remaining layouts in background after first paint
+loadAllLayouts();
 
 // Shuffle button
 document.getElementById('shuffle-btn').addEventListener('click', shuffle);

@@ -22,6 +22,7 @@ export function render(d, cs, ts, hs) {
       min-height: 100vh; position: relative;
       background: color-mix(in srgb, var(--bg) 70%, #6b5332);
       font-family: var(--font-body);
+      overflow: clip;
     }
     /* Heavy grain */
     .${uid}-root::before {
@@ -182,7 +183,7 @@ export function render(d, cs, ts, hs) {
           <div style="margin-bottom:0.5rem;">${p.tags.map(t => `<span class="${uid}-stamp" style="transform:rotate(${-4 + Math.random() * 8}deg);opacity:${0.4 + Math.random() * 0.4};">${t}</span>`).join('')}</div>
           <div>${p.soon
             ? `<span class="${uid}-text" style="font-size:0.75rem;font-style:italic;opacity:0.4;">[ REDACTED — pending clearance ]</span>`
-            : `<a href="${p.url}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:0.85rem;">source</a>${p.demo ? ` <a href="${p.demo}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:0.85rem;margin-left:0.75rem;">demo</a>` : ''}`
+            : (p.links || []).map(l => `<a href="${l.url}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:0.85rem;margin-left:0.75rem;"${l.tip ? ` title="${l.tip}"` : ''}>${l.label.toLowerCase()}</a>`).join('')
           }</div>
         </div>`;
       }).join('')}

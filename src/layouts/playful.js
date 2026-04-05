@@ -25,7 +25,7 @@ export function render(d, cs, ts, hs) {
         <div>
           <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.25rem;">
             <div style="display:inline-flex;align-items:center;gap:0.5rem;background:color-mix(in srgb, var(--card) 70%, transparent);backdrop-filter:blur(8px);border-radius:9999px;padding:0.4rem 1rem;border:1px solid var(--border);">
-              <span style="width:8px;height:8px;border-radius:50%;background:#22c55e;"></span>
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--accent);"></span>
               <span style="font-size:0.75rem;font-weight:700;color:var(--fg2);">Building cool stuff</span>
             </div>
             <div style="display:inline-flex;align-items:center;gap:0.5rem;background:color-mix(in srgb, var(--card) 70%, transparent);backdrop-filter:blur(8px);border-radius:9999px;padding:0.4rem 1rem;border:1px solid var(--border);">

@@ -12,11 +12,13 @@ export function projectLinks(p) {
   if (p.soon) {
     return `<span style="font-size: 0.8rem; color: var(--fg2); font-style: italic;">Coming soon</span>`;
   }
-  let links = `<a href="${p.url}" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none; font-size: 0.9rem; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">GitHub &rarr;</a>`;
-  if (p.demo) {
-    links += ` <a href="${p.demo}" target="_blank" rel="noopener" style="color: var(--fg2); text-decoration: none; font-size: 0.9rem; margin-left: 1rem; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Live Demo &rarr;</a>`;
-  }
-  return links;
+  if (!p.links || !p.links.length) return '';
+  return p.links.map((link, i) => {
+    const color = i === 0 ? 'var(--accent)' : 'var(--fg2)';
+    const ml = i > 0 ? ' margin-left: 1rem;' : '';
+    const tooltip = link.tip ? ` title="${link.tip}"` : '';
+    return `<a href="${link.url}" target="_blank" rel="noopener"${tooltip} style="color: ${color}; text-decoration: none; font-size: 0.9rem;${ml} transition: opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">${link.label} &rarr;</a>`;
+  }).join(' ');
 }
 
 export function cardCSS(style) {

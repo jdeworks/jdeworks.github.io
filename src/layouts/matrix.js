@@ -73,11 +73,11 @@ export function render(d, cs, ts, hs) {
               <h3 style="font-size:1rem;margin:0;font-weight:400;color:var(--accent);">&gt; ${p.name}</h3>
               ${p.soon
                 ? `<span class="${uid}-dim" style="font-size:0.75rem;">[CLASSIFIED]</span>`
-                : `<a href="${p.url}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:0.8rem;">access &rarr;</a>`}
+                : (p.links || []).slice(0, 1).map(l => `<a href="${l.url}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:0.8rem;"${l.tip ? ` title="${l.tip}"` : ''}>access &rarr;</a>`).join('')}
             </div>
             <p style="font-size:0.8rem;margin:0.5rem 0 0.75rem;line-height:1.6;color:var(--fg2);">${p.desc}</p>
             <div>${p.tags.map(t => `<span class="${uid}-tag">${t}</span>`).join('')}</div>
-            ${p.demo ? `<a href="${p.demo}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:0.8rem;display:inline-block;margin-top:0.5rem;">demo &rarr;</a>` : ''}
+            ${(p.links || []).slice(1).map(l => `<a href="${l.url}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:0.8rem;display:inline-block;margin-top:0.5rem;"${l.tip ? ` title="${l.tip}"` : ''}>${l.label.toLowerCase()} &rarr;</a>`).join(' ')}
           </div>
         `).join('')}
       </div>
