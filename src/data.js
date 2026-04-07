@@ -120,7 +120,7 @@ export const DATA = {
       tags: ["Game", "TypeScript", "PixiJS", "Vibe Coded"]
     },
     {
-      name: "narratu",
+      name: "narratu poc",
       desc: "Proof-of-concept audiobook creator that turns short stories into multi-voice audiobooks entirely in the browser. Paste a story, AI handles the rest.",
       longDesc: "The one-stop solution to create engaging audiobooks automatically. AI analyzes characters, emotions, and speech directions, then generates distinct voices per character with production-grade audio processing — LUFS normalization, peak limiting, and context-aware pacing. Includes a mixing timeline, LLM-powered music/SFX placement, and a fully voiced demo of 'The Open Window' by Saki. Supports ElevenLabs, Hume AI, and Chrome Web Speech via bring-your-own-key.",
       links: [
