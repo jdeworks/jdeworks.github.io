@@ -326,6 +326,30 @@ async function _getMarked() {
   }
 }
 
+// Rewrite relative links/images in a rendered README so they resolve against the
+// repo (the README is served from jdeworks.github.io, not GitHub). Mirrors what
+// GitHub itself does: file links → /blob/HEAD/<path>, images → raw host. Pure
+// anchors (#x) and absolute URLs are left alone; all external links open in a new tab.
+function rewriteRelativeLinks(html, repo) {
+  if (!repo) return html;
+  const repoBase = 'https://github.com/jdeworks/' + repo;
+  const rawBase = 'https://raw.githubusercontent.com/jdeworks/' + repo + '/HEAD/';
+  const isAbs = u => /^(https?:|mailto:|tel:|\/\/|data:|#)/i.test(u);
+  const clean = u => u.replace(/^\.\//, '').replace(/^\//, '');
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  tmp.querySelectorAll('a[href]').forEach(a => {
+    const h = a.getAttribute('href');
+    if (h && !isAbs(h)) a.setAttribute('href', repoBase + '/blob/HEAD/' + clean(h));
+    if (/^https?:/i.test(a.getAttribute('href') || '')) { a.setAttribute('target', '_blank'); a.setAttribute('rel', 'noopener'); }
+  });
+  tmp.querySelectorAll('img[src]').forEach(img => {
+    const s = img.getAttribute('src');
+    if (s && !isAbs(s)) img.setAttribute('src', rawBase + clean(s));
+  });
+  return tmp.innerHTML;
+}
+
 function activateCodeEditor() {
   const marker = document.querySelector('code-editor');
   if (!marker) return;
@@ -352,11 +376,16 @@ function activateCodeEditor() {
 
   // ── Tab bar render ──
   function renderTabs() {
-    tabBar.innerHTML = openTabs.map(t =>
-      '<div class="' + uid + '-tab' + (t.id === activeId ? ' active' : '') +
-      '" data-tab="' + t.id + '"><span>&#128196;</span> ' + _escAttr(t.name) +
-      ' <span class="' + uid + '-tab-close" data-close="' + t.id + '" title="Close">&times;</span></div>'
-    ).join('');
+    // Like real editors: only show the repo in parens when the same file name is
+    // open more than once (e.g. several README.md). Unique names stay plain.
+    const counts = {};
+    openTabs.forEach(t => { counts[t.name] = (counts[t.name] || 0) + 1; });
+    tabBar.innerHTML = openTabs.map(t => {
+      const label = (counts[t.name] > 1 && t.repo) ? t.name + ' (' + t.repo + ')' : t.name;
+      return '<div class="' + uid + '-tab' + (t.id === activeId ? ' active' : '') +
+        '" data-tab="' + t.id + '"><span>&#128196;</span> ' + _escAttr(label) +
+        ' <span class="' + uid + '-tab-close" data-close="' + t.id + '" title="Close">&times;</span></div>';
+    }).join('');
   }
 
   function _escAttr(s) {
@@ -465,6 +494,7 @@ function activateCodeEditor() {
     if (mod && mod.marked) {
       let html = mod.marked.parse(tab.raw, { breaks: false, gfm: true });
       html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
+      html = rewriteRelativeLinks(html, tab.repo);
       tab.rendered = '<div class="' + uid + '-md">' + html + '</div>';
     } else {
       // marked import failed → raw text in <pre>.
@@ -520,30 +550,89 @@ function activateCodeEditor() {
   }
 
   // ── Cheeky "it's private" modal for the "..." row on private repos ──
+  const CHEEKY_LINES = [
+    "It's private — still in its pajamas. Come back when it's dressed.",
+    "Nice try. This one's behind the velvet rope for now.",
+    "Nothing to see here… yet. The repo's a little shy.",
+    "I'd show you, but then I'd have to add you as a collaborator.",
+    "Still cooking. It stays private until it stops being embarrassing.",
+    "This repo is in witness protection.",
+    "Top secret. Or just unfinished. Probably both.",
+    "Access denied — but politely, with a smile.",
+    "The bits are still wet. Give them a minute.",
+    "Private for now. The README is the only presentable part.",
+    "You found the door. The key is another matter.",
+    "Under construction. Hard hats not included.",
+    "This one's marinating. Come back later.",
+    "Classified. The truth is in there… ish.",
+    "Shhh. It's not ready for visitors.",
+    "Currently private, mildly chaotic, definitely not for public eyes.",
+    "The repo equivalent of 'do not disturb'.",
+    "Loading confidence… please wait.",
+    "It's private until I delete the embarrassing commits.",
+    "Peek denied. Curiosity noted and appreciated.",
+    "This vault stays shut for now.",
+    "Still in the lab. Goggles on, link off.",
+    "Private. Like a diary, but with more merge conflicts.",
+    "Not yet. Good things, gatekeeping, etc.",
+    "The repo is shy and the author is paranoid.",
+    "Sealed for freshness.",
+    "You knocked. The repo pretended not to be home.",
+    "Private build. Public charm only.",
+    "Coming eventually. Patience is a feature.",
+    "This one's still doing its hair.",
+    "Behind the curtain — and the curtain is staying put.",
+    "Access is on a strictly need-to-not-know basis.",
+    "It's private. The suspense is part of the experience.",
+    "404½: found, but forbidden.",
+    "Locked. The README is the trailer; the movie's not out.",
+    "Trust me, you're not missing the bugs yet.",
+    "No entry. The code is having a moment.",
+    "This repo prefers to be admired from a distance.",
+    "Private — currently held together by hope and TODOs.",
+    "The gate is closed but the lights are on.",
+    "Patience, traveler. This door opens later.",
+    "Private. Like fight club, but with linters.",
+    "Not for public consumption. Yet. Maybe. We'll see.",
+    "It's a secret to everybody.",
+    "The repo is private; the vibes are public.",
+    "Still private — the demo gods haven't blessed it.",
+    "You get the README. The rest is mystery.",
+    "Hidden for now. Future-you will thank present-me.",
+    "Private mode: engaged. Charm offensive: also engaged.",
+    "Knock knock. (It's private. No one's answering.)",
+  ];
   function cheekyModal(repo) {
-    const lines = [
-      "It's private — still in its pajamas. Come back when it's dressed.",
-      "Nice try. This one's behind the velvet rope for now.",
-      "Nothing to see here… yet. The repo's a little shy.",
-      "I'd show you, but then I'd have to add you as a collaborator.",
-      "Still cooking. It stays private until it stops being embarrassing.",
-    ];
-    const msg = lines[Math.floor(Math.random() * lines.length)];
+    let idx = Math.floor(Math.random() * CHEEKY_LINES.length);
+    const msgId = uid + '-cheeky-msg';
     const ov = document.createElement('div');
     ov.setAttribute('data-ce-modal', '');
     ov.style.cssText = 'position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);opacity:0;transition:opacity 0.18s;';
     ov.innerHTML =
-      '<div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.6rem 1.8rem;max-width:380px;width:86%;text-align:center;color:var(--fg);font-family:var(--font-body);box-shadow:0 12px 40px rgba(0,0,0,0.45);">'
+      '<div style="position:relative;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.6rem 1.8rem;max-width:380px;width:86%;text-align:center;color:var(--fg);font-family:var(--font-body);box-shadow:0 12px 40px rgba(0,0,0,0.45);">'
+      + '<button data-ce-roll title="Another one" aria-label="Shuffle message" style="position:absolute;top:0.6rem;right:0.6rem;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;font-size:0.95rem;cursor:pointer;background:transparent;color:var(--fg2);border:1px solid var(--border);border-radius:7px;transition:transform 0.3s,color 0.15s,border-color 0.15s;" onmouseover="this.style.color=\'var(--accent)\';this.style.borderColor=\'var(--accent)\'" onmouseout="this.style.color=\'var(--fg2)\';this.style.borderColor=\'var(--border)\'">&#127922;</button>'
       + '<div style="font-size:2rem;margin-bottom:0.5rem;">&#128274;</div>'
       + '<div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.09em;color:var(--accent);margin-bottom:0.5rem;">' + repo + ' &middot; private</div>'
-      + '<p style="margin:0 0 1.1rem;line-height:1.6;font-size:0.95rem;color:var(--fg2);">' + msg + '</p>'
+      + '<p id="' + msgId + '" style="margin:0 0 1.1rem;line-height:1.6;font-size:0.95rem;color:var(--fg2);">' + CHEEKY_LINES[idx] + '</p>'
       + '<button data-ce-close style="font-family:inherit;font-size:0.82rem;cursor:pointer;background:var(--accent);color:var(--bg);border:none;border-radius:8px;padding:0.5rem 1.1rem;">Fair enough</button>'
       + '</div>';
     document.body.appendChild(ov);
     requestAnimationFrame(() => { ov.style.opacity = '1'; });
     function close() { ov.style.opacity = '0'; setTimeout(() => ov.remove(), 180); document.removeEventListener('keydown', onKey); }
     function onKey(e) { if (e.key === 'Escape') close(); }
-    ov.addEventListener('click', (e) => { if (e.target === ov || e.target.closest('[data-ce-close]')) close(); });
+    ov.addEventListener('click', (e) => {
+      const roll = e.target.closest('[data-ce-roll]');
+      if (roll) {
+        let n; do { n = Math.floor(Math.random() * CHEEKY_LINES.length); } while (n === idx && CHEEKY_LINES.length > 1);
+        idx = n;
+        const p = ov.querySelector('#' + msgId);
+        if (p) p.textContent = CHEEKY_LINES[idx];
+        roll.style.transform = 'rotate(180deg)';
+        setTimeout(() => { roll.style.transform = ''; }, 300);
+        return;
+      }
+      if (e.target === ov || e.target.closest('[data-ce-close]')) close();
+    });
     document.addEventListener('keydown', onKey);
   }
 

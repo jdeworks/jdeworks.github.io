@@ -120,6 +120,7 @@ try {
     els.filter(e => e.dataset.folder !== 'src').map(e => ({
       id: e.dataset.folder,
       glyph: (e.querySelector('[class*="-icon"]')?.textContent || '').trim(),
+      name: e.textContent.replace(/\s+/g, ' ').trim(),
     })));
   // Public = plain folder (📁 U+1F4C1). Private = 🔒. Archived = 📦.
   const pub = folderMeta.find(f => f.glyph.codePointAt(0) === 0x1F4C1);
@@ -181,6 +182,44 @@ try {
     }
   }
 
+  // Relative links in a rendered README are rewritten to the repo (scripts has them)
+  const scripts = folderMeta.find(f => /\bscripts\b/.test(f.name));
+  if (scripts) {
+    await expandFolder(scripts.id);
+    await page.click(`[data-children="${scripts.id}"] [data-node-kind="readme"]`);
+    await page.waitForFunction(() => {
+      const ed = document.querySelector('[id$="-editor"]');
+      return ed && ed.querySelectorAll('a[href]').length > 0;
+    }, { timeout: 15000 }).catch(() => {});
+    const links = await page.evaluate(() => {
+      const ed = document.querySelector('[id$="-editor"]');
+      const as = [...ed.querySelectorAll('a[href]')];
+      return {
+        total: as.length,
+        relative: as.filter(a => { const h = a.getAttribute('href'); return h && !/^(https?:|mailto:|tel:|#|\/\/|data:)/i.test(h); }).length,
+        toRepo: as.filter(a => /github\.com\/jdeworks\/scripts\/blob\/HEAD\//.test(a.getAttribute('href') || '')).length,
+        newTab: as.filter(a => /^https?:/i.test(a.getAttribute('href') || '')).every(a => a.target === '_blank'),
+      };
+    });
+    ok('scripts README has links', links.total > 0, JSON.stringify(links));
+    ok('no broken relative links remain', links.relative === 0, JSON.stringify(links));
+    ok('relative file links rewritten to repo /blob/HEAD/', links.toRepo > 0, JSON.stringify(links));
+    ok('external README links open in a new tab', links.newTab);
+  }
+
+  // Tab disambiguation: open a second README.md → both show "(repo)"
+  if (pub) {
+    await page.click(`[data-children="${pub.id}"] [data-node-kind="readme"]`).catch(() => {});
+    await page.click('[data-file-id="root-readme"]').catch(() => {});
+    const tabLabels = await page.$$eval('[id$="-tabs"] [data-tab]', els => els.map(e => e.textContent.replace(/\s+/g, ' ').trim()));
+    const readmeTabs = tabLabels.filter(t => /README\.md/.test(t));
+    ok('duplicate README tabs show "(repo)"', readmeTabs.length >= 2 && readmeTabs.every(t => /README\.md \(.+\)/.test(t)),
+       JSON.stringify(readmeTabs));
+    // about.ts stays plain (unique)
+    ok('unique file name stays plain (no parens)', tabLabels.some(t => /about\.ts/.test(t) && !/about\.ts\s*\(/.test(t)),
+       JSON.stringify(tabLabels));
+  }
+
   // Nav "..." rows carry no icon
   if (pub) {
     const navHasIcon = await page.$eval(`[data-children="${pub.id}"] [data-node-kind="nav"]`,
@@ -214,6 +253,14 @@ try {
     await page.click(`[data-children="${priv.id}"] [data-node-kind="nav"][data-private]`);
     const modalShown = await page.waitForSelector('[data-ce-modal]', { timeout: 2000 }).then(() => true).catch(() => false);
     ok('private "..." opens a cheeky modal (no navigation)', modalShown && !popupOpened);
+    // Dice re-roll changes the message
+    if (modalShown) {
+      const before = await page.$eval('[data-ce-modal] p', e => e.textContent);
+      await page.click('[data-ce-modal] [data-ce-roll]');
+      await new Promise(r => setTimeout(r, 100));
+      const after = await page.$eval('[data-ce-modal] p', e => e.textContent);
+      ok('dice re-roll shuffles the cheeky message', before !== after, JSON.stringify({ before: before.slice(0, 30), after: after.slice(0, 30) }));
+    }
     // Dismiss it
     await page.click('[data-ce-modal] [data-ce-close]').catch(() => {});
     await new Promise(r => setTimeout(r, 250));
