@@ -10,6 +10,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <style>
     html, body { overflow-x: clip; margin: 0; }
+    /* Accent-tinted scrollbars — follow the active palette via CSS vars */
+    * { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--accent, #38bdf8) 70%, transparent) transparent; }
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb {
+      background: color-mix(in srgb, var(--accent, #38bdf8) 55%, transparent);
+      border-radius: 8px; border: 2px solid transparent; background-clip: padding-box;
+    }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent, #38bdf8); }
+    ::-webkit-scrollbar-corner { background: transparent; }
     [data-layout] { opacity: 0; transition: opacity 0.25s ease; }
     [data-layout]::after { content: ''; display: block; height: 5rem; }
     [data-layout].ready { opacity: 1; }

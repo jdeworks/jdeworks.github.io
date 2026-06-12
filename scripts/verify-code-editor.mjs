@@ -149,6 +149,16 @@ try {
     ok('editor pane scrolls independently of tree', independentScroll.edScrolls && independentScroll.distinct,
        JSON.stringify(independentScroll));
 
+    // Actually scroll the editor and prove the PAGE doesn't move (the bug that "failed").
+    const scrollProof = await page.evaluate(() => {
+      const ed = document.querySelector('[id$="-editor"]');
+      const pageBefore = window.scrollY;
+      ed.scrollTop = 9999;
+      return { edScrolled: ed.scrollTop > 5, pageMoved: window.scrollY !== pageBefore, edTop: ed.scrollTop };
+    });
+    ok('editor scrolls internally, page does not move', scrollProof.edScrolled && !scrollProof.pageMoved,
+       JSON.stringify(scrollProof));
+
     // Preview/Source toggle now visible; flip to Source → expect <pre> raw markdown
     const hasToggle = await page.$eval('[id$="-editor-head"]', e => /md-toggle/.test(e.innerHTML)).catch(() => false);
     ok('md-toggle appears for README', hasToggle);

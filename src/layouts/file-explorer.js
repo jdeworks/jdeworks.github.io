@@ -183,8 +183,14 @@ export function render(d, cs, ts, hs) {
   return `
   <style>
     .${uid}-root { min-height: 100vh; background: var(--bg); font-family: var(--font-body); }
-    /* Cap the whole editor to one screen; let each pane scroll on its own. */
-    #${uid}-root { height: 100vh; height: 100dvh; overflow: hidden; }
+    /* Cap the whole editor to one screen; let each pane scroll on its own.
+       grid-template-rows: minmax(0,1fr) pins the single row to the viewport so a
+       tall README scrolls INSIDE the editor instead of stretching/clipping the page.
+       minmax(0,1fr) column lets the main pane shrink so its overflow works too. */
+    #${uid}-root {
+      display: grid; grid-template-columns: 240px minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr); height: 100vh; overflow: hidden;
+    }
     /* This layout is full-height — drop the global trailing spacer so the page itself doesn't scroll. */
     #app::after { content: none !important; display: none !important; height: 0 !important; }
     .${uid}-sidebar {
@@ -291,7 +297,7 @@ export function render(d, cs, ts, hs) {
   </style>
 
   <div class="${uid}-root" style="max-width:1200px;margin:0 auto;">
-    <div style="display:grid;grid-template-columns:240px 1fr;min-height:100vh;" class="${uid}-layout" id="${uid}-root">
+    <div class="${uid}-layout" id="${uid}-root">
       <!-- Sidebar -->
       <div class="${uid}-sidebar">
         <div class="${uid}-item" style="padding-left:0.75rem;font-weight:600;font-size:0.7rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--fg2);opacity:0.6;cursor:default;">
