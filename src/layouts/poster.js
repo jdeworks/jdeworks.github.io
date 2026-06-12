@@ -1,5 +1,5 @@
 // Poster — weathered gig poster, torn edges, faded ink, peeling off a wall
-import { headingStyle, tagHTML, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Poster";
 
@@ -158,7 +158,7 @@ export function render(d, cs, ts, hs) {
           <div style="padding-top:1.25rem;">
             ${d.projects.map((p, i) => `
               <div class="${uid}-lineup" data-num="${String(i + 1).padStart(2, '0')}" style="opacity:${1 - i * 0.08};">
-                <h3 style="font-family:var(--font-head);font-size:clamp(1.1rem,4vw,1.6rem);margin:0;color:color-mix(in srgb, var(--fg) 70%, #8b7355);font-weight:900;text-transform:uppercase;">${p.name}</h3>
+                <h3 style="font-family:var(--font-head);font-size:clamp(1.1rem,4vw,1.6rem);margin:0;color:color-mix(in srgb, var(--fg) 70%, #8b7355);font-weight:900;text-transform:uppercase;">${p.name}${statusBadge(p)}</h3>
                 <p style="color:color-mix(in srgb, var(--fg2) 60%, #8b7355);font-size:0.8rem;line-height:1.5;margin:0.5rem 0;">${p.desc}</p>
                 <div style="margin-bottom:0.5rem;">${p.tags.map(t => `<span class="${uid}-tag">${t}</span>`).join('')}</div>
                 <div>${projectLinks(p)}</div>

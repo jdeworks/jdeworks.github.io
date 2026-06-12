@@ -1,5 +1,5 @@
 // Broken Page — glitched webpage with scrambled elements, rendering bugs, z-index chaos
-import { projectLinks, githubIcon } from '../helpers.js';
+import { projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Broken Page";
 
@@ -229,7 +229,7 @@ export function render(d, cs, ts, hs) {
         </tr>
         ${d.projects.map((p, i) => `
           <tr style="${i === 2 ? 'position:relative;' : ''}">
-            <td style="color:var(--fg);font-weight:700;">${p.name}</td>
+            <td style="color:var(--fg);font-weight:700;">${p.name}${statusBadge(p)}</td>
             <td style="color:var(--fg2);">${p.desc}</td>
             <td>${p.soon
               ? `<span style="color:var(--fg2);font-style:italic;">coming soon</span>`

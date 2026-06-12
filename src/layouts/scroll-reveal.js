@@ -1,6 +1,6 @@
 // Inspired by make-it-look-good: scroll-reveal-landing
 // Scroll-driven reveals, parallax, 3D card entrance, gradient hero
-import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Scroll Reveal";
 
@@ -67,7 +67,7 @@ export function render(d, cs, ts, hs) {
       <div style="display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));">
         ${d.projects.map((p, i) => `
           <div class="${uid}-card" data-reveal style="background:var(--card);border-radius:14px;padding:1.75rem;${cardCSS(cs)};transition-delay:${i * 100}ms;">
-            <h3 style="font-family:var(--font-head);font-size:1.05rem;margin:0 0 0.5rem;color:var(--fg);">${p.name}</h3>
+            <h3 style="font-family:var(--font-head);font-size:1.05rem;margin:0 0 0.5rem;color:var(--fg);">${p.name}${statusBadge(p)}</h3>
             <p style="color:var(--fg2);font-size:0.85rem;line-height:1.6;margin:0 0 1rem;">${p.desc}</p>
             <div style="margin-bottom:0.75rem;">${p.tags.map(t => tagHTML(t, ts)).join("")}</div>
             <div>${projectLinks(p)}</div>

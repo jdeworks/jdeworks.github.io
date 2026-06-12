@@ -1,5 +1,5 @@
 // Recipe Card — cooking metaphor, ingredients/instructions/serves
-import { headingStyle, tagHTML, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Recipe";
 
@@ -95,7 +95,7 @@ export function render(d, cs, ts, hs) {
           <h2 class="${uid}-section-title">What came out of the oven</h2>
           ${d.projects.map(p => `
             <div style="padding:1rem 0;border-bottom:1px solid var(--border);">
-              <h3 style="font-family:var(--font-head);font-size:1rem;margin:0 0 0.35rem;color:var(--fg);font-weight:600;">${p.name}</h3>
+              <h3 style="font-family:var(--font-head);font-size:1rem;margin:0 0 0.35rem;color:var(--fg);font-weight:600;">${p.name}${statusBadge(p)}</h3>
               <p style="color:var(--fg2);font-size:0.85rem;line-height:1.5;margin:0 0 0.5rem;">${p.desc}</p>
               <div>${projectLinks(p)}</div>
             </div>

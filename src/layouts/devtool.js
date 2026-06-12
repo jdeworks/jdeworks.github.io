@@ -1,6 +1,6 @@
 // Inspired by make-it-look-good: devtool-landing
 // Gradient mesh background, glow cards, monospace accents, code-block style sections
-import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "DevTool";
 
@@ -53,7 +53,7 @@ export function render(d, cs, ts, hs) {
             <div class="glow-card" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;">
               <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
                 <svg style="width:18px;height:18px;color:var(--accent);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-                <h3 style="font-family:monospace;font-size:0.95rem;margin:0;color:var(--fg);">${p.name}</h3>
+                <h3 style="font-family:monospace;font-size:0.95rem;margin:0;color:var(--fg);">${p.name}${statusBadge(p)}</h3>
               </div>
               <p style="color:var(--fg2);font-size:0.8rem;line-height:1.6;margin:0 0 1rem;">${p.desc}</p>
               <div style="margin-bottom:0.75rem;">${p.tags.map(t => tagHTML(t, ts)).join("")}</div>

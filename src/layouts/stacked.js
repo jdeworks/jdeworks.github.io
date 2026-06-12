@@ -1,6 +1,6 @@
 // Inspired by make-it-look-good: portfolio/clean (numbered sections, full-width blocks)
 // Full-width alternating sections, numbered headings, clean structure
-import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Stacked";
 
@@ -74,7 +74,7 @@ export function render(d, cs, ts, hs) {
             <div class="${uid}-row" style="${i < d.projects.length - 1 ? 'border-bottom:1px solid var(--border);' : ''}">
               <div class="${uid}-num">0${i + 1}</div>
               <div>
-                <h3 style="font-family:var(--font-head);font-size:1.25rem;margin:0 0 0.5rem;color:var(--fg);font-weight:600;">${p.name}</h3>
+                <h3 style="font-family:var(--font-head);font-size:1.25rem;margin:0 0 0.5rem;color:var(--fg);font-weight:600;">${p.name}${statusBadge(p)}</h3>
                 <p style="color:var(--fg2);font-size:0.9rem;line-height:1.65;margin:0 0 1rem;">${p.desc}</p>
                 <div style="margin-bottom:0.75rem;">${p.tags.map(t => tagHTML(t, ts)).join("")}</div>
                 <div>${projectLinks(p)}</div>

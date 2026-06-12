@@ -1,5 +1,5 @@
 // Card Deck — stacked cards you can swipe/click through
-import { headingStyle, tagHTML, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Card Deck";
 
@@ -71,7 +71,7 @@ export function render(d, cs, ts, hs) {
             </div>
           ` : c.type === 'project' ? `
             <div style="flex:1;display:flex;flex-direction:column;">
-              <h3 style="font-family:var(--font-head);font-size:1.2rem;margin:0 0 0.5rem;color:var(--fg);font-weight:600;">${c.name}</h3>
+              <h3 style="font-family:var(--font-head);font-size:1.2rem;margin:0 0 0.5rem;color:var(--fg);font-weight:600;">${c.name}${statusBadge(c)}</h3>
               <p style="color:var(--fg2);font-size:0.85rem;line-height:1.6;margin:0 0 1rem;flex:1;">${c.longDesc || c.desc}</p>
               <div style="margin-bottom:0.75rem;">${c.tags.map(t => `<span class="${uid}-tag">${t}</span>`).join('')}</div>
               <div>${projectLinks(c)}</div>

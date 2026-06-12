@@ -1,5 +1,5 @@
 // Starfield — canvas star parallax with twinkling + shooting stars
-import { headingStyle, tagHTML, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Starfield";
 
@@ -48,7 +48,7 @@ export function render(d, cs, ts, hs) {
       <h2 style="${headingStyle(hs, 'font-size:1.25rem;margin:2rem 0 1.25rem;color:var(--fg);text-align:center;')}">Missions</h2>
       ${d.projects.map(p => `
         <div class="${uid}-panel">
-          <h3 style="font-family:var(--font-head);font-size:1.05rem;margin:0 0 0.5rem;color:var(--fg);font-weight:600;">${p.name}</h3>
+          <h3 style="font-family:var(--font-head);font-size:1.05rem;margin:0 0 0.5rem;color:var(--fg);font-weight:600;">${p.name}${statusBadge(p)}</h3>
           <p style="color:var(--fg2);font-size:0.85rem;line-height:1.6;margin:0 0 0.75rem;">${p.desc}</p>
           <div style="margin-bottom:0.5rem;">${p.tags.map(t => `<span class="${uid}-tag">${t}</span>`).join('')}</div>
           <div>${projectLinks(p)}</div>

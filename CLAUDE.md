@@ -40,14 +40,20 @@ Edit `src/data.js` → `projects` array. Each project:
 ```js
 {
   name: "project-name",
+  repo: "project-name",     // GitHub repo slug (may differ from name, e.g. "narratu-poc")
   desc: "Short description for most layouts.",
   longDesc: "Longer description for layouts with more room (optional).",
-  url: "https://github.com/jdeworks/project-name",  // null for coming-soon
-  demo: "https://jdeworks.github.io/project-name/",  // optional
+  status: "private",        // omit = active public; "private" = lock icon; "archived" = box icon
+  summary: "Short summary.",// REQUIRED for private repos — Code Editor shows this (README isn't fetchable)
+  links: [{ label: "GitHub", url: "https://github.com/jdeworks/project-name" }],  // omit for private
   tags: ["Tag1", "Tag2"],
-  soon: false  // set true for unreleased projects (hides links, shows "Coming soon")
+  soon: false  // set true for announced-but-unreleased (hides links, shows "Coming soon")
 }
 ```
+
+**Status model.** `status` drives the `statusBadge(p)` / `projectStatusRank(p)` helpers in `helpers.js`. Projects are **sorted centrally** in `index.html`'s `render()` (active → private/coming-soon → archived), so every layout shows them in that order — don't re-sort per layout. A minimal status badge is rendered in all project-listing layouts.
+
+**Code Editor easter egg** (`src/layouts/file-explorer.js` + `activateCodeEditor()` in `index.html`): the second easter egg (the picker is the first). Each project is a folder (icon by status: 📁 public / 🔒 private / 📦 archived) that expands to a `README.md` + a `...` repo link. Public/archived READMEs are **fetched** from `raw.githubusercontent.com/jdeworks/<repo>/HEAD/README.md` (CORS-open) and rendered via lazily-loaded `marked`; private projects render their `summary` (no fetch). Node model is data-attribute-driven (`data-node-kind`: `folder`/`source`/`readme`/`summary`/`nav`) so a future `download`/beta node type is a one-branch add. Verified by `scripts/verify-code-editor.mjs` (see Testing).
 
 ### Add a bio/about/take/interests variant
 
@@ -150,6 +156,29 @@ This site's design system draws from [make-it-look-good](https://github.com/jdew
 - Color palettes follow Tailwind's tonal scale approach
 - Layout patterns are adapted from make-it-look-good presets (personal-hero, portfolio, agency-landing, scroll-reveal-landing, devtool-landing, editorial-blog, app-showcase, etc.)
 - There's a custom `jdeworks-personal` preset in make-it-look-good's preset library
+
+## Testing
+
+The deployed site has **no build and no test deps** — everything below is dev-only tooling that is **gitignored** (`package.json`, `node_modules/`, `scripts/*.png`, `test-results/`). It's all rebuildable from this file, so it stays local and out of the repo. Only `scripts/*.mjs` (the test definitions) and `.gitignore` are committed.
+
+We verify interactive layouts (hooks in `index.html` that wire up DOM after `innerHTML` render) by **driving a real headless browser via Puppeteer** — the same approach as [make-it-look-good](https://github.com/jdeworks/make-it-look-good) (`scripts/*.mjs` for ad-hoc checks; it also keeps Playwright `tests/*.spec.js` for committed regression specs). No MCP / browser tool is needed — it's just a Node script launching Chromium.
+
+**Run the existing checks:**
+```bash
+node scripts/verify-code-editor.mjs   # 15 checks on the Code Editor easter egg
+```
+The script starts its own static server, opens `?layout=Code+Editor`, clicks through the file tree/tabs, asserts README fetch + markdown render + private-summary + tab close, and writes `scripts/verify-code-editor.png`.
+
+**Rebuilding the tooling from scratch** (if `package.json` / `node_modules` are absent):
+```bash
+# package.json (gitignored) — minimal dev deps:
+#   { "private": true, "scripts": { "verify": "node scripts/verify-code-editor.mjs" },
+#     "devDependencies": { "puppeteer": "^24.0.0" } }
+npm install                            # installs puppeteer
+```
+The verify scripts auto-discover a Chromium binary: `$CHROME_BIN`, else the newest Playwright Chromium in `~/.cache/ms-playwright/chromium-*/chrome-linux64/chrome` (Puppeteer's own download is often partial on this machine). If neither exists: `npx puppeteer browsers install chrome` **or** `npx playwright install chromium`.
+
+**When adding a new interactive layout** (one needing an `activate*()` hook), add a matching `scripts/verify-<layout>.mjs` so the interaction is regression-checked, and launch Chromium with `--no-sandbox --disable-setuid-sandbox --disable-gpu --disable-dev-shm-usage`.
 
 ## Deployment
 

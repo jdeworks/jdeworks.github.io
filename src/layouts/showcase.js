@@ -1,6 +1,6 @@
 // Inspired by make-it-look-good: app-showcase
 // Stacking feature cards, warm accent, scroll-reveal, bold sections
-import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Showcase";
 
@@ -82,7 +82,7 @@ export function render(d, cs, ts, hs) {
         ${d.projects.map((p, i) => `
           <div class="${uid}-reveal ${uid}-feature ${uid}-pcard" data-reveal style="background:var(--card);border-radius:16px;padding:2rem;${cardCSS(cs)};display:grid;grid-template-columns:1fr;gap:1.5rem;transition-delay:${i * 80}ms;">
             <div>
-              <h3 style="font-family:var(--font-head);font-size:1.25rem;margin:0 0 0.5rem;color:var(--fg);font-weight:600;">${p.name}</h3>
+              <h3 style="font-family:var(--font-head);font-size:1.25rem;margin:0 0 0.5rem;color:var(--fg);font-weight:600;">${p.name}${statusBadge(p)}</h3>
               <div>${p.tags.map(t => tagHTML(t, ts)).join("")}</div>
               <div style="margin-top:1rem;">${projectLinks(p)}</div>
             </div>

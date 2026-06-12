@@ -1,6 +1,6 @@
 // Inspired by make-it-look-good: shell-marketing + product-launch
 // Marketing landing page style — hero CTA, feature grid, social proof
-import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Landing";
 
@@ -49,7 +49,7 @@ export function render(d, cs, ts, hs) {
       <div style="display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));">
         ${d.projects.map(p => `
           <div style="background:var(--card);border-radius:14px;padding:2rem;${cardCSS(cs)};transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-            <h3 style="font-family:var(--font-head);font-size:1.1rem;margin:0 0 0.5rem;color:var(--fg);font-weight:600;">${p.name}</h3>
+            <h3 style="font-family:var(--font-head);font-size:1.1rem;margin:0 0 0.5rem;color:var(--fg);font-weight:600;">${p.name}${statusBadge(p)}</h3>
             <p style="color:var(--fg2);font-size:0.85rem;line-height:1.65;margin:0 0 1rem;">${p.longDesc || p.desc}</p>
             <div style="margin-bottom:0.75rem;">${p.tags.map(t => tagHTML(t, ts)).join("")}</div>
             <div>${projectLinks(p)}</div>

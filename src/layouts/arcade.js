@@ -1,5 +1,5 @@
 // Retro Arcade — 8-bit game UI, pixel borders, score table, health bars
-import { projectLinks, githubIcon } from '../helpers.js';
+import { projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Arcade";
 
@@ -101,7 +101,7 @@ export function render(d, cs, ts, hs) {
           <tr style="border-bottom:1px solid #222;">
             <td style="padding:0.75rem 0;font-size:9px;" class="${uid}-score">${i + 1}ST</td>
             <td style="padding:0.75rem 0;">
-              <p style="font-size:9px;margin:0;color:#eee;">${p.name}</p>
+              <p style="font-size:9px;margin:0;color:#eee;">${p.name}${statusBadge(p)}</p>
               <p style="font-size:9px;margin:0.35rem 0 0;color:#777;line-height:1.8;">${p.desc}</p>
               <div style="margin-top:0.35rem;">${p.tags.map(t => `<span class="${uid}-tag">${t}</span>`).join('')}</div>
             </td>

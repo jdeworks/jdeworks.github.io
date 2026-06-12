@@ -1,4 +1,4 @@
-import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Bento Grid";
 
@@ -34,7 +34,7 @@ export function render(d, cs, ts, hs) {
       </div>
       ${d.projects.map(p => `
         <div style="background:var(--card);border-radius:16px;padding:1.75rem;${cardCSS(cs)}">
-          <h3 style="font-family:var(--font-head);font-size:1rem;margin:0 0 0.5rem;color:var(--fg);">${p.name}</h3>
+          <h3 style="font-family:var(--font-head);font-size:1rem;margin:0 0 0.5rem;color:var(--fg);">${p.name}${statusBadge(p)}</h3>
           <p style="color:var(--fg2);font-size:0.8rem;line-height:1.6;margin:0 0 0.75rem;">${p.desc}</p>
           <div style="margin-bottom:0.75rem;">${p.tags.map(t => tagHTML(t, ts)).join("")}</div>
           <div>${projectLinks(p)}</div>

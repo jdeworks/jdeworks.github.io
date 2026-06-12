@@ -1,4 +1,4 @@
-import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Terminal";
 
@@ -30,7 +30,7 @@ export function render(d, cs, ts, hs) {
     <div style="display:flex;flex-direction:column;gap:1rem;">
       ${d.projects.map(p => `
         <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;${cardCSS(cs)}">
-          <h3 style="font-family:'JetBrains Mono',monospace;font-size:1rem;margin:0;color:var(--accent);">./${p.name}</h3>
+          <h3 style="font-family:'JetBrains Mono',monospace;font-size:1rem;margin:0;color:var(--accent);">./${p.name}${statusBadge(p)}</h3>
           <p style="color:var(--fg2);font-size:0.875rem;line-height:1.6;margin:0.5rem 0 1rem;">${p.desc}</p>
           <div style="margin-bottom:0.75rem;">${p.tags.map(t => tagHTML(t, ts)).join("")}</div>
           <div>${projectLinks(p)}</div>

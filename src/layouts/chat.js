@@ -1,5 +1,5 @@
 // Chat — content presented as a messaging conversation
-import { tagHTML, projectLinks, githubIcon } from '../helpers.js';
+import { tagHTML, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Chat";
 
@@ -94,7 +94,7 @@ export function render(d, cs, ts, hs) {
 
       ${d.projects.map(p =>
         msg(
-          `<strong style="color:inherit;">${p.name}</strong><br>
+          `<strong style="color:inherit;">${p.name}</strong>${statusBadge(p)}<br>
           <span style="opacity:0.85;font-size:0.85rem;">${p.desc}</span><br>
           <span style="margin-top:0.5rem;display:inline-block;">${p.tags.map(t => tagHTML(t, ts)).join(' ')}</span>
           ${!p.soon ? `<br><span style="margin-top:0.5rem;display:inline-block;">${projectLinks(p)}</span>` : '<br><span style="font-size:0.8rem;opacity:0.7;margin-top:0.25rem;display:inline-block;">🔒 Coming soon</span>'}`,

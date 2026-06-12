@@ -54,3 +54,19 @@ export function headingStyle(style, extra = "") {
     default: return s;
   }
 }
+
+// Returns a tiny inline status pill, or '' for active projects
+export function statusBadge(p) {
+  const base = "display:inline-block;font-size:0.6rem;letter-spacing:0.07em;text-transform:uppercase;border:1px solid var(--border);color:var(--fg2);border-radius:4px;padding:0.1rem 0.4rem;opacity:0.8;vertical-align:middle;margin-left:0.5rem;";
+  if (p.soon) return `<span style="${base}">Coming soon</span>`;
+  if (p.status === 'archived') return `<span style="${base}">Archived</span>`;
+  if (p.status === 'private') return `<span style="${base}">Private</span>`;
+  return '';
+}
+
+// Returns sort rank: 0 = active, 1 = private/coming-soon, 2 = archived
+export function projectStatusRank(p) {
+  if (p.status === 'archived') return 2;
+  if (p.status === 'private' || p.soon) return 1;
+  return 0;
+}

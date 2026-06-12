@@ -1,5 +1,5 @@
 // Boarding Pass — airline ticket style, departure/arrival, stamps
-import { headingStyle, tagHTML, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Boarding Pass";
 
@@ -119,7 +119,7 @@ export function render(d, cs, ts, hs) {
         <div class="${uid}-top" style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
           <div>
             <p class="${uid}-field-label">Cargo</p>
-            <h3 style="font-family:var(--font-head);font-size:1.1rem;margin:0;color:var(--fg);font-weight:700;">${p.name}</h3>
+            <h3 style="font-family:var(--font-head);font-size:1.1rem;margin:0;color:var(--fg);font-weight:700;">${p.name}${statusBadge(p)}</h3>
           </div>
           <div>${projectLinks(p)}</div>
         </div>

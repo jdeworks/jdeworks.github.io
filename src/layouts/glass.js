@@ -1,5 +1,5 @@
 // Glassmorphism — frosted glass panels over colorful gradient background
-import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Glass";
 
@@ -81,7 +81,7 @@ export function render(d, cs, ts, hs) {
       <div style="display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));">
         ${d.projects.map(p => `
           <div class="${uid}-card">
-            <h3 style="font-family:var(--font-head);font-size:1.05rem;margin:0 0 0.5rem;color:var(--fg);font-weight:600;">${p.name}</h3>
+            <h3 style="font-family:var(--font-head);font-size:1.05rem;margin:0 0 0.5rem;color:var(--fg);font-weight:600;">${p.name}${statusBadge(p)}</h3>
             <p style="color:var(--fg2);font-size:0.85rem;line-height:1.6;margin:0 0 0.75rem;">${p.desc}</p>
             <div style="margin-bottom:0.5rem;">${p.tags.map(t => `<span class="${uid}-tag">${t}</span>`).join('')}</div>
             <div>${projectLinks(p)}</div>

@@ -1,6 +1,6 @@
 // Timeline-focused resume/CV layout
 // Career journey is the hero, compact two-column structure
-import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Resume";
 
@@ -45,7 +45,7 @@ export function render(d, cs, ts, hs) {
           ${d.projects.map((p, i) => `
             <div style="margin-bottom:1.5rem;${i < d.projects.length - 1 ? 'padding-bottom:1.5rem;border-bottom:1px solid var(--border);' : ''}">
               <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
-                <h3 style="font-family:var(--font-head);font-size:1rem;margin:0;color:var(--fg);font-weight:600;">${p.name}</h3>
+                <h3 style="font-family:var(--font-head);font-size:1rem;margin:0;color:var(--fg);font-weight:600;">${p.name}${statusBadge(p)}</h3>
                 <div>${projectLinks(p)}</div>
               </div>
               <p style="color:var(--fg2);font-size:0.85rem;line-height:1.6;margin:0.35rem 0 0.5rem;">${p.desc}</p>

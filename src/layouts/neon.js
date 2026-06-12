@@ -1,5 +1,5 @@
 // Neon Sign — classic neon tube aesthetic, bright glow, random flicker, complementary color
-import { headingStyle, tagHTML, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Neon";
 
@@ -150,7 +150,7 @@ export function render(d, cs, ts, hs) {
         <div class="${uid}-glow-border${i % 2 === 1 ? '2' : ''}" style="padding:1.5rem;margin-bottom:1.5rem;${i % 2 === 1 ? 'border:1px solid var(--accent);' : ''}">
           <span class="${uid}-corner ${uid}-tl"></span><span class="${uid}-corner ${uid}-tr"></span>
           <span class="${uid}-corner ${uid}-bl"></span><span class="${uid}-corner ${uid}-br"></span>
-          <h3 class="${uid}-neon${i % 2 === 1 ? '2' : ''}" style="font-family:var(--font-head);font-size:1.05rem;margin:0 0 0.5rem;">${p.name}</h3>
+          <h3 class="${uid}-neon${i % 2 === 1 ? '2' : ''}" style="font-family:var(--font-head);font-size:1.05rem;margin:0 0 0.5rem;">${p.name}${statusBadge(p)}</h3>
           <p style="color:var(--fg2);font-size:0.85rem;line-height:1.6;margin:0 0 0.75rem;${i % 2 === 1 ? 'filter:hue-rotate(180deg);' : ''}">${p.desc}</p>
           <div style="margin-bottom:0.5rem;${i % 2 === 1 ? 'filter:hue-rotate(180deg);' : ''}">${p.tags.map(t => `<span class="${uid}-tag">${t}</span>`).join('')}</div>
           <div style="${i % 2 === 1 ? 'filter:hue-rotate(180deg);' : ''}">${projectLinks(p)}</div>

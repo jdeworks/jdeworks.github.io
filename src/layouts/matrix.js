@@ -1,5 +1,5 @@
 // Matrix (1999) — dense falling code rain with changing characters, palette-aware
-import { projectLinks, githubIcon } from '../helpers.js';
+import { projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Matrix";
 
@@ -70,7 +70,7 @@ export function render(d, cs, ts, hs) {
         ${d.projects.map(p => `
           <div class="${uid}-card">
             <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
-              <h3 style="font-size:1rem;margin:0;font-weight:400;color:var(--accent);">&gt; ${p.name}</h3>
+              <h3 style="font-size:1rem;margin:0;font-weight:400;color:var(--accent);">&gt; ${p.name}${statusBadge(p)}</h3>
               ${p.soon
                 ? `<span class="${uid}-dim" style="font-size:0.75rem;">[CLASSIFIED]</span>`
                 : (p.links || []).slice(0, 1).map(l => `<a href="${l.url}" target="_blank" rel="noopener" class="${uid}-link" style="font-size:0.8rem;"${l.tip ? ` title="${l.tip}"` : ''}>access &rarr;</a>`).join('')}

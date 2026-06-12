@@ -1,6 +1,6 @@
 // Inspired by make-it-look-good: personal-hero/minimalist
 // Ultra-clean, narrow column, font-light, border-based project list, no cards
-import { headingStyle, tagHTML, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Minimalist";
 
@@ -26,7 +26,7 @@ export function render(d, cs, ts, hs) {
         ${d.projects.map(p => `
           <div style="padding:1.5rem 0;border-bottom:1px solid var(--border);transition:padding-left 0.2s;" onmouseover="this.style.paddingLeft='0.5rem'" onmouseout="this.style.paddingLeft='0'">
             <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;">
-              <h3 style="font-family:var(--font-head);font-size:1rem;margin:0;color:var(--fg);font-weight:400;">${p.name}</h3>
+              <h3 style="font-family:var(--font-head);font-size:1rem;margin:0;color:var(--fg);font-weight:400;">${p.name}${statusBadge(p)}</h3>
               <div style="display:flex;gap:0.75rem;flex-shrink:0;">
                 ${p.soon ? `<span style="font-size:0.75rem;color:var(--fg2);font-style:italic;">soon</span>` : (p.links || []).map(l => `<a href="${l.url}" target="_blank" rel="noopener"${l.tip ? ` title="${l.tip}"` : ''} style="font-size:0.75rem;color:var(--fg2);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--fg2)'">${l.label.toLowerCase()}</a>`).join('\n                ')}
               </div>

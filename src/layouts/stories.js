@@ -1,6 +1,6 @@
 // Stories — full-screen sections you scroll through, Instagram-stories inspired
 // Each section fills the viewport with distinct background colors
-import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Stories";
 
@@ -89,7 +89,7 @@ export function render(d, cs, ts, hs) {
         <h2 style="${headingStyle(hs, 'font-size:1.5rem;margin:0 0 1.5rem;color:var(--fg);')}">Projects</h2>
         ${d.projects.slice(0, 3).map(p => `
           <div class="${uid}-card">
-            <h3 style="font-family:var(--font-head);font-size:1.05rem;margin:0 0 0.4rem;color:var(--fg);font-weight:600;">${p.name}</h3>
+            <h3 style="font-family:var(--font-head);font-size:1.05rem;margin:0 0 0.4rem;color:var(--fg);font-weight:600;">${p.name}${statusBadge(p)}</h3>
             <p style="color:var(--fg2);font-size:0.85rem;line-height:1.6;margin:0 0 0.75rem;">${p.desc}</p>
             <div style="margin-bottom:0.5rem;">${p.tags.map(t => tagHTML(t, ts)).join("")}</div>
             <div>${projectLinks(p)}</div>
@@ -104,7 +104,7 @@ export function render(d, cs, ts, hs) {
         <h2 style="${headingStyle(hs, 'font-size:1.5rem;margin:0 0 1.5rem;color:var(--fg);')}">Coming Up</h2>
         ${d.projects.slice(3).map(p => `
           <div class="${uid}-card">
-            <h3 style="font-family:var(--font-head);font-size:1.05rem;margin:0 0 0.4rem;color:var(--fg);font-weight:600;">${p.name}</h3>
+            <h3 style="font-family:var(--font-head);font-size:1.05rem;margin:0 0 0.4rem;color:var(--fg);font-weight:600;">${p.name}${statusBadge(p)}</h3>
             <p style="color:var(--fg2);font-size:0.85rem;line-height:1.6;margin:0 0 0.75rem;">${p.desc}</p>
             <div>${p.tags.map(t => tagHTML(t, ts)).join("")}</div>
           </div>

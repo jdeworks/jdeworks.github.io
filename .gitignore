@@ -1,0 +1,12 @@
+# Dev-only tooling — NOT part of the deployed static site.
+# All of this is rebuildable from CLAUDE.md (see "Testing"), so it stays local
+# and out of git. GitHub Pages serves the source files directly, no build.
+
+# Browser-verification tooling + its install
+package.json
+package-lock.json
+node_modules/
+
+# Test/verification artifacts (screenshots, results)
+scripts/*.png
+test-results/

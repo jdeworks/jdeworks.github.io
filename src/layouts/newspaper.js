@@ -1,5 +1,5 @@
 // Old newspaper / broadsheet — multi-column, serif, ruled lines, dateline
-import { headingStyle, tagHTML, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Newspaper";
 
@@ -59,7 +59,7 @@ export function render(d, cs, ts, hs) {
       <div class="${uid}-cols">
         ${d.projects.map(p => `
           <div style="break-inside:avoid;margin-bottom:1.5rem;">
-            <h3 style="font-size:1.2rem;margin:0 0 0.25rem;font-weight:700;color:var(--fg);font-family:inherit;">${p.name}</h3>
+            <h3 style="font-size:1.2rem;margin:0 0 0.25rem;font-weight:700;color:var(--fg);font-family:inherit;">${p.name}${statusBadge(p)}</h3>
             <div style="margin-bottom:0.5rem;">${p.tags.map(t => `<span style="font-size:0.65rem;font-style:italic;color:var(--accent);margin-right:0.5rem;">${t}</span>`).join('')}</div>
             <p style="font-size:0.9rem;line-height:1.7;margin:0 0 0.5rem;color:var(--fg2);">${p.longDesc || p.desc}</p>
             <div>${projectLinks(p)}</div>

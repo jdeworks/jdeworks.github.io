@@ -1,5 +1,5 @@
 // Comic Book — panels, speech bubbles, halftone dots, bold outlines, sound effects
-import { projectLinks, githubIcon } from '../helpers.js';
+import { projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Comic Book";
 
@@ -115,7 +115,7 @@ export function render(d, cs, ts, hs) {
       ${d.projects.map((p, i) => `
         <div class="${uid}-panel">
           <span class="${uid}-effect" style="font-size:1.2rem;margin-bottom:0.5rem;display:inline-block;">${effects[(i + 1) % effects.length]}</span>
-          <h3 style="font-family:'Bangers',cursive;font-size:1.3rem;margin:0.25rem 0 0.5rem;color:#1a1a1a;letter-spacing:0.03em;">${p.name}</h3>
+          <h3 style="font-family:'Bangers',cursive;font-size:1.3rem;margin:0.25rem 0 0.5rem;color:#1a1a1a;letter-spacing:0.03em;">${p.name}${statusBadge(p)}</h3>
           <p style="font-size:0.8rem;margin:0 0 0.75rem;line-height:1.7;color:#444;">${p.desc}</p>
           <div style="margin-bottom:0.5rem;">${p.tags.map(t => `<span class="${uid}-tag">${t}</span>`).join('')}</div>
           <div>${projectLinks(p)}</div>

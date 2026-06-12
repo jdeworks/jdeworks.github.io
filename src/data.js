@@ -50,8 +50,10 @@ export const DATA = {
   ],
 
   projects: [
+    // ── Active public projects ───────────────────────────────
     {
       name: "make-it-look-good",
+      repo: "make-it-look-good",
       desc: "Evidence-based design knowledge base and analyzer for LLMs and developers. Point your AI assistant at it to get actually good UI/UX output — concrete numbers, real patterns, and copy-paste snippets.",
       longDesc: "45 design topics, 125 prebuilt templates across 41 elements, a live preview tool, and a Design Analyzer that scores any website against ~70 evidence-based checks across 14 modules. Includes a consultation playbook that turns any LLM into a design consultant.",
       links: [
@@ -62,16 +64,8 @@ export const DATA = {
       tags: ["Design", "AI", "Tailwind", "Knowledge Base"]
     },
     {
-      name: "agent-sandbox",
-      desc: "Isolated Docker sandbox for AI coding agents. Each project runs inside a locked-down container with your choice of agent, runtimes, and MCP servers.",
-      longDesc: "Supports Claude Code, OpenCode, Cursor CLI, and GitHub Copilot. 15 language runtimes, template profiles for quick start, VS Code Server option, MCP server integration, plugin discovery, profile import/export, and config mirroring. Runs on Linux, macOS, WSL, and Windows.",
-      links: [
-        { label: "GitHub", url: "https://github.com/jdeworks/agent-sandbox" }
-      ],
-      tags: ["Docker", "CLI", "DevTools", "AI Agents"]
-    },
-    {
       name: "elemental-surprise",
+      repo: "elemental-surprise",
       desc: "A scalable element combination game — 2,767 elements with 74,000+ recipes spanning nature, technology, mythology, and more. Entirely vibe-coded.",
       longDesc: "Built end-to-end through conversational AI collaboration. Features auto-solve spectator mode, semantic icon matching across 40k+ candidates from 13 icon sources, lazy-loaded recipe buckets, and an honest 'where vibe coding works and doesn't' writeup.",
       links: [
@@ -82,6 +76,7 @@ export const DATA = {
     },
     {
       name: "think-tank",
+      repo: "think-tank",
       desc: "AI-guided project planning tool that transforms ideas into structured, comprehensive plans through interactive conversation. BYOK with OpenAI, Claude, or any compatible API.",
       longDesc: "5 AI personalities, 12-section structured plans, interactive diagrams (React Flow + Mermaid), voice mode, and full export (JSON, Markdown, ZIP with SVGs). Includes a CLI companion. Runs entirely in the browser with no backend required.",
       links: [
@@ -92,6 +87,7 @@ export const DATA = {
     },
     {
       name: "project-starter-kit",
+      repo: "project-starter-kit",
       desc: "A structured foundation for AI-assisted software projects. Quality infrastructure that keeps AI agents producing maintainable code across any project type.",
       longDesc: "10 project variants (website, API, SaaS, CLI, MCP server, game dev, and more), multi-agent support (Claude Code, OpenCode, Cursor, Windsurf, Copilot, and online agents via bundle.xml), CLI tooling, and starter templates per framework. Full and lean modes for enforcement vs. prototyping.",
       links: [
@@ -100,17 +96,8 @@ export const DATA = {
       tags: ["DevTools", "AI", "CLI", "Knowledge Base"]
     },
     {
-      name: "get-me-started",
-      desc: "Guides complete beginners from zero to a working website setup using AI. No coding experience required — just pick your OS and follow along.",
-      longDesc: "A setup page that detects your OS and walks you through everything. Works with any AI chatbot (ChatGPT, Claude, Gemini) via a starter prompt. Includes concept explainer guides and connects to the rest of the jdeworks ecosystem.",
-      links: [
-        { label: "GitHub", url: "https://github.com/jdeworks/get-me-started" },
-        { label: "Live Demo", url: "https://jdeworks.github.io/get-me-started/" }
-      ],
-      tags: ["Guide", "Beginner", "Web Dev", "AI"]
-    },
-    {
       name: "noodle-jump",
+      repo: "noodle-jump",
       desc: "A pasta-themed endless jumper game built with PixiJS and TypeScript. Tilt controls on mobile, keyboard on desktop — including P2P multiplayer on static hosting.",
       longDesc: "13 power-ups, 7 themed zones, 13 playable characters, 3 boss fights, 35 achievements, and online multiplayer via WebRTC — all running on GitHub Pages with no backend. Local co-op split-screen, dynamic music per zone, and a PWA that works offline.",
       links: [
@@ -121,6 +108,7 @@ export const DATA = {
     },
     {
       name: "narratu poc",
+      repo: "narratu-poc",
       desc: "Proof-of-concept audiobook creator that turns short stories into multi-voice audiobooks entirely in the browser. Paste a story, AI handles the rest.",
       longDesc: "The one-stop solution to create engaging audiobooks automatically. AI analyzes characters, emotions, and speech directions, then generates distinct voices per character with production-grade audio processing — LUFS normalization, peak limiting, and context-aware pacing. Includes a mixing timeline, LLM-powered music/SFX placement, and a fully voiced demo of 'The Open Window' by Saki. Supports ElevenLabs, Hume AI, and Chrome Web Speech via bring-your-own-key.",
       links: [
@@ -130,17 +118,84 @@ export const DATA = {
       tags: ["AI", "React", "TypeScript", "Audio"]
     },
     {
+      name: "scripts",
+      repo: "scripts",
+      desc: "A grab-bag of standalone scripts I reach for — including a dependency-compromise scanner that hunts the filesystem for malicious/typosquatted npm and pip packages by version, and a tool that drives Claude Code tasks straight from GitHub issues.",
+      links: [
+        { label: "GitHub", url: "https://github.com/jdeworks/scripts" }
+      ],
+      tags: ["CLI", "Shell", "Security", "Automation"]
+    },
+
+    // ── Private projects ─────────────────────────────────────
+    {
+      name: "narratu",
+      repo: "narratu",
+      status: 'private',
+      desc: "The productized evolution of narratu-poc — turning written stories into fully-voiced, multi-character audiobooks, with AI casting the voices, directing the performances, and handling production-grade mixing.",
+      summary: "narratu turns written stories into fully-voiced, multi-character audiobooks — AI casts distinct character voices, directs the emotional performance, and handles production-grade audio (LUFS normalization, mixing, music and SFX placement). It's the productized evolution of the public narratu-poc. Currently private.",
+      tags: ["AI", "Audio", "React", "Private"]
+    },
+    {
+      name: "anvil",
+      repo: "anvil",
+      status: 'private',
+      desc: "A Docker-based research analyst. Drop in research papers and get back structured, provenance-tracked evaluations you can re-score against any number of your own technical contexts — evaluate a paper once, re-score it many times.",
+      summary: "anvil is a Docker-based research analyst. Drop in research artifacts (PDFs today) and get structured, provenance-tracked evaluations, then re-score them against any number of your own technical contexts. The expensive work (evaluating a paper) is split from the cheap work (scoring it against your stack): evaluate once, re-score many times. Currently private and pre-alpha.",
+      tags: ["AI", "Research", "Docker", "Private"]
+    },
+    {
+      name: "dead-data-cleaner",
+      repo: "dead-data-cleaner",
+      status: 'private',
+      desc: "Keeps codebases — AI-built or not — lean, clean, and understandable. A Rust engine and `ddc` CLI plus a visual desktop/web dashboard surface dead and dubious code; deterministic by default, AI-enhanced by choice.",
+      summary: "dead-data-cleaner keeps codebases — AI-built or not — lean, clean, and understandable. A working Rust engine and `ddc` CLI plus a read-only desktop/web dashboard surface dead and dubious code so you can trust what's there. Deterministic by default, AI-enhanced by choice, visual so you can verify it. Currently private.",
+      tags: ["Rust", "DevTools", "CLI", "Tauri"]
+    },
+    {
       name: "infinite-story",
+      repo: "infinite-story",
+      status: 'private',
       desc: "An AI-powered collaborative storytelling platform where community members expand branching narrative trees. Multiple story formats, character libraries, and multi-provider LLM support.",
+      summary: "infinite-story is an AI-powered collaborative storytelling platform. Community members expand branching narrative trees together, with multiple story formats, character libraries, and multi-provider LLM support. Currently private and coming soon.",
       tags: ["AI", "Creative Writing", "Next.js", "FastAPI", "Coming Soon"],
       soon: true
-    }
-    // {
-    //   name: "security-suite",
-    //   desc: "Comprehensive security vulnerability scanner for vibe-coded applications. Multiple scanner types with AI-powered exploit analysis and PDF reports.",
-    //   tags: ["Security", "SAST", "DAST", "Docker", "Coming Soon"],
-    //   soon: true
-    // }
+    },
+
+    // ── Archived projects ────────────────────────────────────
+    {
+      name: "agent-sandbox",
+      repo: "agent-sandbox",
+      status: 'archived',
+      desc: "Isolated Docker sandbox for AI coding agents. Each project runs inside a locked-down container with your choice of agent, runtimes, and MCP servers.",
+      longDesc: "Supports Claude Code, OpenCode, Cursor CLI, and GitHub Copilot. 15 language runtimes, template profiles for quick start, VS Code Server option, MCP server integration, plugin discovery, profile import/export, and config mirroring. Runs on Linux, macOS, WSL, and Windows.",
+      links: [
+        { label: "GitHub", url: "https://github.com/jdeworks/agent-sandbox" }
+      ],
+      tags: ["Docker", "CLI", "DevTools", "AI Agents"]
+    },
+    {
+      name: "get-me-started",
+      repo: "get-me-started",
+      status: 'archived',
+      desc: "Guides complete beginners from zero to a working website setup using AI. No coding experience required — just pick your OS and follow along.",
+      longDesc: "A setup page that detects your OS and walks you through everything. Works with any AI chatbot (ChatGPT, Claude, Gemini) via a starter prompt. Includes concept explainer guides and connects to the rest of the jdeworks ecosystem.",
+      links: [
+        { label: "GitHub", url: "https://github.com/jdeworks/get-me-started" },
+        { label: "Live Demo", url: "https://jdeworks.github.io/get-me-started/" }
+      ],
+      tags: ["Guide", "Beginner", "Web Dev", "AI"]
+    },
+    {
+      name: "make-a-website",
+      repo: "make-a-website",
+      status: 'archived',
+      desc: "An early starter kit for AI-assisted website projects. Superseded by project-starter-kit, where all new development now happens.",
+      links: [
+        { label: "GitHub", url: "https://github.com/jdeworks/make-a-website" }
+      ],
+      tags: ["DevTools", "AI", "Archived"]
+    },
   ],
 
   tech: ["Python", "TypeScript", "JavaScript", "C#", "React", "FastAPI", "Docker", "Tailwind CSS", "Azure"],

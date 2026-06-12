@@ -1,6 +1,6 @@
 // Inspired by make-it-look-good: agency-portfolio
 // Giant hero name, horizontal marquee, staggered project grid, service-row hover
-import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Portfolio";
 
@@ -65,7 +65,7 @@ export function render(d, cs, ts, hs) {
         <div class="${uid}-project" style="border-top:1px solid var(--border);padding:2rem 0;cursor:default;">
           <div style="display:flex;align-items:baseline;gap:1.5rem;flex-wrap:wrap;">
             <span style="font-family:monospace;font-size:0.8rem;color:var(--accent);">0${i + 1}</span>
-            <h3 style="font-family:var(--font-head);font-size:clamp(1.25rem,3vw,2rem);margin:0;color:var(--fg);font-weight:600;flex:1;">${p.name}</h3>
+            <h3 style="font-family:var(--font-head);font-size:clamp(1.25rem,3vw,2rem);margin:0;color:var(--fg);font-weight:600;flex:1;">${p.name}${statusBadge(p)}</h3>
             <div style="flex-shrink:0;">${projectLinks(p)}</div>
           </div>
           <p style="color:var(--fg2);font-size:0.9rem;line-height:1.65;margin:0.75rem 0 0 2.5rem;max-width:650px;">${p.longDesc || p.desc}</p>

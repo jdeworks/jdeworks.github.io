@@ -1,5 +1,5 @@
 // Blueprint — technical drawing style, grid background, palette-aware
-import { projectLinks, githubIcon } from '../helpers.js';
+import { projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Blueprint";
 
@@ -100,7 +100,7 @@ export function render(d, cs, ts, hs) {
         ${d.projects.map((p, i) => `
           <div style="padding:1rem 0;${i < d.projects.length - 1 ? 'border-bottom:1px dashed color-mix(in srgb, var(--accent) 18%, transparent);' : ''}">
             <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
-              <h3 style="font-size:1rem;margin:0;font-weight:700;color:var(--fg);"><span class="${uid}-circle"></span>${p.name}</h3>
+              <h3 style="font-size:1rem;margin:0;font-weight:700;color:var(--fg);"><span class="${uid}-circle"></span>${p.name}${statusBadge(p)}</h3>
               <span class="${uid}-accent" style="font-size:0.65rem;opacity:0.6;">DWG-${String(i + 1).padStart(3, '0')}</span>
             </div>
             <p style="font-size:0.85rem;margin:0.4rem 0 0.6rem 1.75rem;line-height:1.6;color:var(--fg2);">${p.desc}</p>

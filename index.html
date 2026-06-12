@@ -126,7 +126,7 @@ import { PALETTES } from './src/palettes/palettes.js';
 import { FONTS } from './src/fonts/fonts.js';
 import { CARD_STYLES, TAG_STYLES, HEADING_STYLES } from './src/styles/styles.js';
 import { LAYOUT_NAMES, MOBILE_LAYOUT_NAMES, loadLayout, loadAllLayouts, layoutSupports } from './src/layouts/index.js';
-import { pick } from './src/helpers.js';
+import { pick, projectStatusRank } from './src/helpers.js';
 
 // ─── State ───────────────────────────────────────────────────
 let current = {};
@@ -296,6 +296,278 @@ function activateCardDeck() {
     if (btn.dataset.dir === 'next') next();
     else prev();
   });
+}
+
+// ─── Code Editor (easter egg) ───────────────────────────────
+// Module-level caches survive re-renders so re-opening a README is instant.
+const _readmeCache = new Map();   // repo → rendered HTML string (or error fallback)
+let _markedModule = null;          // lazily-imported marked ESM module
+
+async function _getMarked() {
+  if (_markedModule) return _markedModule;
+  try {
+    const mod = await import('https://cdn.jsdelivr.net/npm/marked@12/lib/marked.esm.js');
+    _markedModule = mod;
+    return mod;
+  } catch (e) {
+    return null; // caller falls back to <pre> raw text
+  }
+}
+
+function activateCodeEditor() {
+  const marker = document.querySelector('code-editor');
+  if (!marker) return;
+  const uid = marker.dataset.uid;
+  const root = document.getElementById(uid + '-root');
+  const tabBar = document.getElementById(uid + '-tabs');
+  const editor = document.getElementById(uid + '-editor');
+  const editorHead = document.getElementById(uid + '-editor-head');
+  if (!root || !tabBar || !editor || !editorHead) return;
+
+  // ── Open-tab state (closure) ──
+  // openTabs: array of { id, name, kind, repo, desc, summary, view ('preview'|'source') }
+  const openTabs = [];
+  let activeId = null;
+
+  function findTab(id) { return openTabs.find(t => t.id === id); }
+
+  function sourceHTML(fileId) {
+    const el = document.querySelector('[data-file-content="' + fileId + '"][data-uid="' + uid + '"]');
+    return el ? el.innerHTML : '<div class="' + uid + '-md-status">File not found.</div>';
+  }
+
+  function isMarkdownTab(tab) { return tab.kind === 'readme' || tab.kind === 'summary'; }
+
+  // ── Tab bar render ──
+  function renderTabs() {
+    tabBar.innerHTML = openTabs.map(t =>
+      '<div class="' + uid + '-tab' + (t.id === activeId ? ' active' : '') +
+      '" data-tab="' + t.id + '"><span>&#128196;</span> ' + _escAttr(t.name) +
+      ' <span class="' + uid + '-tab-close" data-close="' + t.id + '" title="Close">&times;</span></div>'
+    ).join('');
+  }
+
+  function _escAttr(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  // ── Sidebar active highlight (file rows only) ──
+  function highlightSidebar() {
+    root.querySelectorAll('.' + uid + '-item.active').forEach(el => el.classList.remove('active'));
+    const tab = findTab(activeId);
+    if (!tab) return;
+    // Match the sidebar row whose data-file-id equals the active tab.
+    const row = root.querySelector('[data-file-id="' + tab.id + '"]');
+    if (row) row.classList.add('active');
+  }
+
+  // ── Editor head (Preview/Source toggle only for markdown tabs) ──
+  function renderHead() {
+    const tab = findTab(activeId);
+    if (tab && isMarkdownTab(tab)) {
+      const label = tab.view === 'source' ? 'Preview' : 'Source';
+      editorHead.innerHTML = '<button class="' + uid + '-md-toggle" data-md-toggle="1">' +
+        label + ' &#8646;</button>';
+      editorHead.style.display = '';
+    } else {
+      editorHead.innerHTML = '';
+      editorHead.style.display = 'none';
+    }
+  }
+
+  // ── Render the active editor pane ──
+  async function renderEditor() {
+    const tab = findTab(activeId);
+    if (!tab) {
+      editor.innerHTML = '<div class="' + uid + '-empty">' +
+        '<div class="' + uid + '-empty-glyph">&#128193;</div>' +
+        '<div>No file open. Pick something from the explorer.</div></div>';
+      return;
+    }
+    if (tab.kind === 'source') {
+      editor.innerHTML = sourceHTML(tab.id);
+      return;
+    }
+    // markdown tab (readme / summary)
+    if (tab.view === 'source') {
+      // Raw markdown in monospace, on-theme.
+      if (tab.raw == null) {
+        // Need raw text; for summary it's already known, for readme ensure fetched.
+        await ensureMarkdownLoaded(tab);
+        if (tab.id !== activeId) return; // user switched while awaiting
+      }
+      const pre = document.createElement('pre');
+      pre.className = uid + '-md-source';
+      pre.textContent = tab.raw != null ? tab.raw : (tab.desc || '');
+      editor.innerHTML = '';
+      editor.appendChild(pre);
+      return;
+    }
+    // preview
+    if (tab.rendered != null) {
+      editor.innerHTML = tab.rendered;
+      return;
+    }
+    editor.innerHTML = '<div class="' + uid + '-md-status">Loading README&hellip;</div>';
+    await ensureMarkdownLoaded(tab);
+    // Staleness guard: bail if the tab is no longer active or editor was wiped.
+    if (tab.id !== activeId) return;
+    if (!document.body.contains(editor)) return;
+    editor.innerHTML = tab.rendered != null ? tab.rendered
+      : '<div class="' + uid + '-md-status">' + _escAttr(tab.desc || 'README unavailable.') + '</div>';
+  }
+
+  // Fetch (if needed) + markdown-render a markdown tab. Populates tab.raw + tab.rendered.
+  async function ensureMarkdownLoaded(tab) {
+    if (tab.raw != null && tab.rendered != null) return;
+
+    if (tab.kind === 'summary') {
+      // Private project: render the supplied summary string, no fetch.
+      tab.raw = tab.summary || tab.desc || '';
+    } else {
+      // readme: fetch from cache or network.
+      if (_readmeCache.has(tab.repo)) {
+        tab.raw = _readmeCache.get(tab.repo);
+      } else {
+        try {
+          const res = await fetch('https://raw.githubusercontent.com/jdeworks/' + tab.repo + '/HEAD/README.md');
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          tab.raw = await res.text();
+          _readmeCache.set(tab.repo, tab.raw);
+        } catch (e) {
+          tab.raw = null; // signal failure → fallback below
+        }
+      }
+    }
+
+    if (tab.raw == null) {
+      // Network/non-200 fallback: friendly message using the project desc.
+      tab.rendered = '<div class="' + uid + '-md-status">Could not load README. '
+        + _escAttr(tab.desc || '') + '</div>';
+      tab.raw = tab.desc || '';
+      return;
+    }
+
+    const mod = await _getMarked();
+    if (mod && mod.marked) {
+      let html = mod.marked.parse(tab.raw, { breaks: false, gfm: true });
+      html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
+      tab.rendered = '<div class="' + uid + '-md">' + html + '</div>';
+    } else {
+      // marked import failed → raw text in <pre>.
+      const tmp = document.createElement('pre');
+      tmp.className = uid + '-md-source';
+      tmp.textContent = tab.raw;
+      tab.rendered = tmp.outerHTML;
+    }
+  }
+
+  // ── Open a file as a tab (or re-activate existing) ──
+  function openFile(ds) {
+    const id = ds.fileId;
+    let tab = findTab(id);
+    if (!tab) {
+      tab = {
+        id: id,
+        name: ds.fileName,
+        kind: ds.nodeKind,         // 'source' | 'readme' | 'summary'
+        repo: ds.repo || null,
+        desc: ds.desc || '',
+        summary: ds.summary || '',
+        view: 'preview',           // markdown default = preview; ignored for source
+        raw: null,
+        rendered: null,
+      };
+      openTabs.push(tab);
+    }
+    setActive(id);
+  }
+
+  function setActive(id) {
+    activeId = id;
+    renderTabs();
+    renderHead();
+    highlightSidebar();
+    renderEditor();
+  }
+
+  function closeTab(id) {
+    const idx = openTabs.findIndex(t => t.id === id);
+    if (idx === -1) return;
+    const wasActive = id === activeId;
+    openTabs.splice(idx, 1);
+    if (wasActive) {
+      const neighbor = openTabs[idx] || openTabs[idx - 1] || null;
+      activeId = neighbor ? neighbor.id : null;
+    }
+    renderTabs();
+    renderHead();
+    highlightSidebar();
+    renderEditor();
+  }
+
+  // ── Delegated clicks on sidebar + tab bar ──
+  root.addEventListener('click', function(e) {
+    // Tab close (check before tab activate)
+    const closeBtn = e.target.closest('[data-close]');
+    if (closeBtn) { e.stopPropagation(); closeTab(closeBtn.dataset.close); return; }
+
+    // Tab activate
+    const tabEl = e.target.closest('[data-tab]');
+    if (tabEl) { setActive(tabEl.dataset.tab); return; }
+
+    // Preview/Source toggle
+    if (e.target.closest('[data-md-toggle]')) {
+      const tab = findTab(activeId);
+      if (tab && isMarkdownTab(tab)) {
+        tab.view = tab.view === 'source' ? 'preview' : 'source';
+        renderHead();
+        renderEditor();
+      }
+      return;
+    }
+
+    // Sidebar node
+    const item = e.target.closest('[data-node-kind]');
+    if (!item) return;
+    const kind = item.dataset.nodeKind;
+
+    if (kind === 'folder') {
+      const fid = item.dataset.folder;
+      const children = root.querySelector('[data-children="' + fid + '"]');
+      const chevron = item.querySelector('.' + uid + '-chevron');
+      if (children) {
+        const willOpen = children.hidden;
+        children.hidden = !willOpen;
+        if (chevron) chevron.classList.toggle('open', willOpen);
+      }
+      return;
+    }
+
+    if (kind === 'nav') {
+      window.open('https://github.com/jdeworks/' + item.dataset.repo, '_blank', 'noopener');
+      return;
+    }
+
+    // source | readme | summary → open as file tab
+    if (kind === 'source' || kind === 'readme' || kind === 'summary') {
+      openFile(item.dataset);
+    }
+  });
+
+  // Keyboard activation for accessible rows.
+  root.addEventListener('keydown', function(e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const item = e.target.closest('[data-node-kind],[data-tab]');
+    if (!item || !root.contains(item)) return;
+    e.preventDefault();
+    item.click();
+  });
+
+  // ── Initial state: open about.ts + projects.ts, about.ts active ──
+  openFile({ fileId: 'about-ts', fileName: 'about.ts', nodeKind: 'source' });
+  openFile({ fileId: 'projects-ts', fileName: 'projects.ts', nodeKind: 'source' });
+  setActive('about-ts');
 }
 
 let starfieldId = null;
@@ -570,6 +842,10 @@ async function render(opts = {}) {
     take: pickTake(),
     interests: pickInterests(),
   };
+  // Sort projects: active → private/coming-soon → archived (stable within each tier)
+  snapshot.projects = [...DATA.projects].map((p, i) => [p, i]).sort((a, b) =>
+    (projectStatusRank(a[0]) - projectStatusRank(b[0])) || (a[1] - b[1])
+  ).map(x => x[0]);
 
   loadFont(font);
   setCSS(palette, font);
@@ -599,6 +875,7 @@ async function render(opts = {}) {
     activateStoryDots();
     activateCardDeck();
     activateStarfield();
+    activateCodeEditor();
   });
 }
 

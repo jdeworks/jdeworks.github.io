@@ -1,4 +1,4 @@
-import { headingStyle, tagHTML, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Magazine";
 
@@ -35,7 +35,7 @@ export function render(d, cs, ts, hs) {
       ${d.projects.map((p, i) => `
         <div class="${uid}-project" style="padding:2rem 0;${i < d.projects.length - 1 ? 'border-bottom:1px solid var(--border);' : ''}">
           <div>
-            <h3 style="font-family:var(--font-head);font-size:1.35rem;margin:0 0 0.5rem;color:var(--fg);font-weight:600;">${p.name}</h3>
+            <h3 style="font-family:var(--font-head);font-size:1.35rem;margin:0 0 0.5rem;color:var(--fg);font-weight:600;">${p.name}${statusBadge(p)}</h3>
             <div>${p.tags.map(t => tagHTML(t, ts)).join("")}</div>
           </div>
           <div style="flex:1;min-width:0;">

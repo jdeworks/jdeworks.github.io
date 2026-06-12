@@ -1,5 +1,5 @@
 // Rundown — heavily weathered, water damaged, abandoned building aesthetic
-import { headingStyle, tagHTML, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Rundown";
 
@@ -178,7 +178,7 @@ export function render(d, cs, ts, hs) {
         return `
         <div class="${uid}-panel ${hasPeel ? uid + '-peel' : ''} ${hasBurn ? uid + '-burnt' : ''}" style="transform:rotate(${rot}deg);opacity:${fade};">
           ${hasTape ? `<div class="${uid}-tape" style="left:${20 + Math.random() * 40}px;transform:rotate(${-12 + Math.random() * 24}deg);"></div>` : ''}
-          <h3 class="${uid}-heading" style="font-size:1rem;margin:0 0 0.5rem;font-weight:600;">${p.name}</h3>
+          <h3 class="${uid}-heading" style="font-size:1rem;margin:0 0 0.5rem;font-weight:600;">${p.name}${statusBadge(p)}</h3>
           <p class="${uid}-text" style="font-size:0.85rem;line-height:1.6;margin:0 0 0.75rem;">${p.desc}</p>
           <div style="margin-bottom:0.5rem;">${p.tags.map(t => `<span class="${uid}-stamp" style="transform:rotate(${-4 + Math.random() * 8}deg);opacity:${0.4 + Math.random() * 0.4};">${t}</span>`).join('')}</div>
           <div>${p.soon

@@ -1,6 +1,6 @@
 // Inspired by make-it-look-good: agency-landing + agency-portfolio
 // Giant display type, gradient mesh, service-row hover effects, dramatic scale
-import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon } from '../helpers.js';
+import { headingStyle, tagHTML, cardCSS, projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Agency";
 
@@ -36,7 +36,7 @@ export function render(d, cs, ts, hs) {
             <div class="agency-flex" style="display:flex;align-items:baseline;justify-content:space-between;gap:2rem;">
               <div>
                 <span style="font-family:monospace;font-size:0.75rem;color:var(--accent);margin-right:0.75rem;">0${i + 1}</span>
-                <span style="font-family:var(--font-head);font-size:clamp(1.25rem,3vw,2rem);color:var(--fg);font-weight:600;">${p.name}</span>
+                <span style="font-family:var(--font-head);font-size:clamp(1.25rem,3vw,2rem);color:var(--fg);font-weight:600;">${p.name}</span>${statusBadge(p)}
               </div>
               <div style="display:flex;gap:1rem;flex-shrink:0;">${projectLinks(p)}</div>
             </div>

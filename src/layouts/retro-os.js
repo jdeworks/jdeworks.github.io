@@ -1,5 +1,5 @@
 // Windows 95/98 retro OS — interactive windows, palette-aware colors
-import { projectLinks, githubIcon } from '../helpers.js';
+import { projectLinks, githubIcon, statusBadge } from '../helpers.js';
 
 export const name = "Retro OS";
 
@@ -135,6 +135,7 @@ export function render(d, cs, ts, hs) {
             <p style="margin:0 0 4px;font-size:11px;color:#808080;">Technologies:</p>
             <div>${d.tech.map(t => `<span class="${uid}-tag">${t}</span>`).join('')}</div>
           ` : w.content === 'project' ? `
+            ${statusBadge(w.data) ? `<p style="margin:0 0 6px;">${statusBadge(w.data)}</p>` : ''}
             <div class="${uid}-inset" style="margin-bottom:8px;">
               <p style="margin:0;font-size:12px;line-height:1.6;">${w.data.longDesc || w.data.desc}</p>
             </div>
