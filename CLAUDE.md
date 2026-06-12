@@ -182,9 +182,8 @@ The verify scripts auto-discover a Chromium binary: `$CHROME_BIN`, else the newe
 
 ## Deployment
 
-GitHub Pages serves from the `main` branch root. No build step needed.
+`dev` is the **default branch** and GitHub Pages serves the **live site from `dev`** — no build step, no merge step. Pushing to `dev` *is* the deploy.
 
 ```bash
-# Develop on dev, merge to main to deploy
-git checkout main && git merge dev && git push && git checkout dev
+git push origin dev   # this deploys the live site
 ```

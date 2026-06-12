@@ -183,9 +183,16 @@ export function render(d, cs, ts, hs) {
   return `
   <style>
     .${uid}-root { min-height: 100vh; background: var(--bg); font-family: var(--font-body); }
+    /* Cap the whole editor to one screen; let each pane scroll on its own. */
+    #${uid}-root { height: 100vh; height: 100dvh; overflow: hidden; }
+    /* This layout is full-height — drop the global trailing spacer so the page itself doesn't scroll. */
+    #app::after { content: none !important; display: none !important; height: 0 !important; }
     .${uid}-sidebar {
       background: var(--bg2); border-right: 1px solid var(--border);
-      padding: 0.75rem 0; font-size: 0.8rem; overflow-y: auto; max-height: 100vh;
+      padding: 0.75rem 0; font-size: 0.8rem; overflow-y: auto; min-height: 0;
+    }
+    .${uid}-main {
+      min-width: 0; min-height: 0; display: flex; flex-direction: column; overflow: hidden;
     }
     .${uid}-item {
       padding: 0.35rem 0.75rem 0.35rem 1.25rem; cursor: pointer;
@@ -206,7 +213,7 @@ export function render(d, cs, ts, hs) {
     .${uid}-icon { font-size: 0.85rem; flex-shrink: 0; }
     .${uid}-tab-bar {
       background: var(--bg2); border-bottom: 1px solid var(--border);
-      display: flex; overflow-x: auto; font-size: 0.75rem; min-height: 36px;
+      display: flex; overflow-x: auto; font-size: 0.75rem; min-height: 36px; flex-shrink: 0;
     }
     .${uid}-tab {
       padding: 0.5rem 0.6rem 0.5rem 1rem; color: var(--fg2); border-right: 1px solid var(--border);
@@ -223,7 +230,7 @@ export function render(d, cs, ts, hs) {
     .${uid}-editor-head {
       display: flex; align-items: center; justify-content: flex-end;
       padding: 0.35rem 1rem; min-height: 20px; border-bottom: 1px solid var(--border);
-      background: var(--bg);
+      background: var(--bg); flex-shrink: 0;
     }
     .${uid}-md-toggle {
       font-family: var(--font-body); font-size: 0.7rem; cursor: pointer;
@@ -231,7 +238,7 @@ export function render(d, cs, ts, hs) {
       border-radius: 6px; padding: 0.2rem 0.6rem; transition: all 0.15s;
     }
     .${uid}-md-toggle:hover { color: var(--accent); border-color: var(--accent); }
-    .${uid}-editor { padding: 1.5rem; font-size: 0.85rem; line-height: 1.8; color: var(--fg); overflow-x: auto; }
+    .${uid}-editor { padding: 1.5rem; font-size: 0.85rem; line-height: 1.8; color: var(--fg); flex: 1 1 auto; min-height: 0; overflow: auto; }
     .${uid}-empty {
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       gap: 0.5rem; min-height: 50vh; color: var(--fg2); text-align: center; padding: 2rem;
@@ -321,7 +328,7 @@ export function render(d, cs, ts, hs) {
       </div>
 
       <!-- Main area -->
-      <div style="min-width:0;display:flex;flex-direction:column;">
+      <div class="${uid}-main">
         <div class="${uid}-tab-bar" id="${uid}-tabs"></div>
         <div class="${uid}-editor-head" id="${uid}-editor-head"></div>
         <div class="${uid}-editor" id="${uid}-editor"></div>

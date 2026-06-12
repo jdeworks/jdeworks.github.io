@@ -84,6 +84,16 @@ try {
   const toggleHiddenForSource = await page.$eval('[id$="-editor-head"]', e => e.style.display === 'none' || e.innerHTML.trim() === '');
   ok('no md-toggle on source file', toggleHiddenForSource);
 
+  // Sizing: whole editor capped to one screen (no page-level scroll)
+  const pageFits = await page.evaluate(() =>
+    document.documentElement.scrollHeight <= window.innerHeight + 2);
+  ok('editor fits one screen (no page scroll)', pageFits);
+  const rootIsViewport = await page.evaluate(() => {
+    const r = document.querySelector('[id$="-root"]');
+    return r && Math.abs(r.getBoundingClientRect().height - window.innerHeight) <= 2;
+  });
+  ok('editor root == viewport height', rootIsViewport);
+
   // Icons by status present in the tree
   const folderGlyphs = await page.$$eval('[data-node-kind="folder"][data-folder]', els =>
     els.map(e => ({ folder: e.dataset.folder, txt: e.textContent })));
@@ -123,6 +133,21 @@ try {
       return ed && /-md(\b|")/.test(ed.innerHTML) && ed.textContent.trim().length > 40;
     }, { timeout: 15000 }).then(() => true).catch(() => false);
     ok('public README fetches + renders markdown', rendered);
+
+    // The editor pane scrolls independently and the page still doesn't scroll
+    const independentScroll = await page.evaluate(() => {
+      const ed = document.querySelector('[id$="-editor"]');
+      const sb = document.querySelector('[class*="-sidebar"]');
+      const pageStill = document.documentElement.scrollHeight <= window.innerHeight + 2;
+      // editor is its own scroll container (a long README overflows it)
+      const edScrolls = ed && ed.scrollHeight > ed.clientHeight + 2;
+      // sidebar and editor are distinct scroll containers
+      const distinct = ed && sb && ed !== sb;
+      return { pageStill, edScrolls, distinct };
+    });
+    ok('page stays fixed while README is long', independentScroll.pageStill);
+    ok('editor pane scrolls independently of tree', independentScroll.edScrolls && independentScroll.distinct,
+       JSON.stringify(independentScroll));
 
     // Preview/Source toggle now visible; flip to Source → expect <pre> raw markdown
     const hasToggle = await page.$eval('[id$="-editor-head"]', e => /md-toggle/.test(e.innerHTML)).catch(() => false);
