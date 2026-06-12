@@ -154,10 +154,10 @@ export function render(d, cs, ts, hs) {
         </div>
         <div class="${uid}-item ${uid}-indent3 ${uid}-nav"
              data-node-kind="nav"
-             data-repo="${esc(p.repo)}"
+             data-repo="${esc(p.repo)}"${p.status === 'private' ? ' data-private="1"' : ''}
              role="button" tabindex="0"
-             title="Open jdeworks/${esc(p.repo)} on GitHub">
-          <span class="${uid}-icon">&#8599;</span> <span class="${uid}-nav-label">...</span>
+             title="${p.status === 'private' ? 'Private repo' : `Open jdeworks/${esc(p.repo)} on GitHub`}">
+          <span class="${uid}-nav-label">...</span>
         </div>
       </div>`;
   }).join('');
@@ -199,6 +199,7 @@ export function render(d, cs, ts, hs) {
     }
     .${uid}-main {
       min-width: 0; min-height: 0; display: flex; flex-direction: column; overflow: hidden;
+      position: relative;
     }
     .${uid}-item {
       padding: 0.35rem 0.75rem 0.35rem 1.25rem; cursor: pointer;
@@ -213,7 +214,8 @@ export function render(d, cs, ts, hs) {
     .${uid}-indent3 { padding-left: 3.75rem; }
     .${uid}-nav { opacity: 0.55; font-style: italic; }
     .${uid}-nav:hover { opacity: 0.9; }
-    .${uid}-nav-label { letter-spacing: 0.1em; }
+    /* No icon — pad so "..." lines up under the filenames above it. */
+    .${uid}-nav-label { letter-spacing: 0.1em; padding-left: 1.35rem; }
     .${uid}-chevron { font-size: 0.6rem; width: 12px; text-align: center; transition: transform 0.15s; flex-shrink: 0; }
     .${uid}-chevron.open { transform: rotate(90deg); }
     .${uid}-icon { font-size: 0.85rem; flex-shrink: 0; }
@@ -233,15 +235,19 @@ export function render(d, cs, ts, hs) {
       color: var(--fg2); opacity: 0.6;
     }
     .${uid}-tab-close:hover { background: color-mix(in srgb, var(--fg) 20%, transparent); opacity: 1; }
+    /* Source/preview switch: a small icon floating in the editor's top-right,
+       overlaid (absolute) so it never steals vertical space from the page. */
     .${uid}-editor-head {
-      display: flex; align-items: center; justify-content: flex-end;
-      padding: 0.35rem 1rem; min-height: 20px; border-bottom: 1px solid var(--border);
-      background: var(--bg); flex-shrink: 0;
+      position: absolute; top: calc(36px + 0.5rem); right: 0.75rem; z-index: 5;
+      display: flex; align-items: center;
     }
     .${uid}-md-toggle {
-      font-family: var(--font-body); font-size: 0.7rem; cursor: pointer;
-      background: transparent; color: var(--fg2); border: 1px solid var(--border);
-      border-radius: 6px; padding: 0.2rem 0.6rem; transition: all 0.15s;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8rem;
+      line-height: 1; cursor: pointer; width: 30px; height: 30px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: color-mix(in srgb, var(--bg2) 88%, transparent);
+      color: var(--fg2); border: 1px solid var(--border); border-radius: 7px;
+      transition: all 0.15s; backdrop-filter: blur(3px);
     }
     .${uid}-md-toggle:hover { color: var(--accent); border-color: var(--accent); }
     .${uid}-editor { padding: 1.5rem; font-size: 0.85rem; line-height: 1.8; color: var(--fg); flex: 1 1 auto; min-height: 0; overflow: auto; }

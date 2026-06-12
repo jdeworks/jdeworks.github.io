@@ -10,15 +10,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <style>
     html, body { overflow-x: clip; margin: 0; }
-    /* Accent-tinted scrollbars — follow the active palette via CSS vars */
-    * { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--accent, #38bdf8) 70%, transparent) transparent; }
+    /* Accent-tinted scrollbars — follow the active palette via CSS vars.
+       scrollbar-color must take a PLAIN color (color-mix here is rejected by some
+       engines, which drops the whole declaration → default gray). Keep it simple. */
+    * { scrollbar-width: thin; scrollbar-color: var(--accent, #38bdf8) transparent; }
     ::-webkit-scrollbar { width: 10px; height: 10px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb {
-      background: color-mix(in srgb, var(--accent, #38bdf8) 55%, transparent);
+      background: var(--accent, #38bdf8);
       border-radius: 8px; border: 2px solid transparent; background-clip: padding-box;
     }
-    ::-webkit-scrollbar-thumb:hover { background: var(--accent, #38bdf8); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent2, #38bdf8); }
     ::-webkit-scrollbar-corner { background: transparent; }
     [data-layout] { opacity: 0; transition: opacity 0.25s ease; }
     [data-layout]::after { content: ''; display: block; height: 5rem; }
@@ -371,13 +373,14 @@ function activateCodeEditor() {
     if (row) row.classList.add('active');
   }
 
-  // ── Editor head (Preview/Source toggle only for markdown tabs) ──
+  // ── Source/preview switch — small corner icon, only for markdown tabs ──
   function renderHead() {
     const tab = findTab(activeId);
     if (tab && isMarkdownTab(tab)) {
-      const label = tab.view === 'source' ? 'Preview' : 'Source';
-      editorHead.innerHTML = '<button class="' + uid + '-md-toggle" data-md-toggle="1">' +
-        label + ' &#8646;</button>';
+      // In source view → offer "rendered" (eye); in preview → offer "source" (</>)
+      const icon = tab.view === 'source' ? '&#128065;' : '&lt;/&gt;';
+      const title = tab.view === 'source' ? 'Show rendered' : 'Show markdown source';
+      editorHead.innerHTML = '<button class="' + uid + '-md-toggle" data-md-toggle="1" title="' + title + '" aria-label="' + title + '">' + icon + '</button>';
       editorHead.style.display = '';
     } else {
       editorHead.innerHTML = '';
@@ -516,6 +519,34 @@ function activateCodeEditor() {
     renderEditor();
   }
 
+  // ── Cheeky "it's private" modal for the "..." row on private repos ──
+  function cheekyModal(repo) {
+    const lines = [
+      "It's private — still in its pajamas. Come back when it's dressed.",
+      "Nice try. This one's behind the velvet rope for now.",
+      "Nothing to see here… yet. The repo's a little shy.",
+      "I'd show you, but then I'd have to add you as a collaborator.",
+      "Still cooking. It stays private until it stops being embarrassing.",
+    ];
+    const msg = lines[Math.floor(Math.random() * lines.length)];
+    const ov = document.createElement('div');
+    ov.setAttribute('data-ce-modal', '');
+    ov.style.cssText = 'position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);opacity:0;transition:opacity 0.18s;';
+    ov.innerHTML =
+      '<div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.6rem 1.8rem;max-width:380px;width:86%;text-align:center;color:var(--fg);font-family:var(--font-body);box-shadow:0 12px 40px rgba(0,0,0,0.45);">'
+      + '<div style="font-size:2rem;margin-bottom:0.5rem;">&#128274;</div>'
+      + '<div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.09em;color:var(--accent);margin-bottom:0.5rem;">' + repo + ' &middot; private</div>'
+      + '<p style="margin:0 0 1.1rem;line-height:1.6;font-size:0.95rem;color:var(--fg2);">' + msg + '</p>'
+      + '<button data-ce-close style="font-family:inherit;font-size:0.82rem;cursor:pointer;background:var(--accent);color:var(--bg);border:none;border-radius:8px;padding:0.5rem 1.1rem;">Fair enough</button>'
+      + '</div>';
+    document.body.appendChild(ov);
+    requestAnimationFrame(() => { ov.style.opacity = '1'; });
+    function close() { ov.style.opacity = '0'; setTimeout(() => ov.remove(), 180); document.removeEventListener('keydown', onKey); }
+    function onKey(e) { if (e.key === 'Escape') close(); }
+    ov.addEventListener('click', (e) => { if (e.target === ov || e.target.closest('[data-ce-close]')) close(); });
+    document.addEventListener('keydown', onKey);
+  }
+
   // ── Delegated clicks on sidebar + tab bar ──
   root.addEventListener('click', function(e) {
     // Tab close (check before tab activate)
@@ -555,7 +586,8 @@ function activateCodeEditor() {
     }
 
     if (kind === 'nav') {
-      window.open('https://github.com/jdeworks/' + item.dataset.repo, '_blank', 'noopener');
+      if (item.dataset.private) cheekyModal(item.dataset.repo);
+      else window.open('https://github.com/jdeworks/' + item.dataset.repo, '_blank', 'noopener');
       return;
     }
 

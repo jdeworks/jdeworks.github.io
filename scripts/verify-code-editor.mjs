@@ -84,6 +84,15 @@ try {
   const toggleHiddenForSource = await page.$eval('[id$="-editor-head"]', e => e.style.display === 'none' || e.innerHTML.trim() === '');
   ok('no md-toggle on source file', toggleHiddenForSource);
 
+  // Scrollbar color follows the accent (declaration must be valid, not 'auto')
+  const sbColor = await page.evaluate(() => {
+    const ed = document.querySelector('[id$="-editor"]') || document.documentElement;
+    const sc = getComputedStyle(ed).scrollbarColor;
+    const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+    return { sc, accent };
+  });
+  ok('scrollbar-color is set (not auto)', sbColor.sc && sbColor.sc !== 'auto', JSON.stringify(sbColor));
+
   // Sizing: whole editor capped to one screen (no page-level scroll)
   const pageFits = await page.evaluate(() =>
     document.documentElement.scrollHeight <= window.innerHeight + 2);
@@ -172,6 +181,13 @@ try {
     }
   }
 
+  // Nav "..." rows carry no icon
+  if (pub) {
+    const navHasIcon = await page.$eval(`[data-children="${pub.id}"] [data-node-kind="nav"]`,
+      el => !!el.querySelector('[class*="-icon"]'));
+    ok('"..." nav row has no icon', !navHasIcon);
+  }
+
   // PRIVATE: expand → open README.md → summary renders, with NO github fetch for that repo
   if (priv) {
     netErrors.length = 0;
@@ -190,6 +206,29 @@ try {
     }, { timeout: 5000 }).then(() => true).catch(() => false);
     ok('private summary renders content', privRendered);
     page.off('request', sniff);
+
+    // Private "..." → cheeky modal (not a new tab/navigation)
+    let popupOpened = false;
+    const onPopup = () => { popupOpened = true; };
+    page.on('popup', onPopup);
+    await page.click(`[data-children="${priv.id}"] [data-node-kind="nav"][data-private]`);
+    const modalShown = await page.waitForSelector('[data-ce-modal]', { timeout: 2000 }).then(() => true).catch(() => false);
+    ok('private "..." opens a cheeky modal (no navigation)', modalShown && !popupOpened);
+    // Dismiss it
+    await page.click('[data-ce-modal] [data-ce-close]').catch(() => {});
+    await new Promise(r => setTimeout(r, 250));
+    const modalGone = await page.$('[data-ce-modal]').then(el => !el);
+    ok('cheeky modal dismisses', modalGone);
+    page.off('popup', onPopup);
+  }
+
+  // Source/preview toggle is a corner overlay (absolute) — doesn't take flow height
+  {
+    const headAbsolute = await page.evaluate(() => {
+      const h = document.querySelector('[id$="-editor-head"]');
+      return h ? getComputedStyle(h).position : null;
+    });
+    ok('source/preview toggle is absolutely positioned (corner icon)', headAbsolute === 'absolute', String(headAbsolute));
   }
 
   // Tab close: count tabs, close active, expect fewer
