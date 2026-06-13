@@ -367,6 +367,20 @@ function activateCodeEditor() {
 
   function findTab(id) { return openTabs.find(t => t.id === id); }
 
+  // ── Mobile sidebar drawer ──
+  // On phones the sidebar collapses to a slide-in drawer toggled by the ☰ button
+  // (CSS handles the show/hide via the `-sb-open` class). Desktop is unaffected.
+  const _isMobile = () => window.matchMedia('(max-width: 640px)').matches;
+  function setSidebar(open) {
+    root.classList.toggle(uid + '-sb-open', open);
+    const btn = document.getElementById(uid + '-sb-toggle');
+    if (btn) {
+      btn.innerHTML = open ? '&times;' : '&#9776;';
+      const t = open ? 'Hide files' : 'Show files';
+      btn.title = t; btn.setAttribute('aria-label', t);
+    }
+  }
+
   function sourceHTML(fileId) {
     const el = document.querySelector('[data-file-content="' + fileId + '"][data-uid="' + uid + '"]');
     return el ? el.innerHTML : '<div class="' + uid + '-md-status">File not found.</div>';
@@ -638,6 +652,10 @@ function activateCodeEditor() {
 
   // ── Delegated clicks on sidebar + tab bar ──
   root.addEventListener('click', function(e) {
+    // Mobile drawer: toggle button + backdrop tap-to-close
+    if (e.target.closest('[data-sb-toggle]')) { setSidebar(!root.classList.contains(uid + '-sb-open')); return; }
+    if (e.target.closest('[data-sb-backdrop]')) { setSidebar(false); return; }
+
     // Tab close (check before tab activate)
     const closeBtn = e.target.closest('[data-close]');
     if (closeBtn) { e.stopPropagation(); closeTab(closeBtn.dataset.close); return; }
@@ -677,12 +695,14 @@ function activateCodeEditor() {
     if (kind === 'nav') {
       if (item.dataset.private) cheekyModal(item.dataset.repo);
       else window.open('https://github.com/jdeworks/' + item.dataset.repo, '_blank', 'noopener');
+      if (_isMobile()) setSidebar(false);
       return;
     }
 
-    // source | readme | summary → open as file tab
+    // source | readme | summary → open as file tab (close the drawer on mobile)
     if (kind === 'source' || kind === 'readme' || kind === 'summary') {
       openFile(item.dataset);
+      if (_isMobile()) setSidebar(false);
     }
   });
 

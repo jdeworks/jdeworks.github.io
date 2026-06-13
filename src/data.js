@@ -64,6 +64,17 @@ export const DATA = {
       tags: ["Design", "AI", "Tailwind", "Knowledge Base"]
     },
     {
+      name: "file-viewer",
+      repo: "file-viewer",
+      desc: "A mobile-first, client-only file viewer that runs entirely in your browser. Drop in a file or a whole folder and read it — raw source, rendered preview, or side-by-side — with a real code editor and a move-aware diff.",
+      longDesc: "Zero off-origin requests at runtime: every library is vendored and served same-origin, so your files never leave the tab — verify it yourself in the Network panel. Opens Markdown, PDF, CSV, Excel, Word, PowerPoint, HTML, JSON, images, and ~50 source languages. Rendered output is sandboxed and DOMPurify-sanitized; source is shown, never executed. A move-aware diff detects relocated lines, a magic selector jumps from rendered element to source, and a service worker makes the whole app work offline after the first visit.",
+      links: [
+        { label: "GitHub", url: "https://github.com/jdeworks/file-viewer" },
+        { label: "Live Demo", url: "https://jdeworks.github.io/file-viewer/", tip: "Open a file and read it — source, rendered, or side-by-side" }
+      ],
+      tags: ["DevTools", "Files", "Privacy", "Offline"]
+    },
+    {
       name: "elemental-surprise",
       repo: "elemental-surprise",
       desc: "A scalable element combination game — 2,767 elements with 74,000+ recipes spanning nature, technology, mythology, and more. Entirely vibe-coded.",

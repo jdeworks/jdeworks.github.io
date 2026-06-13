@@ -284,6 +284,59 @@ try {
   const after = await page.$$eval('[id$="-tabs"] [data-tab]', e => e.length);
   ok('closing a tab removes it', after === before - 1, `${before}→${after}`);
 
+  // ── Mobile sidebar drawer ──────────────────────────────────────────
+  // On phones the file tree collapses to a slide-in drawer toggled by ☰.
+  {
+    const uid = await page.$eval('code-editor', e => e.dataset.uid);
+    await page.setViewport({ width: 390, height: 800 });
+    await new Promise(r => setTimeout(r, 250));
+
+    const m = await page.evaluate((uid) => {
+      const root = document.getElementById(uid + '-root');
+      const btn = document.getElementById(uid + '-sb-toggle');
+      const sb = document.querySelector('.' + uid + '-sidebar');
+      return {
+        btnVisible: !!(btn && btn.offsetParent !== null),
+        // drawer starts off-screen (translateX(-100%) → left edge negative)
+        sbHiddenLeft: sb.getBoundingClientRect().left < -10,
+        openClass: root.classList.contains(uid + '-sb-open'),
+      };
+    }, uid);
+    ok('mobile: ☰ toggle button is visible', m.btnVisible);
+    ok('mobile: drawer starts hidden off-screen', m.sbHiddenLeft && !m.openClass, JSON.stringify(m));
+
+    // Tap ☰ → drawer slides in
+    await page.click(`#${uid}-sb-toggle`);
+    await new Promise(r => setTimeout(r, 300));
+    const opened = await page.evaluate((uid) => {
+      const root = document.getElementById(uid + '-root');
+      const sb = document.querySelector('.' + uid + '-sidebar');
+      return { openClass: root.classList.contains(uid + '-sb-open'), sbOnScreen: sb.getBoundingClientRect().left >= -1 };
+    }, uid);
+    ok('mobile: ☰ opens the drawer', opened.openClass && opened.sbOnScreen, JSON.stringify(opened));
+
+    // Tap a file row → drawer auto-closes
+    await page.click(`.${uid}-sidebar [data-file-id="about-ts"]`);
+    await new Promise(r => setTimeout(r, 300));
+    const closedByFile = await page.evaluate((uid) =>
+      !document.getElementById(uid + '-root').classList.contains(uid + '-sb-open'), uid);
+    ok('mobile: opening a file auto-closes the drawer', closedByFile);
+
+    // Re-open, then tap backdrop → closes. Click far right of the drawer
+    // (the 240px drawer overlays the backdrop's left/centre).
+    await page.click(`#${uid}-sb-toggle`);
+    await new Promise(r => setTimeout(r, 300));
+    await page.mouse.click(350, 400);
+    await new Promise(r => setTimeout(r, 300));
+    const closedByBackdrop = await page.evaluate((uid) =>
+      !document.getElementById(uid + '-root').classList.contains(uid + '-sb-open'), uid);
+    ok('mobile: tapping the backdrop closes the drawer', closedByBackdrop);
+
+    // Restore desktop viewport for the screenshot
+    await page.setViewport({ width: 1280, height: 900 });
+    await new Promise(r => setTimeout(r, 200));
+  }
+
   // Screenshot for the human
   const shot = join(ROOT, 'scripts', 'verify-code-editor.png');
   // Re-open a public README for a representative screenshot

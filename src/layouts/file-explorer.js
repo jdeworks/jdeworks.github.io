@@ -296,9 +296,36 @@ export function render(d, cs, ts, hs) {
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8rem;
       line-height: 1.7; color: var(--fg); white-space: pre-wrap; word-wrap: break-word;
       margin: 0; }
+    /* Mobile-only sidebar drawer toggle. On desktop the sidebar is a fixed column,
+       so the toggle button + backdrop are hidden; they only appear under the media
+       query below, where the sidebar collapses into a slide-in drawer. */
+    .${uid}-sb-toggle {
+      display: none; position: absolute; top: 0; left: 0; z-index: 35;
+      width: 40px; height: 36px; align-items: center; justify-content: center;
+      background: var(--bg2); border: none; border-right: 1px solid var(--border);
+      color: var(--fg2); cursor: pointer; font-size: 1rem; line-height: 1;
+      transition: color 0.15s;
+    }
+    .${uid}-sb-toggle:hover { color: var(--accent); }
+    .${uid}-sb-backdrop { display: none; }
     @media (max-width: 640px) {
-      .${uid}-sidebar { display: none; }
-      .${uid}-layout { grid-template-columns: 1fr !important; }
+      #${uid}-root { grid-template-columns: 1fr; position: relative; }
+      .${uid}-sidebar {
+        position: absolute; top: 0; left: 0; bottom: 0; z-index: 30;
+        width: 240px; max-width: 82%;
+        transform: translateX(-100%); transition: transform 0.22s ease;
+      }
+      #${uid}-root.${uid}-sb-open .${uid}-sidebar {
+        transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.4);
+      }
+      .${uid}-sb-backdrop {
+        display: block; position: absolute; inset: 0; z-index: 25;
+        background: rgba(0,0,0,0.45); opacity: 0; pointer-events: none;
+        transition: opacity 0.22s ease;
+      }
+      #${uid}-root.${uid}-sb-open .${uid}-sb-backdrop { opacity: 1; pointer-events: auto; }
+      .${uid}-sb-toggle { display: inline-flex; }
+      .${uid}-tab-bar { padding-left: 40px; }
     }
   </style>
 
@@ -339,8 +366,13 @@ export function render(d, cs, ts, hs) {
         </div>
       </div>
 
+      <!-- Mobile-only drawer backdrop (tap to close) -->
+      <div class="${uid}-sb-backdrop" data-sb-backdrop="1"></div>
+
       <!-- Main area -->
       <div class="${uid}-main">
+        <button class="${uid}-sb-toggle" id="${uid}-sb-toggle" data-sb-toggle="1"
+                title="Show files" aria-label="Show files">&#9776;</button>
         <div class="${uid}-tab-bar" id="${uid}-tabs"></div>
         <div class="${uid}-editor-head" id="${uid}-editor-head"></div>
         <div class="${uid}-editor" id="${uid}-editor"></div>
