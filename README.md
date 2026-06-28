@@ -24,6 +24,12 @@ A pasta-themed endless jumper built with PixiJS and TypeScript. 13 power-ups, 7 
 #### [narratu-poc](https://github.com/jdeworks/narratu-poc)
 Proof-of-concept audiobook creator that turns short stories into multi-voice audiobooks entirely in the browser. AI analyzes characters, emotions, and direction, then generates distinct voices with production-grade audio (LUFS normalization, mixing, music/SFX placement). [Live demo.](https://jdeworks.github.io/narratu-poc/)
 
+#### [anvil-poc](https://github.com/jdeworks/anvil-poc)
+Public, self-contained demo of anvil — automated research and source-trust analysis. A static React SPA serving real, pre-computed evaluations of a few sources: extracted claims, evidence-backed trust signals, novelty/reproducibility, citations, and cross-context relevance reports. No backend, no keys. [Live demo.](https://jdeworks.github.io/anvil-poc/)
+
+#### [dead-data-cleaner-poc](https://github.com/jdeworks/dead-data-cleaner-poc)
+Public showcase for dead-data-cleaner — a tool that scans code and data and surfaces the dead weight: unused symbols, orphaned files, stale docs, duplicated blocks, dangling config. Runs the actual viewer, read-only, on genuine `ddc --json` output (two real scans) with an explorable treemap and per-finding evidence. [Live demo.](https://jdeworks.github.io/dead-data-cleaner-poc/)
+
 #### [scripts](https://github.com/jdeworks/scripts)
 A grab-bag of standalone scripts I reach for — including a dependency-compromise scanner that hunts the filesystem for malicious/typosquatted npm and pip packages by version, and a tool that drives Claude Code tasks straight from GitHub issues.
 
@@ -33,6 +39,8 @@ A grab-bag of standalone scripts I reach for — including a dependency-compromi
 - **anvil** — a Docker-based research analyst. Drop in research papers, get structured, provenance-tracked evaluations you can re-score against your own technical contexts. Evaluate once, re-score many times.
 - **dead-data-cleaner** — keeps codebases lean, clean, and understandable. A Rust engine and `ddc` CLI plus a visual dashboard that surface dead and dubious code; deterministic by default, AI-enhanced by choice.
 - **infinite-story** — AI-powered collaborative storytelling where community members expand branching narrative trees. *(Coming soon.)*
+- **overwatcher** — a Tauri + Rust + React desktop app for orchestrating AI coding agents (Claude Code, Codex). Treats context formation, not tokens, as the expensive resource: schedules tasks across provider windows, tracks session lifecycle on a kanban board, and serves a phone UI (via an embedded server + Cloudflare tunnel) so you can answer an agent's question from anywhere.
+- **yams** (yet-another-memory-solution) — a self-optimizing memory system for coding agents that independent AI agents build and grade autonomously. A builder and a referee run as git worktrees; the referee scores on a held-out split it never reveals, with a deterministic Go companion and a frozen baseline.
 
 ### Archived
 
