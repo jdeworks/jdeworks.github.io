@@ -129,6 +129,28 @@ export const DATA = {
       tags: ["AI", "React", "TypeScript", "Audio"]
     },
     {
+      name: "anvil poc",
+      repo: "anvil-poc",
+      desc: "Public, self-contained demo of anvil — automated research and source-trust analysis. A static React SPA serving real, pre-computed evaluations of a few sources. No backend, no keys, nothing live.",
+      longDesc: "The safe-to-serve output side of the private anvil engine, baked into static JSON. Three fully-explorable sources (a paper, a book, a web URL) with summaries, extracted claims, evidence-backed trust signals, qualitative novelty and reproducibility, citations, and a rendered cross-context relevance report. Plus a data-sources catalog, two genuinely auto-extracted contexts with their full YAML, and a road-ahead page with product screenshots.",
+      links: [
+        { label: "GitHub", url: "https://github.com/jdeworks/anvil-poc" },
+        { label: "Live Demo", url: "https://jdeworks.github.io/anvil-poc/", tip: "Explore real anvil evaluations — claims, trust signals, relevance reports" }
+      ],
+      tags: ["AI", "Research", "React", "TypeScript"]
+    },
+    {
+      name: "dead-data-cleaner poc",
+      repo: "dead-data-cleaner-poc",
+      desc: "Public, self-contained showcase for dead-data-cleaner — a tool that scans code and data and surfaces the dead weight: unused symbols, orphaned files, stale docs, duplicated blocks, dangling config. Deterministic by default, AI-enhanced by choice, visual so you can trust what it flags.",
+      longDesc: "Runs the actual dead-data-cleaner viewer, read-only, on genuine `ddc --json` output baked straight into the site — two real scans (the ripgrep source in Rust, and tmux-poc tooling in Python) with an explorable treemap, a sortable findings table with per-finding evidence, and a project tree. Advanced views (cross-layer client/service analysis, the dependency graph, architecture drift, duplication, doc health) shown as captured screenshots. Light and dark theming throughout.",
+      links: [
+        { label: "GitHub", url: "https://github.com/jdeworks/dead-data-cleaner-poc" },
+        { label: "Live Demo", url: "https://jdeworks.github.io/dead-data-cleaner-poc/", tip: "Explore real ddc scans — treemap, findings, evidence" }
+      ],
+      tags: ["DevTools", "Rust", "React", "TypeScript"]
+    },
+    {
       name: "scripts",
       repo: "scripts",
       desc: "A grab-bag of standalone scripts I reach for — including a dependency-compromise scanner that hunts the filesystem for malicious/typosquatted npm and pip packages by version, and a tool that drives Claude Code tasks straight from GitHub issues.",
@@ -171,6 +193,22 @@ export const DATA = {
       summary: "infinite-story is an AI-powered collaborative storytelling platform. Community members expand branching narrative trees together, with multiple story formats, character libraries, and multi-provider LLM support. Currently private and coming soon.",
       tags: ["AI", "Creative Writing", "Next.js", "FastAPI", "Coming Soon"],
       soon: true
+    },
+    {
+      name: "overwatcher",
+      repo: "overwatcher",
+      status: 'private',
+      desc: "A desktop app for orchestrating AI coding agents (Claude Code, Codex) — managing context profiles, scheduling tasks across provider usage windows, and surfacing a unified kanban UI, with a mobile-accessible browser interface so you can answer an agent's question from your phone.",
+      summary: "overwatcher is a Tauri 2 + React + Rust desktop app for orchestrating AI coding agents (Claude Code, Codex). Its core idea: context formation — not tokens — is the expensive resource, so it treats context as a managed asset with a lifecycle, routing tasks to the right agent at the right cost tier and retiring profiles before they degrade output. An event-driven scheduler drives real agent sessions, tracks their lifecycle (working → waiting → done), and surfaces a kanban task board. When an agent asks a question the task flips to Waiting, and an embedded Axum server (plus a one-command Cloudflare tunnel) exposes a phone UI showing the live pane so you can reply from anywhere. Currently private.",
+      tags: ["AI Agents", "Tauri", "Rust", "Private"]
+    },
+    {
+      name: "yams",
+      repo: "yet-another-memory-solution",
+      status: 'private',
+      desc: "A self-optimizing memory system for coding agents that independent AI agents build and evaluate autonomously — benchmarked against MemPalace and OpenViking, with a deterministic Go companion as referee, all coordinated through git worktrees.",
+      summary: "yet-another-memory-solution (yams) is an experiment in letting AI agents autonomously build and grade a memory system for coding agents. Three tracks live in one git repo as top-level folders; two autonomous agents run as git worktrees on separate branches — a builder that writes the memory system, and a referee that grades it on a held-out split it never reveals (backed by a deterministic Go companion). The gold metric is the delta in dev results between no-memory and with-memory runs, with tokens and errors as guardrails and a frozen baseline. Memory I/O works without agent hooks, via transcript tailing and an explicit retrieve/capture interface. Currently private.",
+      tags: ["AI", "Agents", "Memory", "Private"]
     },
 
     // ── Archived projects ────────────────────────────────────
