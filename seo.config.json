@@ -8,13 +8,13 @@
       "file": "index.html",
       "route": "",
       "title": "jdeworks – Developer Tools, Games & AI Experiments",
-      "description": "Full-stack developer building AI-augmented dev tools, browser games, and creative AI experiments — a private file viewer, design analyzer, AI audiobook creator, and more, all open source.",
+      "description": "Full-stack developer building AI-augmented dev tools, browser games, and creative AI experiments: a private file viewer, design analyzer, AI audiobook creator, and more, all open source.",
       "schema": {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "jdeworks",
         "url": "https://jdeworks.github.io/",
-        "description": "Full-stack developer building AI-augmented dev tools, browser games, and creative AI experiments — a private file viewer, design analyzer, AI audiobook creator, and more, all open source.",
+        "description": "Full-stack developer building AI-augmented dev tools, browser games, and creative AI experiments: a private file viewer, design analyzer, AI audiobook creator, and more, all open source.",
         "author": {
           "@type": "Person",
           "name": "jdeworks",
