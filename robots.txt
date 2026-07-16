@@ -10,4 +10,3 @@ Sitemap: https://jdeworks.github.io/narratu-poc/sitemap.xml
 Sitemap: https://jdeworks.github.io/make-it-look-good/sitemap.xml
 Sitemap: https://jdeworks.github.io/noodle-jump/sitemap.xml
 Sitemap: https://jdeworks.github.io/elemental-surprise/sitemap.xml
-Sitemap: https://jdeworks.github.io/get-me-started/sitemap.xml
