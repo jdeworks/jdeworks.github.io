@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jdeworks.github.io/sitemap.xml
+Sitemap: https://jdeworks.github.io/file-viewer/sitemap.xml
+Sitemap: https://jdeworks.github.io/think-tank/sitemap.xml
+Sitemap: https://jdeworks.github.io/dead-data-cleaner-poc/sitemap.xml
+Sitemap: https://jdeworks.github.io/anvil-poc/sitemap.xml
+Sitemap: https://jdeworks.github.io/narratu-poc/sitemap.xml
+Sitemap: https://jdeworks.github.io/make-it-look-good/sitemap.xml
+Sitemap: https://jdeworks.github.io/noodle-jump/sitemap.xml
+Sitemap: https://jdeworks.github.io/elemental-surprise/sitemap.xml
+Sitemap: https://jdeworks.github.io/get-me-started/sitemap.xml
