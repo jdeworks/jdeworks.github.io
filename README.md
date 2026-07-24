@@ -4,6 +4,16 @@ Developer & AI builder. I build dev tools, games, and creative AI experiments �
 
 ## Projects
 
+### Hosted apps (live, source private)
+
+#### [Infinite Stories](https://infinite-stories.jdeworks.org)
+An AI-powered collaborative storytelling platform. Community members grow branching narrative trees together, chapter by chapter. Several story formats, character libraries and a public research library that anyone can read without an account.
+
+#### [You Are a Gift](https://gift.jdeworks.org)
+Make someone an animated gift note. Add a photo or a voice line, pick the moment it opens, then share one private link. Recipients need no account and notes expire on their own.
+
+All hosted apps are listed at [jdeworks.org](https://jdeworks.org).
+
 ### Active
 
 #### [make-it-look-good](https://github.com/jdeworks/make-it-look-good)
@@ -38,7 +48,6 @@ A grab-bag of standalone scripts I reach for — including a dependency-compromi
 - **narratu** — the productized evolution of narratu-poc: fully-voiced, multi-character audiobooks with AI-directed performances and production-grade mixing.
 - **anvil** — a Docker-based research analyst. Drop in research papers, get structured, provenance-tracked evaluations you can re-score against your own technical contexts. Evaluate once, re-score many times.
 - **dead-data-cleaner** — keeps codebases lean, clean, and understandable. A Rust engine and `ddc` CLI plus a visual dashboard that surface dead and dubious code; deterministic by default, AI-enhanced by choice.
-- **infinite-story** — AI-powered collaborative storytelling where community members expand branching narrative trees. *(Coming soon.)*
 - **overwatcher** — a Tauri + Rust + React desktop app for orchestrating AI coding agents (Claude Code, Codex). Treats context formation, not tokens, as the expensive resource: schedules tasks across provider windows, tracks session lifecycle on a kanban board, and serves a phone UI (via an embedded server + Cloudflare tunnel) so you can answer an agent's question from anywhere.
 - **yams** (yet-another-memory-solution) — a self-optimizing memory system for coding agents that independent AI agents build and grade autonomously. A builder and a referee run as git worktrees; the referee scores on a held-out split it never reveals, with a deterministic Go companion and a frozen baseline.
 
@@ -54,5 +63,6 @@ A grab-bag of standalone scripts I reach for — including a dependency-compromi
 
 ## Links
 
+- [jdeworks.org](https://jdeworks.org) — the hub for all hosted apps.
 - [jdeworks.github.io](https://jdeworks.github.io) — personal site: same content, a different look every page load (shuffle layouts, double-click the combo label for the picker, and the Code Editor layout hides a second easter egg).
 - [GitHub](https://github.com/jdeworks)

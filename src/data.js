@@ -160,6 +160,32 @@ export const DATA = {
       tags: ["CLI", "Shell", "Security", "Automation"]
     },
 
+    // ── Hosted apps (live, source private) ───────────────────
+    // status stays 'private' so layouts skip GitHub links and README fetches
+    // for the private source repos; the Open App link is the public entry.
+    {
+      name: "infinite-story",
+      repo: "infinite-story",
+      status: 'private',
+      desc: "An AI-powered collaborative storytelling platform, live at infinite-stories.jdeworks.org. Community members grow branching narrative trees together. Several story formats, character libraries and a public research library.",
+      summary: "infinite-story is live at infinite-stories.jdeworks.org. Community members expand branching narrative trees together with AI help. It offers several story formats, character libraries and a public research library that anyone can read without an account. The source stays private for now.",
+      links: [
+        { label: "Open App", url: "https://infinite-stories.jdeworks.org", tip: "Read and write branching stories with AI" }
+      ],
+      tags: ["AI", "Creative Writing", "Next.js", "FastAPI"]
+    },
+    {
+      name: "you-are-a",
+      repo: "you-are-a",
+      status: 'private',
+      desc: "You Are a Gift, live at gift.jdeworks.org: make someone an animated gift note. Add a photo or a voice line, pick the moment it opens, then share one private link.",
+      summary: "You Are a Gift is live at gift.jdeworks.org. Senders compose a small animated note, set the moment it opens and share one private link. Recipients need no account and notes expire on their own. The source stays private for now.",
+      links: [
+        { label: "Open App", url: "https://gift.jdeworks.org", tip: "Make someone an animated gift note" }
+      ],
+      tags: ["Web App", "Animation", "Next.js"]
+    },
+
     // ── Private projects ─────────────────────────────────────
     {
       name: "narratu",
@@ -184,15 +210,6 @@ export const DATA = {
       desc: "Keeps codebases — AI-built or not — lean, clean, and understandable. A Rust engine and `ddc` CLI plus a visual desktop/web dashboard surface dead and dubious code; deterministic by default, AI-enhanced by choice.",
       summary: "dead-data-cleaner keeps codebases — AI-built or not — lean, clean, and understandable. A working Rust engine and `ddc` CLI plus a read-only desktop/web dashboard surface dead and dubious code so you can trust what's there. Deterministic by default, AI-enhanced by choice, visual so you can verify it. Currently private.",
       tags: ["Rust", "DevTools", "CLI", "Tauri"]
-    },
-    {
-      name: "infinite-story",
-      repo: "infinite-story",
-      status: 'private',
-      desc: "An AI-powered collaborative storytelling platform where community members expand branching narrative trees. Multiple story formats, character libraries, and multi-provider LLM support.",
-      summary: "infinite-story is an AI-powered collaborative storytelling platform. Community members expand branching narrative trees together, with multiple story formats, character libraries, and multi-provider LLM support. Currently private and coming soon.",
-      tags: ["AI", "Creative Writing", "Next.js", "FastAPI", "Coming Soon"],
-      soon: true
     },
     {
       name: "overwatcher",
